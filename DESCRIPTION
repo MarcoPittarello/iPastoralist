@@ -1,13 +1,14 @@
 Package: iPastoralist
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Computation of vegetation-derived indexes from fito-pastoral surveys
+Version: 1.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Marco",
+           family = "Pittarello",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "marco.pittarello1987@gmail.com",
+           comment = c(ORCID = "0000-0001-6748-8790"))
+Description: Computation of vegetation-derived indexes from fito-pastoral surveys
+Imports: reshape2
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
     pick a license
 Encoding: UTF-8

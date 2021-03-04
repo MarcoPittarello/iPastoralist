@@ -7,56 +7,109 @@
 
 <!-- badges: end -->
 
-The goal of iPastoralist is to …
+## What it does
+
+iPastoralist allows you to:
+
+1.  Transform **Frequency of occurrences (FO)** of species identified
+    along a linear transect (either with or without occasional species)
+    to:
+      - **Species relative abundance (SRA)** : ratio between frequency
+        of occurrence and the sum of frequency of occurrences values for
+        all species in the transect, then multiplied by 100
+      - **Species percentage cover (%SC)**: conversion of frequency of
+        occurrence to 100 measurements (e.g. if a species had a FO= 20
+        measurements out of 50 total measurements along the transect
+        line, the FO will be multiplied by 2). To all occasional species
+        (i.e. species found within vegetation plots but not along the
+        linear transects) a %SC value = 0.3% is attributed.
+2.  Compute:
+      - **Biodiversity indexes**: Species richness, Shannon diversity
+        index, Shannon max, Equitability
+      - **Forage Pastoral Value (PV)**
+      - **Ecological indexes**: Landolt, Ellenberg (either weighted or
+        not weighted with plant species abundance)
+3.  Sort species descendingly each survey First ten species
 
 ## Installation
 
-You can install the released version of iPastoralist from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("iPastoralist")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version of iPastoralist from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("MarcoPittarello/iPastoralist")
 ```
 
+## Data input format
+
+  - **Rows**: species
+  - **Columns**: surveys
+  - **Values** are Frequency of occurrence (FO)
+  - **Occasional species** are coded as 999
+  - Leave other cells empty (i.e NA)
+
+| Species    | Survey\_1 | Survey\_2 | Survey\_3 |
+| ---------- | --------- | --------- | --------- |
+| species\_1 | 12        | 1         |           |
+| species\_2 |           | 3         |           |
+| species\_3 |           |           | 4         |
+| species\_4 | 9         | 18        | 999       |
+| …          |           |           |           |
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+The dataframe setting should looks like the below one:
+
+![esempio](image/datainput/Diapositiva1.JPG)
+
+Then import the dataframe in R environment
+
+``` r
+'data <- read_excel("~/yourdata.xlsx")
+View(data)'
+```
+
+|        species.name        | species.name.code | F\_Landolt | R\_Landolt | N\_Landolt | ISQ | R1  | R2  | R3 | R4 | R5 | R6 | R7  | R8 | R9 | R10 | R11 | R12 | R13 | R14 | R15 | R16 | R17 | R18 | R19 | R20 | R21 | R22 | R23 | R24 |
+| :------------------------: | :---------------: | :--------: | :--------: | :--------: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+|    Achillea macrophylla    |      Achmacr      |    3.0     |     3      |     4      |  1  | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+| Achillea millefolium aggr. |      Achmill      |   999.0    |     3      |    999     |  1  | NA  | NA  | NA | NA | NA | NA | 999 | NA | 5  | 999 | 999 | 10  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|     Achillea moschata      |      Achmosc      |    3.0     |     2      |     2      |  0  | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  |
+|       Acinos alpinus       |      Acialpi      |    2.0     |     3      |     2      |  0  | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 |  2  |  2  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|     Aconitum lamarckii     |      Acolama      |    4.0     |     5      |     4      |  0  | 999 | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+|   Adenostyles alliariae    |      Adealli      |    3.5     |     3      |     4      |  0  | NA  | 999 | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  8  | NA  | NA  |  3  | NA  | 999 | NA  | NA  | NA  | NA  | NA  |
+
+In this database example, the total number of measurements along the
+transect line was **25**.
+
+Now we can select extract from the whole database only the columns with
+plant species names and surveys, i.e. as specified in “Data input
+format” section
+
+``` r
+vegetation<-data[,c(2,7:30)]
+kable(head(vegetation),align = 'c')
+```
+
+| species.name.code | R1  | R2  | R3 | R4 | R5 | R6 | R7  | R8 | R9 | R10 | R11 | R12 | R13 | R14 | R15 | R16 | R17 | R18 | R19 | R20 | R21 | R22 | R23 | R24 |
+| :---------------: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+|      Achmacr      | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+|      Achmill      | NA  | NA  | NA | NA | NA | NA | 999 | NA | 5  | 999 | 999 | 10  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|      Achmosc      | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  |
+|      Acialpi      | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 |  2  |  2  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|      Acolama      | 999 | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+|      Adealli      | NA  | 999 | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  8  | NA  | NA  |  3  | NA  | 999 | NA  | NA  | NA  | NA  | NA  |
+
+Suppose we want to convert Frequency of occurrence (FO) to Species
+percentage cover (%SC), considering also occasional species. As the
+total measurements per transect was 25, FO should be multiplied by **4**
+so that they refer to 100 measurements
 
 ``` r
 library(iPastoralist)
-## basic example code
+vegetation.sc<-vegetation_abundance(database = vegetation,
+                                    species.cover.coefficient = 4,
+                                    method = "SC_fo_occ",
+                                    export = F)
+                                    
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
