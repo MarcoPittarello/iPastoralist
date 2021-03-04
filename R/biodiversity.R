@@ -7,9 +7,9 @@
 #' * Equitability
 #'
 #'
-#' @param database database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys.
-#' @param occasional.species Logical. TRUE if you want to take into account occasional species. If occasional species are considered, SRA correspond to "SRA_SC.fs.occ" (see \link[iPastoralism]{vegetation_abundance})
-#' @param species.cover.coefficient  To set only when "occasional.species=TRUE":coeffient that multiplies FO so that the number of total touches refer to 100. SRA values for Shannon diversity index derive from the "SRA_SC.fo.occ" (see \link[iPastoralism]{vegetation_abundance})
+#' @param database database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys. Database class must be *data.frame*
+#' @param occasional.species Logical. TRUE if you want to take into account occasional species. If occasional species are considered, SRA correspond to "SRA_SC.fs.occ" (see \link[iPastoralist]{vegetation_abundance})
+#' @param species.cover.coefficient  To set only when "occasional.species=TRUE":coeffient that multiplies FO so that the number of total touches refer to 100. SRA values for Shannon diversity index derive from the "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})
 #' @return biodiversity indexes
 #' @export
 

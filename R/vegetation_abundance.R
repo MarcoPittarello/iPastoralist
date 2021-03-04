@@ -7,7 +7,7 @@
 #' * Species relative abundance **(SRA)** : ratio between frequency of occurrence and the sum of frequency of occurrences values for all species in the transect, then multiplied by 100
 #' * Species percentage cover **(%SC)**: conversion of frequency of occurrence to 100 measurements (e.g. if a species had a FO= 20 measurements out of 50 total measurements along the transect line, the FO will be multiplied by 2). To all occasional species (i.e. species found within vegetation plots but not along the linear transects) a %SC value = 0.3% is attributed.
 #'
-#' @param database database with FO and occasional species as 999. Rows are species and columns are surveys. The first column of the database reports the species names.
+#' @param database database with FO and occasional species as 999. Rows are species and columns are surveys. The first column of the database reports the species names. Database class must be *data.frame*
 #' @param method * **"SRA_fo"**: SRA calculated from FO without occasional species.
 #' * **"SC_fo"**: %SC calculated by multiplying FO for a coeffient so that the number of total measurements along the transect line refer to 100 (occasional species are excluded).
 #' * **"SC_fo_occ"**: like SC_fo but with in addition the occasional species, considered as 0.3%. The total %SC  per each surveys will be > 100 %

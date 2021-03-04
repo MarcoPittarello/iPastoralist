@@ -7,7 +7,7 @@
 first_ten_species(data_SRA_SC, export)
 }
 \arguments{
-\item{data_SRA_SC}{database with abundance data expressed as SRA or SC, calculated with \link[iPastoralism]{vegetation_abundance}}
+\item{data_SRA_SC}{database with abundance data expressed as SRA or SC, calculated with \link[iPastoralist]{vegetation_abundance}.Database class must be \emph{data.frame}}
 
 \item{export}{Logical. TRUE if you want export data in a csv format}
 }

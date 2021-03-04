@@ -7,11 +7,11 @@
 biodiversity(database, occasional.species, species.cover.coefficient)
 }
 \arguments{
-\item{database}{database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys.}
+\item{database}{database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys. Database class must be \emph{data.frame}}
 
-\item{occasional.species}{Logical. TRUE if you want to take into account occasional species. If occasional species are considered, SRA correspond to "SRA_SC.fs.occ" (see \link[iPastoralism]{vegetation_abundance})}
+\item{occasional.species}{Logical. TRUE if you want to take into account occasional species. If occasional species are considered, SRA correspond to "SRA_SC.fs.occ" (see \link[iPastoralist]{vegetation_abundance})}
 
-\item{species.cover.coefficient}{To set only when "occasional.species=TRUE":coeffient that multiplies FO so that the number of total touches refer to 100. SRA values for Shannon diversity index derive from the "SRA_SC.fo.occ" (see \link[iPastoralism]{vegetation_abundance})}
+\item{species.cover.coefficient}{To set only when "occasional.species=TRUE":coeffient that multiplies FO so that the number of total touches refer to 100. SRA values for Shannon diversity index derive from the "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})}
 }
 \value{
 biodiversity indexes

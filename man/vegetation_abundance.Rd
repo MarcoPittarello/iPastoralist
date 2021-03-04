@@ -7,7 +7,7 @@
 vegetation_abundance(database, method, species.cover.coefficient, export)
 }
 \arguments{
-\item{database}{database with FO and occasional species as 999. Rows are species and columns are surveys. The first column of the database reports the species names.}
+\item{database}{database with FO and occasional species as 999. Rows are species and columns are surveys. The first column of the database reports the species names. Database class must be \emph{data.frame}}
 
 \item{method}{\itemize{
 \item \strong{"SRA_fo"}: SRA calculated from FO without occasional species.

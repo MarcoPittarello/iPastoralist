@@ -1,6 +1,6 @@
 #' First ten species for dendrogram
 #'
-#' @param data_SRA_SC database with abundance data expressed as SRA or SC, calculated with \link[iPastoralism]{vegetation_abundance}
+#' @param data_SRA_SC database with abundance data expressed as SRA or SC, calculated with \link[iPastoralist]{vegetation_abundance}.Database class must be *data.frame*
 #' @param export Logical. TRUE if you want export data in a csv format
 #' @export
 

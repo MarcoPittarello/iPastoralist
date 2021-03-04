@@ -7,13 +7,13 @@
 pastoral_value(SRA_data, isq_data)
 }
 \arguments{
-\item{SRA_data}{database with SRA values, either 'SRA_fs' or 'SRA_SC.fo.occ' (see \link[iPastoralism]{vegetation_abundance})}
+\item{SRA_data}{database with SRA values, either 'SRA_fs' or 'SRA_SC.fo.occ' (see \link[iPastoralist]{vegetation_abundance}). Database class must be \emph{data.frame}}
 
-\item{isq_data}{database with ISQ values}
+\item{isq_data}{database with ISQ values. Database class must be \emph{data.frame}}
 }
 \value{
 database with PV
 }
 \description{
-Computation of PV from a database with SRA, either SRA_fs or SRA_SC.fo.occ (see \link[iPastoralism]{vegetation_abundance})
+Computation of PV from a database with SRA, either SRA_fs or SRA_SC.fo.occ (see \link[iPastoralist]{vegetation_abundance})
 }
