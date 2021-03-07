@@ -54,7 +54,7 @@ ecological_indexes=function(database.vegetation,database.indexes,occasional.spec
       
       for(i in lev){
         
-        index.subset<-subset(db.rshp,variable==i& value >= 0)
+        index.subset<-subset(db.rshp,variable==i& value > 0)
         
         Selection_column_index<-as.data.frame(index.subset[,ncol(index.subset)])
         Selection_column_SRA<-as.data.frame(index.subset[,c(1:ncol(veg2))])
@@ -97,7 +97,7 @@ ecological_indexes=function(database.vegetation,database.indexes,occasional.spec
       
       for(i in lev.nw){
         
-        indexnw.subset<-subset(db.rshp.nw,variable==i & value >= 0)
+        indexnw.subset<-subset(db.rshp.nw,variable==i & value > 0)
         
         Selection_column_index<-as.data.frame(indexnw.subset[,ncol(indexnw.subset)])
         Selection_column_pa<-as.data.frame(indexnw.subset[,c(1:ncol(veg2))])
@@ -143,7 +143,7 @@ ecological_indexes=function(database.vegetation,database.indexes,occasional.spec
       
       for(i in lev){
         
-        index.subset<-subset(db.rshp,variable==i& value >= 0)
+        index.subset<-subset(db.rshp,variable==i& value > 0)
         
         Selection_column_index<-as.data.frame(index.subset[,ncol(index.subset)])
         Selection_column_SRA<-as.data.frame(index.subset[,c(1:ncol(veg2))])
@@ -186,7 +186,7 @@ ecological_indexes=function(database.vegetation,database.indexes,occasional.spec
       
       for(i in lev.nw){
         
-        indexnw.subset<-subset(db.rshp.nw,variable==i & value >= 0)
+        indexnw.subset<-subset(db.rshp.nw,variable==i & value > 0)
         
         Selection_column_index<-as.data.frame(indexnw.subset[,ncol(indexnw.subset)])
         Selection_column_pa<-as.data.frame(indexnw.subset[,c(1:ncol(veg2))])
