@@ -105,6 +105,9 @@ data<-as.data.frame(data)
 Now we can select from the whole database only the columns with plant species names and surveys, i.e. as specified in "Data input format" section
 ```{r echo=TRUE}
 vegetation<-data[,c(2,7:30)]
+
+```
+```{r echo=FALSE}
 kable(head(vegetation),align = 'c')
 ```
 
@@ -118,9 +121,15 @@ vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
                                     method = "SRA_SC.fo.occ",
                                     export = F)
-                                    
+```
+```
+head(vegetation.sc)
+```
+```{r echo=FALSE}
 kable(head(vegetation.sc),align = 'c')
 ```
+
+
 
 we can check that the sum of %SC for each survey is 100
 ```{r}

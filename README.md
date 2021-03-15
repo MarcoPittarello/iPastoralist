@@ -118,7 +118,6 @@ section
 
 ``` r
 vegetation<-data[,c(2,7:30)]
-kable(head(vegetation),align = 'c')
 ```
 
 | species.name.code | R1  | R2  | R3 | R4 | R5 | R6 | R7  | R8 | R9 | R10 | R11 | R12 | R13 | R14 | R15 | R16 | R17 | R18 | R19 | R20 | R21 | R22 | R23 | R24 |
@@ -141,13 +140,18 @@ should be multiplied by **4** so that they refer to 100 measurements
 
 ``` r
 library(iPastoralist)
+#> 
+#> Attaching package: 'iPastoralist'
+#> The following object is masked _by_ '.GlobalEnv':
+#> 
+#>     data
 vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
                                     method = "SRA_SC.fo.occ",
                                     export = F)
-                                    
-kable(head(vegetation.sc),align = 'c')
 ```
+
+    head(vegetation.sc)
 
 |         |    R1     |    R2     | R3 | R4 | R5 | R6 |    R7     | R8 |    R9    |   R10    |    R11    |    R12    | R13 |    R14    | R15 | R16 |    R17    | R18 |   R19    |    R20    |    R21    | R22 | R23 | R24 |
 | :------ | :-------: | :-------: | :-: | :-: | :-: | :-: | :-------: | :-: | :------: | :------: | :-------: | :-------: | :-: | :-------: | :-: | :-: | :-------: | :-: | :------: | :-------: | :-------: | :-: | :-: | :-: |
