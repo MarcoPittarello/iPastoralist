@@ -33,8 +33,8 @@
         measurements out of 50 total measurements along the transect
         line, the FO will be multiplied by 2). To all occasional species
         (i.e. species found within vegetation plots but not along the
-        linear transects) a %SC value = 0.3% is attributed. More
-        detailed information are provided in the function
+        linear transects) a %SC value = 0.3% is attributed.
+      - More detailed information are provided in the function
         “vegetation\_abundance” and in the workflow below:
     
     ![esempio](image/Wrkflw_abundance_conversion.png)
