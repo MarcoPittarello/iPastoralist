@@ -37,6 +37,7 @@ library(knitr)
     git pull
     
     ![esempio](image/Wrkflw_abundance_conversion.png)
+  ![esempio](image/Wrkflw_abundance_conversion.png)
 
 2. Compute:
     + **Biodiversity indexes**: Species richness, Shannon diversity index, Shannon max, Equitability
