@@ -24,6 +24,7 @@
 1.  Transform **Frequency of occurrences (FO)** of species identified
     along a linear transect (either with or without occasional species)
     to:
+    
       - **Species relative abundance (SRA)** : ratio between frequency
         of occurrence and the sum of frequency of occurrences values for
         all species in the transect, then multiplied by 100
@@ -34,14 +35,19 @@
         (i.e. species found within vegetation plots but not along the
         linear transects) a %SC value = 0.3% is attributed. More
         detailed information are provided in the function
-        “vegetation\_abundance”.
+        “vegetation\_abundance” and in the workflow below:
+    
+    ![esempio](image/Wrkflw_abundance_conversion.png)
+
 2.  Compute:
+    
       - **Biodiversity indexes**: Species richness, Shannon diversity
         index, Shannon max, Equitability
       - **Forage Pastoral Value (PV)**
       - **Ecological indexes**: Landolt, Ellenberg (either weighted or
         not weighted with plant species abundance and either considering
         or not considering occasional species)
+
 3.  Extract for each survey the firt ten species, ordered decreasingly
     by their abundance (Useful with dendrograms)
 
@@ -135,11 +141,6 @@ should be multiplied by **4** so that they refer to 100 measurements
 
 ``` r
 library(iPastoralist)
-#> 
-#> Attaching package: 'iPastoralist'
-#> The following object is masked _by_ '.GlobalEnv':
-#> 
-#>     data
 vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
                                     method = "SRA_SC.fo.occ",
@@ -208,28 +209,28 @@ the output will be as follow:
 ``` r
 ec.index
 #>    survey F_Landolt R_Landolt N_Landolt
-#> 1      R1  2.965824  2.219955  2.612569
-#> 2      R2  3.624462  1.564516  2.853226
-#> 3      R3  2.996234  2.728452  3.567782
-#> 4      R4  3.219051  1.570052  3.083395
-#> 5      R5  2.787682  2.522204  2.930308
-#> 6      R6  2.790819  2.547647  2.839919
-#> 7      R7  2.746938  2.280465  2.718616
-#> 8      R8  3.083541  2.863599  3.944030
-#> 9      R9  2.204344  2.130315  2.447537
-#> 10    R10  2.604691  2.449465  2.464643
-#> 11    R11  2.512983  2.629985  2.649459
-#> 12    R12  2.336297  2.724809  2.540785
+#> 1      R1  2.971600  2.253535  2.649474
+#> 2      R2  3.716373  3.265993  2.867099
+#> 3      R3  3.215537  2.981710  3.898948
+#> 4      R4  3.537678  2.765013  3.392741
+#> 5      R5  2.943190  2.734974  3.177504
+#> 6      R6  2.926874  2.671846  2.978367
+#> 7      R7  2.970695  2.635527  3.145236
+#> 8      R8  3.362342  3.126754  4.306474
+#> 9      R9  3.071611  2.824006  3.469644
+#> 10    R10  2.612803  2.806719  2.820766
+#> 11    R11  2.519994  2.808848  2.687676
+#> 12    R12  2.812606  2.856213  3.017767
 #> 13    R13  3.386566  2.210897  2.851104
-#> 14    R14  3.411104  2.935228  4.175810
-#> 15    R15  2.990157  2.190303  2.637988
+#> 14    R14  3.417881  2.941060  4.184106
+#> 15    R15  2.996712  2.227660  2.680000
 #> 16    R16  3.073070  1.668550  2.091525
-#> 17    R17  3.449563  2.187854  3.436953
-#> 18    R18  2.457642  2.133572  2.369341
-#> 19    R19  3.513769  2.036718  3.040734
-#> 20    R20  2.733933  2.831368  2.947524
-#> 21    R21  2.653381  2.210049  2.394787
-#> 22    R22  2.889697  2.323329  2.719369
+#> 17    R17  3.597692  2.285484  3.584541
+#> 18    R18  2.464270  2.142214  2.375730
+#> 19    R19  3.519828  2.043754  3.045977
+#> 20    R20  2.802508  2.937901  3.024198
+#> 21    R21  2.739275  2.523727  2.727625
+#> 22    R22  2.895071  2.384567  2.791045
 #> 23    R23  2.695533  2.274914  2.006186
 #> 24    R24  2.683857  1.880419  2.004484
 ```
