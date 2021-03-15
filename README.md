@@ -11,11 +11,11 @@
 
   - you surveyed botanical composition of grasslands with the vertical
     point-quadrat / pinpoint (or point‐intercept) method, i.e. plant
-    species are recorded at fixed interval along a linear transect
+    species are recorded at fixed interval along a **linear transect**
     (Daget and Poissonet, 1971)
   - (Optional) Since occasional species are often missed by this method,
     you listed all other plant species included within a X-m buffer area
-    around the transect line
+    around the transect line (i.e. **vegetation plot**)
 
 ## **What it does**
 
