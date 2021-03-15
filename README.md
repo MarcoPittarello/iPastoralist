@@ -24,7 +24,6 @@
 1.  Transform **Frequency of occurrences (FO)** of species identified
     along a linear transect (either with or without occasional species)
     to:
-    
       - **Species relative abundance (SRA)** : ratio between frequency
         of occurrence and the sum of frequency of occurrences values for
         all species in the transect, then multiplied by 100
@@ -33,21 +32,20 @@
         measurements out of 50 total measurements along the transect
         line, the FO will be multiplied by 2). To all occasional species
         (i.e. species found within vegetation plots but not along the
-        linear transects) a %SC value = 0.3% is attributed. More
-        detailed information are provided in the function
-        “vegetation\_abundance” and in the workflow below:
-    
+        linear transects) a %SC value = 0.3% is attributed. 
+
+More detailed information are provided in the function
+“vegetation\_abundance” and in the workflow below:
+
     ![esempio](image/Wrkflw_abundance_conversion.png)
 
 2.  Compute:
-    
       - **Biodiversity indexes**: Species richness, Shannon diversity
         index, Shannon max, Equitability
       - **Forage Pastoral Value (PV)**
       - **Ecological indexes**: Landolt, Ellenberg (either weighted or
         not weighted with plant species abundance and either considering
         or not considering occasional species)
-
 3.  Extract for each survey the firt ten species, ordered decreasingly
     by their abundance (Useful with dendrograms)
 
