@@ -30,8 +30,10 @@ Terminology:
 \itemize{
 \item Frequency of occurrence \strong{(FO)} : number of species occurrences out of 'N' points of vegetation measurements along a transect line
 \item Species relative abundance \strong{(SRA)} : ratio between frequency of occurrence and the sum of frequency of occurrences values for all species in the transect, then multiplied by 100
-\item Species percentage cover \strong{(\%SC)}: conversion of frequency of occurrence to 100 measurements (e.g. if a species had a FO= 20 measurements out of 50 total measurements along the transect line, the FO will be multiplied by 2). To all occasional species (i.e. species found within vegetation plots but not along the linear transects) a \%SC value = 0.3\% is attributed.
+\item Species percentage cover \strong{(\%SC)}: conversion of frequency of occurrence to 100 measurements (e.g. if a species had a FO= 20 measurements out of 50 total measurements along the transect line, the FO will be multiplied by 2). To all occasional species (i.e. species found within vegetation plots but not along the linear transects) a \%SC value = 0.3\% is attributed.\cr
 }
+
+see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 }
 \examples{
  Structure of the database to use as input:
