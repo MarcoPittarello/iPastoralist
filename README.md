@@ -32,7 +32,9 @@
         measurements out of 50 total measurements along the transect
         line, the FO will be multiplied by 2). To all occasional species
         (i.e. species found within vegetation plots but not along the
-        linear transects) a %SC value = 0.3% is attributed.
+        linear transects) a %SC value = 0.3% is attributed. More deatail
+        are provided in the **vegetation\_abundance** function, which
+        process FO data with the following workflow:
 
 ![esempio](image/Wrkflw_abundance_conversion.png)
 
@@ -135,6 +137,11 @@ should be multiplied by **4** so that they refer to 100 measurements
 
 ``` r
 library(iPastoralist)
+#> 
+#> Attaching package: 'iPastoralist'
+#> The following object is masked _by_ '.GlobalEnv':
+#> 
+#>     data
 vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
                                     method = "SRA_SC.fo.occ",
