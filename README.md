@@ -9,13 +9,14 @@
 
 ## **When to use it**
 
-  - you surveyed botanical composition of grasslands with the vertical
+  - Botanical composition of grasslands was surveyed with the vertical
     point-quadrat / pinpoint (or point‐intercept) method, i.e. plant
     species are recorded at fixed interval along a **linear transect**
     (Daget and Poissonet, 1971)
-  - (Optional) Since occasional species are often missed by this method,
-    you listed all other plant species included within a X-m buffer area
-    around the transect line (i.e. **vegetation plot**)
+  - (Optional) Since occasional species are often missed by the vertical
+    point-quadrat / pinpoint (or point‐intercept) method, a list of all
+    other plant species included within a buffer area around the
+    transect line (i.e. **vegetation plot**) was carried out.
 
 ## **What it does**
 
@@ -26,7 +27,7 @@
     to:
       - **Species relative abundance (SRA)** : ratio between frequency
         of occurrence and the sum of frequency of occurrences values for
-        all species in the transect, then multiplied by 100
+        all species in the transect, then multiplied by 100;
       - **Species percentage cover (%SC)**: conversion of frequency of
         occurrence to 100 measurements (e.g. if a species had a FO= 20
         measurements out of 50 total measurements along the transect
@@ -40,13 +41,13 @@
 
 2.  Compute:
       - **Biodiversity indexes**: Species richness, Shannon diversity
-        index, Shannon max, Equitability
+        index, Shannon max, Equitability;
       - **Forage Pastoral Value (PV)**
       - **Ecological indexes**: Landolt, Ellenberg (either weighted or
         not weighted with plant species abundance and either considering
-        or not considering occasional species)
+        or not considering occasional species).
 3.  Extract for each survey the firt ten species, ordered decreasingly
-    by their abundance (Useful with dendrograms)
+    by their abundance (Useful with dendrograms).
 
 ## Installation
 
@@ -80,7 +81,8 @@ The dataframe setting should looks like the below one:
 
 ![esempio](image/datainput/Diapositiva1.JPG)
 
-  - Columns in GREEN are the Landolt indicator values for each species
+  - Columns in GREEN are the Landolt indicator values of each plant
+    species
   - Column in BLUE contains the Index of Specific Quality (ISQ) for each
     species.
   - Column named Rxx are the vegetation survey codes
@@ -109,8 +111,8 @@ not convert it as shown:
 data<-as.data.frame(data)
 ```
 
-Now we can select from the whole database only the columns with plant
-species names and surveys, i.e. as specified in “Data input format”
+From the whole database, the columns related to plant species names and
+all surveys are selected, i.e. as specified in “Data input format”
 section
 
 ``` r
@@ -133,10 +135,15 @@ percentage cover (%SC), considering also occasional species. As the %SC
 for each survey will (likely) be greater than 100, we want to rescale
 %SC of each species per each survey to obtain a sum of 100 (i.e. a
 proportion of %SC). As the total measurements per transect was 25, FO
-should be multiplied by **4** so that they refer to 100 measurements
+should be multiplied by **4** so that they refer to 100 measurements.
 
 ``` r
 library(iPastoralist)
+#> 
+#> Attaching package: 'iPastoralist'
+#> The following object is masked _by_ '.GlobalEnv':
+#> 
+#>     data
 vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
                                     method = "SRA_SC.fo.occ",
@@ -174,10 +181,10 @@ Conversely, if we would like to keep into account also occasional
 species, the SRA will be calculated with the %SC rescaled to 100 (more
 detail in “vegetation\_abundance” function).
 
-In this case we will consider also occasional specie.
+In this case we will consider also occasional species.
 
-The input database is the one with the Frequency of occurrence, i.e. the
-“vegetation” dataframe
+The input database is the one with the Frequency of occurrences,
+i.e. the dataframe used in this tutorial named “vegetation”.
 
 ``` r
 ec.index<-ecological_indexes(database.vegetation = vegetation,
@@ -188,7 +195,7 @@ ec.index<-ecological_indexes(database.vegetation = vegetation,
 #> [1] "INDEX WEIGHTED WITH OCCASIONAL SPECIES"
 ```
 
-Notes about the above function:
+Notes about the “ecological\_indexes” function:
 
   - **database.indexes** = database with Ecological indicators, without
     the column of species names. NA values must indicated as 999
