@@ -1,7 +1,7 @@
 #' Computation of Pastoral Value (PV)
 #'
-#' Computation of PV from a database with SRA, either SRA_fs or SRA_SC.fo.occ (see \link[iPastoralist]{vegetation_abundance})
-#' @param SRA_data database with SRA values, either 'SRA_fs' or 'SRA_SC.fo.occ' (see \link[iPastoralist]{vegetation_abundance}). Database class must be *data.frame*
+#' Computation of PV from a database with SRA, either SRA_fo or SRA_SC.fo.occ (see \link[iPastoralist]{vegetation_abundance})
+#' @param SRA_data database with SRA values, either 'SRA_fo' or 'SRA_SC.fo.occ' (see \link[iPastoralist]{vegetation_abundance}). Database class must be *data.frame*
 #' @param isq_data database with ISQ values. Database class must be *data.frame*
 #' @return database with PV
 #' @export
