@@ -4,7 +4,7 @@
 \alias{vegetation_abundance}
 \title{Transform Frequency of occurrence (FO) to Species relative abundance (SRA) or Species percentage cover(\%SC)}
 \usage{
-vegetation_abundance(database, method, species.cover.coefficient, export)
+vegetation_abundance(database, method, species.cover.coefficient)
 }
 \arguments{
 \item{database}{database with FO and occasional species as 999. Rows are species and columns are surveys. The first column of the database reports the species names. Database class must be \emph{data.frame}}
@@ -17,8 +17,6 @@ vegetation_abundance(database, method, species.cover.coefficient, export)
 }}
 
 \item{species.cover.coefficient}{Coeffient that multiplies FO so that the number of total touches refer to 100. Only required when method = "SC_fo_occ","SC_fo", "SRA_SC.fo.occ"}
-
-\item{export}{Logical. TRUE if you want export data in a csv format}
 }
 \value{
 database with abundance data

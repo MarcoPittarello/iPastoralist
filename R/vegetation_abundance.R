@@ -15,7 +15,6 @@
 #' * **"SC_fo_occ"**: like SC_fo but with in addition the occasional species, considered as 0.3%. The total %SC  per each surveys will be > 100 %. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 #' * **"SRA_SC.fo.occ"**: SRA calculated from SC_fo_occ, i.e. rescale SC_fo_occ so that the total sum per each survey sum up to 100 %. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 #' @param species.cover.coefficient Coeffient that multiplies FO so that the number of total touches refer to 100. Only required when method = "SC_fo_occ","SC_fo", "SRA_SC.fo.occ"
-#' @param export Logical. TRUE if you want export data in a csv format
 #' @return database with abundance data
 #' @references Pittarello, M., Probo, M., Lonati, M., Lombardi, G., 2016. Restoration of sub-alpine shrub-encroached grasslands through pastoral practices: effects on vegetation structure and botanical composition. Appl. Veg. Sci. 19, 381–390. https://doi.org/10.1111/avsc.12222
 #' @examples  Structure of the database to use as input:
@@ -36,7 +35,8 @@
 #' @export
 
 
-vegetation_abundance<-function(database,method,species.cover.coefficient,export){
+vegetation_abundance<-function(database,method,species.cover.coefficient){
+  options(max.print=50E5) ## per esportare output di grandi dimensioni
   veg1<-database
   row.names(veg1)<-veg1[,1]#attribuzione nome specie come nome righe
   veg2<-veg1[,-1]#elimina colonna nomi specie
@@ -48,56 +48,26 @@ vegetation_abundance<-function(database,method,species.cover.coefficient,export)
   
   ## SRA_fo
   if (method=="SRA_fo"){
-    if (export=="TRUE"){
-      return(data.frame(apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu/sum(veg.no.piu)*100))) # calcolo SRA senza 0.3
-      write.table(data.frame(apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu/sum(veg.no.piu)*100)),
-                  file="SRA_fo.csv",sep = ";")
-      
-    } else if (export =="FALSE") {
       return(data.frame(apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu/sum(veg.no.piu)*100))) # calcolo SRA senza 0.3
     }
-    
-  }
   
   ## SC_fo_occ
   
   else if (method=="SC_fo_occ"){
-    if (export=="TRUE"){
       veg.sc<-apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu*species.cover.coefficient) # calcolo SC senza 0.3
       return(data.frame(veg.sc+veg.03))
-      write.table(data.frame(veg.sc+veg.03),file="SC_fo_occ.csv",sep = ";")
-
-    } else if (export =="FALSE") {
-      veg.sc<-apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu*species.cover.coefficient) # calcolo SC senza 0.3
-      return(data.frame(veg.sc+veg.03))
-    }
   }
+  
   #SC_fo
   else if (method=="SC_fo"){
-    if (export=="TRUE"){
       return(data.frame(apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu*species.cover.coefficient)))
-      write.table(data.frame(apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu*species.cover.coefficient)),file="SC_fo.csv",sep = ";")
-      
-    } else if (export =="FALSE") {
-      return(data.frame(apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu*species.cover.coefficient)))
-      
-    }
   }
   
   #SRA_SC.fo.occ
   else if (method=="SRA_SC.fo.occ"){
-    if (export=="TRUE"){
-      veg.sc<-apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu*species.cover.coefficient) # calcolo SC senza 0.3
-      SC_fo_occ<-data.frame(veg.sc+veg.03) # aggiunta al database SRA degli 0.3, la somma fara' piu' di 100
-      return(data.frame(apply(SC_fo_occ, MARGIN = 2, function(SC_fo_occ) SC_fo_occ/sum(SC_fo_occ)*100)))
-      write.table(data.frame(apply(SC_fo_occ, MARGIN = 2, function(SC_fo_occ) SC_fo_occ/sum(SC_fo_occ)*100)),
-                  file="SRA_SC.fo.occ.csv",sep = ";")
-      
-    } else if (export =="FALSE") {
       veg.sc<-apply(veg.no.piu, MARGIN = 2, function(veg.no.piu) veg.no.piu*species.cover.coefficient) # calcolo SC senza 0.3
       SC_fo_occ<-data.frame(veg.sc+veg.03) # aggiunta al database SRA degli 0.3, la somma fara' piu' di 100
       return(data.frame(apply(SC_fo_occ, MARGIN = 2, function(SC_fo_occ) SC_fo_occ/sum(SC_fo_occ)*100)))
       
-    }
   }
 }
