@@ -20,7 +20,7 @@ pastoral_value=function (SRA_data,isq_data){
   abundance<-ISQ_selection[ -c(1) ]#exclude only the first column
   
   #computation of PV for each Ril column
-  PV_df<-apply(abundance, 2, function(x) sum(x*ISQ)*0.2)
-  PV<<-data.frame(PV_df)
+  PV<-apply(abundance, 2, function(x) sum(x*ISQ)*0.2)
+  PV<<-data.frame(PV)
   print(PV)
 }
