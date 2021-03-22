@@ -4,16 +4,15 @@
 # iPastoralist
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 ## **When to use it**
 
-  - Botanical composition of grasslands was surveyed with the vertical
+-   Botanical composition of grasslands was surveyed with the vertical
     point-quadrat / pinpoint (or point‐intercept) method, i.e. plant
     species are recorded at fixed interval along a **linear transect**
     (Daget and Poissonet, 1971)
-  - (Optional) Since occasional species are often missed by the vertical
+-   (Optional) Since occasional species are often missed by the vertical
     point-quadrat / pinpoint (or point‐intercept) method, a list of all
     other plant species included within a buffer area around the
     transect line (i.e. **vegetation plot**) was carried out.
@@ -25,10 +24,10 @@
 1.  Transform **Frequency of occurrences (FO)** of species identified
     along a linear transect (either with or without occasional species)
     to:
-      - **Species relative abundance (SRA)** : ratio between frequency
+    -   **Species relative abundance (SRA)** : ratio between frequency
         of occurrence and the sum of frequency of occurrences values for
         all species in the transect, then multiplied by 100;
-      - **Species percentage cover (%SC)**: conversion of frequency of
+    -   **Species percentage cover (%SC)**: conversion of frequency of
         occurrence to 100 measurements (e.g. if a species had a FO= 20
         measurements out of 50 total measurements along the transect
         line, the FO will be multiplied by 2). To all occasional species
@@ -40,12 +39,12 @@
 ![esempio](image/Wrkflw_abundance_conversion.png)
 
 2.  Compute:
-      - **Biodiversity indexes**: Species richness, Shannon diversity
+    -   **Biodiversity indexes**: Species richness, Shannon diversity
         index, Shannon max, Equitability. (see “**biodiversity**”
         function)
-      - **Forage Pastoral Value (PV)** (see “**pastoral\_value**”
+    -   **Forage Pastoral Value (PV)** (see “**pastoral\_value**”
         function)
-      - **Ecological indexes**: Landolt, Ellenberg (either weighted or
+    -   **Ecological indexes**: Landolt, Ellenberg (either weighted or
         not weighted with plant species abundance and either considering
         or not considering occasional species). (see
         “**ecological\_indexes**” function)
@@ -64,15 +63,15 @@ following code:
 
 ## **Data input format**
 
-  - **Rows**: species
-  - **Columns**: surveys
-  - **Values** are Frequency of occurrence (FO)
-  - **Occasional species** are coded as 999
-  - Leave other cells empty (i.e NA)
-  - database class MUST BE a **dataframe**
+-   **Rows**: species
+-   **Columns**: surveys
+-   **Values** are Frequency of occurrence (FO)
+-   **Occasional species** are coded as 999
+-   Leave other cells empty (i.e NA)
+-   database class MUST BE a **dataframe**
 
 | Species    | Survey\_1 | Survey\_2 | Survey\_3 |
-| ---------- | --------- | --------- | --------- |
+|------------|-----------|-----------|-----------|
 | species\_1 | 12        | 1         |           |
 | species\_2 |           | 3         |           |
 | species\_3 |           |           | 4         |
@@ -85,11 +84,11 @@ The dataframe setting should looks like the below one:
 
 ![esempio](image/datainput/Diapositiva1.JPG)
 
-  - Columns in GREEN are the Landolt indicator values of each plant
+-   Columns in GREEN are the Landolt indicator values of each plant
     species
-  - Column in BLUE contains the Index of Specific Quality (ISQ) for each
+-   Column in BLUE contains the Index of Specific Quality (ISQ) for each
     species.
-  - Column named Rxx are the vegetation survey codes
+-   Column named Rxx are the vegetation survey codes
 
 In this database, the total number of measurements along the transect
 line is **25**.
@@ -99,14 +98,14 @@ We can import the dataframe in R environment:
     data <- read_excel("~/yourdata.xlsx")
     View(data)
 
-|        species.name        | species.name.code | F\_Landolt | R\_Landolt | N\_Landolt | ISQ | R1  | R2  | R3 | R4 | R5 | R6 | R7  | R8 | R9 | R10 | R11 | R12 | R13 | R14 | R15 | R16 | R17 | R18 | R19 | R20 | R21 | R22 | R23 | R24 |
-| :------------------------: | :---------------: | :--------: | :--------: | :--------: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-|    Achillea macrophylla    |      Achmacr      |    3.0     |     3      |     4      |  1  | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
-| Achillea millefolium aggr. |      Achmill      |   999.0    |     3      |    999     |  1  | NA  | NA  | NA | NA | NA | NA | 999 | NA | 5  | 999 | 999 | 10  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
-|     Achillea moschata      |      Achmosc      |    3.0     |     2      |     2      |  0  | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  |
-|       Acinos alpinus       |      Acialpi      |    2.0     |     3      |     2      |  0  | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 |  2  |  2  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
-|     Aconitum lamarckii     |      Acolama      |    4.0     |     5      |     4      |  0  | 999 | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
-|   Adenostyles alliariae    |      Adealli      |    3.5     |     3      |     4      |  0  | NA  | 999 | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  8  | NA  | NA  |  3  | NA  | 999 | NA  | NA  | NA  | NA  | NA  |
+|        species.name        | species.name.code | F\_Landolt | R\_Landolt | N\_Landolt | ISQ | R1  | R2  | R3  | R4  | R5  | R6  | R7  | R8  | R9  | R10 | R11 | R12 | R13 | R14 | R15 | R16 | R17 | R18 | R19 | R20 | R21 | R22 | R23 | R24 |
+|:--------------------------:|:-----------------:|:----------:|:----------:|:----------:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|    Achillea macrophylla    |      Achmacr      |    3.0     |     3      |     4      |  1  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+| Achillea millefolium aggr. |      Achmill      |   999.0    |     3      |    999     |  1  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  |  5  | 999 | 999 | 10  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|     Achillea moschata      |      Achmosc      |    3.0     |     2      |     2      |  0  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  |
+|       Acinos alpinus       |      Acialpi      |    2.0     |     3      |     2      |  0  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 |  2  |  2  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|     Aconitum lamarckii     |      Acolama      |    4.0     |     5      |     4      |  0  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+|   Adenostyles alliariae    |      Adealli      |    3.5     |     3      |     4      |  0  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  |  8  | NA  | NA  |  3  | NA  | 999 | NA  | NA  | NA  | NA  | NA  |
 
 Important note: make sure that the database class is **data.frame**. If
 not convert it as shown:
@@ -123,14 +122,14 @@ section
 vegetation<-data[,c(2,7:30)]
 ```
 
-| species.name.code | R1  | R2  | R3 | R4 | R5 | R6 | R7  | R8 | R9 | R10 | R11 | R12 | R13 | R14 | R15 | R16 | R17 | R18 | R19 | R20 | R21 | R22 | R23 | R24 |
-| :---------------: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-|      Achmacr      | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
-|      Achmill      | NA  | NA  | NA | NA | NA | NA | 999 | NA | 5  | 999 | 999 | 10  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
-|      Achmosc      | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  |
-|      Acialpi      | NA  | NA  | NA | NA | NA | NA | NA  | NA | NA | 999 |  2  |  2  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
-|      Acolama      | 999 | NA  | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
-|      Adealli      | NA  | 999 | NA | NA | NA | NA | NA  | NA | NA | NA  | NA  | NA  | NA  |  8  | NA  | NA  |  3  | NA  | 999 | NA  | NA  | NA  | NA  | NA  |
+| species.name.code | R1  | R2  | R3  | R4  | R5  | R6  | R7  | R8  | R9  | R10 | R11 | R12 | R13 | R14 | R15 | R16 | R17 | R18 | R19 | R20 | R21 | R22 | R23 | R24 |
+|:-----------------:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|      Achmacr      | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+|      Achmill      | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  |  5  | 999 | 999 | 10  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|      Achmosc      | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  |
+|      Acialpi      | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 |  2  |  2  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | 999 | NA  | NA  | NA  | NA  |
+|      Acolama      | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  |  1  | NA  | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  |
+|      Adealli      | NA  | 999 | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  | NA  |  8  | NA  | NA  |  3  | NA  | 999 | NA  | NA  | NA  | NA  | NA  |
 
 ### Example 1
 
@@ -150,14 +149,14 @@ vegetation.sc<-vegetation_abundance(database = vegetation,
 
     head(vegetation.sc)
 
-|         |    R1     |    R2     | R3 | R4 | R5 | R6 |    R7     | R8 |    R9    |   R10    |    R11    |    R12    | R13 |    R14    | R15 | R16 |    R17    | R18 |   R19    |    R20    |    R21    | R22 | R23 | R24 |
-| :------ | :-------: | :-------: | :-: | :-: | :-: | :-: | :-------: | :-: | :------: | :------: | :-------: | :-------: | :-: | :-------: | :-: | :-: | :-------: | :-: | :------: | :-------: | :-------: | :-: | :-: | :-: |
-| Achmacr | 0.0000000 | 0.0000000 | 0  | 0  | 0  | 0  | 0.0000000 | 0  | 0.000000 | 0.000000 | 0.0000000 | 0.000000  |  0  | 2.643754  |  0  |  0  | 0.1544004 |  0  | 0.000000 | 0.0000000 | 0.0000000 |  0  |  0  |  0  |
-| Achmill | 0.0000000 | 0.0000000 | 0  | 0  | 0  | 0  | 0.0918555 | 0  | 6.118079 | 0.103484 | 0.0927357 | 11.289867 |  0  | 0.000000  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.0884434 | 0.0000000 |  0  |  0  |  0  |
-| Achmosc | 0.0000000 | 0.0000000 | 0  | 0  | 0  | 0  | 0.0000000 | 0  | 0.000000 | 0.103484 | 0.0000000 | 0.000000  |  0  | 0.000000  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.0000000 | 0.1133359 |  0  |  0  |  0  |
-| Acialpi | 0.0000000 | 0.0000000 | 0  | 0  | 0  | 0  | 0.0000000 | 0  | 0.000000 | 0.103484 | 2.4729521 | 2.257973  |  0  | 0.000000  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.0884434 | 0.0000000 |  0  |  0  |  0  |
-| Acolama | 0.0971817 | 0.0000000 | 0  | 0  | 0  | 0  | 0.0000000 | 0  | 0.000000 | 0.000000 | 0.0000000 | 0.000000  |  0  | 2.643754  |  0  |  0  | 0.1544004 |  0  | 0.000000 | 0.0000000 | 0.0000000 |  0  |  0  |  0  |
-| Adealli | 0.0000000 | 0.1612903 | 0  | 0  | 0  | 0  | 0.0000000 | 0  | 0.000000 | 0.000000 | 0.0000000 | 0.000000  |  0  | 21.150033 |  0  |  0  | 6.1760165 |  0  | 0.172117 | 0.0000000 | 0.0000000 |  0  |  0  |  0  |
+|         |    R1     |    R2     | R3  | R4  | R5  | R6  |    R7     | R8  |    R9    |   R10    |    R11    |    R12    | R13 |    R14    | R15 | R16 |    R17    | R18 |   R19    |    R20    |    R21    | R22 | R23 | R24 |
+|:--------|:---------:|:---------:|:---:|:---:|:---:|:---:|:---------:|:---:|:--------:|:--------:|:---------:|:---------:|:---:|:---------:|:---:|:---:|:---------:|:---:|:--------:|:---------:|:---------:|:---:|:---:|:---:|
+| Achmacr | 0.0000000 | 0.0000000 |  0  |  0  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.000000 | 0.0000000 | 0.000000  |  0  | 2.643754  |  0  |  0  | 0.1544004 |  0  | 0.000000 | 0.0000000 | 0.0000000 |  0  |  0  |  0  |
+| Achmill | 0.0000000 | 0.0000000 |  0  |  0  |  0  |  0  | 0.0918555 |  0  | 6.118079 | 0.103484 | 0.0927357 | 11.289867 |  0  | 0.000000  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.0884434 | 0.0000000 |  0  |  0  |  0  |
+| Achmosc | 0.0000000 | 0.0000000 |  0  |  0  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.103484 | 0.0000000 | 0.000000  |  0  | 0.000000  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.0000000 | 0.1133359 |  0  |  0  |  0  |
+| Acialpi | 0.0000000 | 0.0000000 |  0  |  0  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.103484 | 2.4729521 | 2.257973  |  0  | 0.000000  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.0884434 | 0.0000000 |  0  |  0  |  0  |
+| Acolama | 0.0971817 | 0.0000000 |  0  |  0  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.000000 | 0.0000000 | 0.000000  |  0  | 2.643754  |  0  |  0  | 0.1544004 |  0  | 0.000000 | 0.0000000 | 0.0000000 |  0  |  0  |  0  |
+| Adealli | 0.0000000 | 0.1612903 |  0  |  0  |  0  |  0  | 0.0000000 |  0  | 0.000000 | 0.000000 | 0.0000000 | 0.000000  |  0  | 21.150033 |  0  |  0  | 6.1760165 |  0  | 0.172117 | 0.0000000 | 0.0000000 |  0  |  0  |  0  |
 
 we can check that the sum of %SC for each survey is 100
 
@@ -195,15 +194,15 @@ ec.index<-ecological_indexes(database.vegetation = vegetation,
 
 Notes about the “ecological\_indexes” function:
 
-  - **database.indexes** = database with Ecological indicators, without
+-   **database.indexes** = database with Ecological indicators, without
     the column of species names. NA values must indicated as 999
-  - **occasional.species** = Logical. TRUE if you want to take into
+-   **occasional.species** = Logical. TRUE if you want to take into
     account occasional species.
-  - **species.cover.coefficient** = only if “occasional.species=TRUE”.
-    Coeffient that multiplies FS so that the number of total touches
+-   **species.cover.coefficient** = only if “occasional.species=TRUE”.
+    Coefficient that multiplies FO so that the number of total touches
     refer to 100
-  - **weight**: Logical. TRUE if you want to weight Ecological
-    indicators with abundance
+-   **weight**: Logical. TRUE if you want to weight Ecological
+    indicators with abundance.
 
 the output will be as follow:
 

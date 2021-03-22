@@ -155,8 +155,8 @@ Notes about the "ecological_indexes" function:
 
 * **database.indexes** = database with Ecological indicators, without the column of species names. NA values must indicated as 999
 * **occasional.species** = Logical. TRUE if you want to take into account occasional species.
-* **species.cover.coefficient** = only if "occasional.species=TRUE". Coeffient that multiplies FS so that the number of total touches refer to 100
-* **weight**: Logical. TRUE if you want to weight Ecological indicators with abundance
+* **species.cover.coefficient** = only if "occasional.species=TRUE". Coefficient that multiplies FO so that the number of total touches refer to 100
+* **weight**: Logical. TRUE if you want to weight Ecological indicators with abundance.
 
 the output will be as follow:
 
