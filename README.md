@@ -41,13 +41,17 @@
 
 2.  Compute:
       - **Biodiversity indexes**: Species richness, Shannon diversity
-        index, Shannon max, Equitability;
-      - **Forage Pastoral Value (PV)**
+        index, Shannon max, Equitability. (see “**biodiversity**”
+        function)
+      - **Forage Pastoral Value (PV)** (see “**pastoral\_value**”
+        function)
       - **Ecological indexes**: Landolt, Ellenberg (either weighted or
         not weighted with plant species abundance and either considering
-        or not considering occasional species).
+        or not considering occasional species). (see
+        “**ecological\_indexes**” function)
 3.  Extract for each survey the firt ten species, ordered decreasingly
-    by their abundance (Useful with dendrograms).
+    by their abundance (useful with dendrograms). (see
+    “**first\_ten\_species**” function)
 
 ## Installation
 
@@ -139,15 +143,9 @@ should be multiplied by **4** so that they refer to 100 measurements.
 
 ``` r
 library(iPastoralist)
-#> 
-#> Attaching package: 'iPastoralist'
-#> The following object is masked _by_ '.GlobalEnv':
-#> 
-#>     data
 vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
-                                    method = "SRA_SC.fo.occ",
-                                    export = F)
+                                    method = "SRA_SC.fo.occ")
 ```
 
     head(vegetation.sc)
