@@ -11,7 +11,7 @@ PhytoCover(database, method)
 
 \item{method}{\itemize{
 \item \strong{"BrBl"}:
-\item \strong{"VanDerMaarel"}:
+\item \strong{"Maarel"}:
 \item \strong{"TassTapp"}: modified Braun-Blanquet frequency/abundance scale
 }}
 }
@@ -22,7 +22,7 @@ database cover-abundance values
 Species cover visually estimated in a phytosociological survey are transformed to:\cr
 \itemize{
 \item Braun-Blanquet cover-abundance scale \strong{(BrBl)} :
-\item Van Der Maarel cover-abundance scale \strong{(VanDerMaarel)} :
+\item Van Der Maarel cover-abundance scale \strong{(Maarel)} :
 \item Modified Braun-Blanquet frequency/abundance scale according to Tasser and Tappeiner (2005)**: \cr
 }
 }
@@ -46,7 +46,7 @@ Species cover visually estimated in a phytosociological survey are transformed t
 \references{
 \itemize{
 \item Braun-Blanquet J (1932) Plant sociology. The study of plant communi- ties. GD Fuller and HS Conard (Eds.). Authorized English translations of 'Pflanzensoziologie'. 1st ed. Printed in the United States of America. New York and London: McGraw-Hill Book Co. Inc.\cr
-\item Westhoff V, van der Maarel E (1973) The Braun-Blanquet approach. In: Whittaker RH (Ed.) Handbook of vegetation science, part 5, Classi- fication and ordination of communities. W Junk, The Hague: 617– 726. https://doi.org/10.1007/978-94-010-2701-4_20\cr
+\item Van der Maarel, E. (1979). Transformation of cover-abundance values in phytosociology and its effects on community similarity. Vegetatio, 39(2), 97-114.\cr
 \item Tasser E, Tappeiner U (2005) New model to predict rooting in diverse plant community compositions. Ecological Modelling 185:195-211.\cr
 }
 }

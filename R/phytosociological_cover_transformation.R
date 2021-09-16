@@ -3,17 +3,17 @@
 #' @description Species cover visually estimated in a phytosociological survey are transformed to:\cr
 #'
 #' * Braun-Blanquet cover-abundance scale **(BrBl)** : 
-#' * Van Der Maarel cover-abundance scale **(VanDerMaarel)** : 
+#' * Van Der Maarel cover-abundance scale **(Maarel)** : 
 #' * Modified Braun-Blanquet frequency/abundance scale according to Tasser and Tappeiner (2005)**: \cr
 #' 
 #'
 #' @param database database with visually estimated cover of plant species. Rare species are added as '+". Rows are species and columns are surveys. The first column of the database reports the species names (Important: no space among words must exist). Database class must be *data.frame*
 #' @param method * **"BrBl"**: 
-#' * **"VanDerMaarel"**: 
+#' * **"Maarel"**: 
 #' * **"TassTapp"**: modified Braun-Blanquet frequency/abundance scale
 #' @return database cover-abundance values
 #' @references * Braun-Blanquet J (1932) Plant sociology. The study of plant communi- ties. GD Fuller and HS Conard (Eds.). Authorized English translations of 'Pflanzensoziologie'. 1st ed. Printed in the United States of America. New York and London: McGraw-Hill Book Co. Inc.\cr
-#' * Westhoff V, van der Maarel E (1973) The Braun-Blanquet approach. In: Whittaker RH (Ed.) Handbook of vegetation science, part 5, Classi- fication and ordination of communities. W Junk, The Hague: 617– 726. https://doi.org/10.1007/978-94-010-2701-4_20\cr
+#' * Van der Maarel, E. (1979). Transformation of cover-abundance values in phytosociology and its effects on community similarity. Vegetatio, 39(2), 97-114.\cr
 #' * Tasser E, Tappeiner U (2005) New model to predict rooting in diverse plant community compositions. Ecological Modelling 185:195-211.\cr
 #' @examples  Structure of the database to use as input:
 #'
@@ -51,7 +51,7 @@ if (method=="BrBl"){
                                                                                           ifelse(x==0,"0","+"))))))))))
 }
 
-else if (method=="VanDerMaaler"){
+else if (method=="Maarel"){
   return(data.frame(apply(veg1,MARGIN = c(1,2),function(x) ifelse(x>=1 && x<=5,3,
                                                        ifelse(x>=6 && x<=25,5,
                                                               ifelse(x>=26 && x<=50,7,
