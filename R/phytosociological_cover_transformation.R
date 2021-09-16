@@ -39,7 +39,8 @@ rownames(veg)<-database[,1]
 veg[is.na(veg)]<-0
 
 veg[veg=="+"] <- 9999 
-veg1<-sapply(veg, as.numeric)
+veg1<-data.frame(sapply(veg, as.numeric))
+row.names(veg1)<-row.names(veg)
 
 if (method=="BrBl"){
   return(data.frame(apply(veg1,MARGIN = c(1,2),function(x) ifelse(x>=1 && x<=5,"1",
@@ -49,6 +50,8 @@ if (method=="BrBl"){
                                                                             ifelse(x>=51 && x<=75,"4",
                                                                                    ifelse(x>=76 && x<=100,"5",
                                                                                           ifelse(x==0,"0","+"))))))))))
+  
+  
 }
 
 else if (method=="Maarel"){
