@@ -32,7 +32,6 @@
 #'           Note 2: rare species as '+'
 #' @export
 
-method="VanDerMaaler"
 PhytoCover<-function(database,method){
 veg<-database[,-1]
 rownames(veg)<-database[,1]
