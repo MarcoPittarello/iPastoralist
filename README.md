@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-## **When to use it**
+## **1. When to use it**
 
 Botanical composition was surveyed either with **phytosociological** or
 **point-quadrat / pinpoint (or point‐intercept) method** (plant species
@@ -19,9 +19,9 @@ the list of all other plant species included within a buffer area around
 the transect line (i.e. **vegetation plot**) has been done. Indeed, the
 point-intercept method often miss rare species.
 
-## **What it does**
+## **2. What it does**
 
-### **Point-quadrat / pinpoint (or point‐intercept) method**
+### **2.1. Point-quadrat / pinpoint (or point‐intercept) method**
 
 *iPastoralist* allows you to:
 
@@ -56,7 +56,7 @@ point-intercept method often miss rare species.
     by their abundance (useful with dendrograms). (see
     “**first\_ten\_species**” function)
 
-### **Phytosociological method**
+### **2.2. Phytosociological method**
 
 With the ‘**PhytoCover**’ function, *iPastoralist* allows you to
 transform species cover visually estimated in a phytosociological survey
@@ -89,7 +89,7 @@ to:
 -   Tasser E, Tappeiner U (2005) New model to predict rooting in diverse
     plant community compositions. Ecological Modelling 185:195-211.
 
-## Installation
+## **3. Installation**
 
 You can install the development version of *iPastoralist* by running the
 following code:
@@ -98,7 +98,7 @@ following code:
     library(devtools)
     install_github("MarcoPittarello/iPastoralist")
 
-## **Data input format**
+## **4. Data input format**
 
 -   **Rows**: species
 -   **Columns**: surveys
@@ -115,7 +115,7 @@ following code:
 | species\_4 | 9         | 18        | 999       |
 | …          |           |           |           |
 
-## **Examples**
+## **5. Examples**
 
 The dataframe setting should looks like the below one:
 
@@ -179,11 +179,6 @@ should be multiplied by **4** so that they refer to 100 measurements.
 
 ``` r
 library(iPastoralist)
-#> 
-#> Attaching package: 'iPastoralist'
-#> The following object is masked _by_ '.GlobalEnv':
-#> 
-#>     data
 vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
                                     method = "SRA_SC.fo.occ")
