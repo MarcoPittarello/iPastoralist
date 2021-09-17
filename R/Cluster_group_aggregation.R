@@ -26,12 +26,13 @@
 #' @export
 
 
+
 clustGroupAggregation=function(database){
   
   options(max.print=5000E5)
   
   database<-database
-  #database2<-rbind(database,colnames(database))
+  database2<-rbind(database,colnames(database))
   database_heading<-database2[c(nrow(database2),1:(nrow(database2)-1)),]
   
   colnames(database)[1] <- "Group"
