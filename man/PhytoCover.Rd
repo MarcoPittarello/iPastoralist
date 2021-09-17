@@ -2,7 +2,7 @@
 % Please edit documentation in R/phytosociological_cover_transformation.R
 \name{PhytoCover}
 \alias{PhytoCover}
-\title{Transformation of phytosociological cover (\%) to cover-abundance values}
+\title{Transformation of visually estimated cover (\%) in a phytosociological survey to cover-abundance values}
 \usage{
 PhytoCover(database, method)
 }
@@ -10,20 +10,32 @@ PhytoCover(database, method)
 \item{database}{database with visually estimated cover of plant species. Rare species are added as '+". Rows are species and columns are surveys. The first column of the database reports the species names (Important: no space among words must exist). Database class must be \emph{data.frame}}
 
 \item{method}{\itemize{
-\item \strong{"BrBl"}:
-\item \strong{"Maarel"}:
-\item \strong{"TassTapp"}: modified Braun-Blanquet frequency/abundance scale
+\item \strong{"BrBl"}: transform cover visually estimated to the Braun-Blanquet cover-abundance scale (see @details )
+\item \strong{"Maarel"}: transform cover visually estimated to the Van Der Maarel cover-abundance scale (see @details )
+\item \strong{"TassTapp"}: transform cover visually estimated to dominance percentage according to Tasser and Tappeiner (2005) (see @details )
 }}
-}
-\value{
-database cover-abundance values
 }
 \description{
 Species cover visually estimated in a phytosociological survey are transformed to:\cr
 \itemize{
-\item Braun-Blanquet cover-abundance scale \strong{(BrBl)} :
-\item Van Der Maarel cover-abundance scale \strong{(Maarel)} :
-\item Modified Braun-Blanquet frequency/abundance scale according to Tasser and Tappeiner (2005)**: \cr
+\item Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)*
+\item Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)*
+\item Dominance percentage (Tasser and Tappeiner, 2005)* \cr
+}
+
+see @details
+}
+\details{
+Conversion table\tabular{cccc}{
+   Visually estimated cover (\%) \tab Braun Blanquet \tab Van Der Maarel \tab Tasser and Tappeiner \cr
+   0 \tab 0 \tab 0 \tab 0 \cr
+   <1 \tab + \tab 2 \tab 0.3 \cr
+   1 - 5 \tab 1 \tab 3 \tab 2.8 \cr
+   6 -15 \tab 2a \tab 5 \tab 10 \cr
+   16-25 \tab 2b \tab 5 \tab 20.5 \cr
+   26-50 \tab 3 \tab 7 \tab 38 \cr
+   51-75 \tab 4 \tab 8 \tab 63 \cr
+   76-100 \tab 5 \tab 9 \tab 88 \cr
 }
 }
 \examples{
