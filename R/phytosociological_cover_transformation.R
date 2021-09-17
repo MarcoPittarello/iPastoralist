@@ -2,9 +2,9 @@
 #'
 #' @description Species cover visually estimated in a phytosociological survey are transformed to:\cr
 #'
-#' * Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)* 
-#' * Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)* 
-#' * Dominance percentage (Tasser and Tappeiner, 2005)* \cr
+#' * Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)
+#' * Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)
+#' * Dominance percentage (Tasser and Tappeiner, 2005) \cr
 #' 
 #' see @details
 #'
