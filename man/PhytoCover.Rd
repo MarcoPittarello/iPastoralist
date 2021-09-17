@@ -18,9 +18,9 @@ PhytoCover(database, method)
 \description{
 Species cover visually estimated in a phytosociological survey are transformed to:\cr
 \itemize{
-\item Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)*
-\item Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)*
-\item Dominance percentage (Tasser and Tappeiner, 2005)* \cr
+\item Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)
+\item Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)
+\item Dominance percentage (Tasser and Tappeiner, 2005) \cr
 }
 
 see @details
