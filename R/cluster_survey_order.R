@@ -1,7 +1,5 @@
 #' Extraction of the position and/or the group of appartenance of survey in a dendrogram
 #'
-#' @description \cr
-#'
 #' @param database.cluster: database used for generate the cluster. Rows are survey and Columns are species 
 #' @param cluster.hclust: output from 'hclust' function of 'stats' package 
 #' @param cluster.group: Logical. TRUE if you want to specify the number of groups of the dendrogram. 
