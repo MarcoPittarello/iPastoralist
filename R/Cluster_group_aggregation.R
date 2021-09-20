@@ -1,9 +1,9 @@
 #' Computation of mean values for cluster groups
 #'
-#' @description Once the groups of a cluster have been identified, the average value for each species (or target variable) are computed within each group. Moreover,
-#' within each group, species (or target variable) are sorted decreasingly by their cover (or value)
+#' @description Once the groups of a cluster have been identified, the average value for each species (or target variable) are computed for each group. Moreover,
+#' within each group, species (or target variables) are sorted decreasingly by their cover (or value).
 #' 
-#' @param database a database in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups
+#' @param database a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups see @example for a graphical detail
 #' @return dataframe with the average value for each species (or target variable) within each group sorted decreasingly
 #' @examples  Structure of the database to use as input:
 #'

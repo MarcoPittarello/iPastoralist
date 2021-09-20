@@ -1,6 +1,6 @@
-#' Extraction of the position and/or the group of appartenance of survey in a dendrogram
-#'
-#' @param database.cluster: database used for generate the cluster. Rows are survey and Columns are species 
+#' Individuation of the position and/or the group of appartenance of surveys in a dendrogram
+#' @description After the creation of a dendrogram image, it would be helpful to associate to it also the survey code in a text format. The 'clustOrder' function allows to extract the survey codes in a text format with associated the respective position in the dendrogram.
+#' If groups of a dendrogram have been identified, also the ID group will be associated to each survey code.
 #' @param cluster.hclust: output from 'hclust' function of 'stats' package 
 #' @param cluster.group: Logical. TRUE if you want to specify the number of groups of the dendrogram. 
 #' @param cluster.number: To be specified only if 'cluster.group' is TRUE. Set the number of groups the dendrogram will be divided
@@ -8,7 +8,7 @@
 #' when 'cluster.group' = FALSE: a dataframe in which for each survey its position in the dendrogram
 #' @export
 
-clustOrder<-function(database.cluster,cluster.hclust,cluster.group,cluster.number){
+clustOrder<-function(cluster.hclust,cluster.group,cluster.number){
   
   if (cluster.group==TRUE){
     #database with cluster groups
@@ -18,22 +18,24 @@ clustOrder<-function(database.cluster,cluster.hclust,cluster.group,cluster.numbe
     cluster.groups<-cluster.groups[order(cluster.groups$Survey),]#order db by survey name
     
     #database with the survey order in the dendrogram
-    survey.order<-data.frame(cbind(cluster.hclust$labels[c(cluster.hclust$order)],
-                                   c(1:nrow(database.cluster))))#dataframe with survey name and its order in the dendrogram
-    colnames(survey.order)[1] <- "Survey"
-    colnames(survey.order)[2] <- "Survey.order"
-    survey.order<-survey.order[order(survey.order$Survey),]#order db by survey name
-    
-    table<-data.frame(cbind(cluster.groups,survey.order))#merge od database
-    table1<-table[,c(2,1,4)]#selection of columns
-    rownames(table1)<-NULL
-    return(table1)
+    survey.order<-cluster.hclust$labels[c(cluster.hclust$order)]
+    survey.order1<-data.frame(survey.order,c(1:length(survey.order)))
+    colnames(survey.order1)[1] <- "Survey"
+    colnames(survey.order1)[2] <- "Survey.order"
+
+    table<-data.frame(merge(cluster.groups,survey.order1,by="Survey"))#merge od database
+    return(table)
     
   }
   
   else if (cluster.group==FALSE){
-    return(data.frame(cbind(cluster$labels[c(cluster$order)],
-                     c(1:nrow(dendro)))))
+    survey.order<-cluster.hclust$labels[c(cluster.hclust$order)]
+    survey.order1<-data.frame(survey.order,c(1:length(survey.order)))
+    colnames(survey.order1)[1] <- "Survey"
+    colnames(survey.order1)[2] <- "Survey.order"
+    
+    return(survey.order1)
+    
   }
   
 }

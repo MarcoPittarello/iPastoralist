@@ -7,13 +7,14 @@
 clustGroupAggregation(database)
 }
 \arguments{
-\item{database}{}
+\item{database}{a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups see @example for a graphical detail}
 }
 \value{
-database with cover-abundance values
+dataframe with the average value for each species (or target variable) within each group sorted decreasingly
 }
 \description{
-\cr
+Once the groups of a cluster have been identified, the average value for each species (or target variable) are computed for each group. Moreover,
+within each group, species (or target variables) are sorted decreasingly by their cover (or value).
 }
 \examples{
  Structure of the database to use as input:

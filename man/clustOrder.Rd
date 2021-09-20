@@ -2,13 +2,11 @@
 % Please edit documentation in R/cluster_survey_order.R
 \name{clustOrder}
 \alias{clustOrder}
-\title{Extraction of the position and/or the group of appartenance of survey in a dendrogram}
+\title{Individuation of the position and/or the group of appartenance of surveys in a dendrogram}
 \usage{
-clustOrder(database.cluster, cluster.hclust, cluster.group, cluster.number)
+clustOrder(cluster.hclust, cluster.group, cluster.number)
 }
 \arguments{
-\item{database.cluster:}{database used for generate the cluster. Rows are survey and Columns are species}
-
 \item{cluster.hclust:}{output from 'hclust' function of 'stats' package}
 
 \item{cluster.group:}{Logical. TRUE if you want to specify the number of groups of the dendrogram.}
@@ -20,5 +18,6 @@ when 'cluster.group' = TRUE: a dataframe in which for each survey is specified t
 when 'cluster.group' = FALSE: a dataframe in which for each survey its position in the dendrogram
 }
 \description{
-\cr
+After the creation of a dendrogram image, it would be helpful to associate to it also the survey code in a text format. The 'clustOrder' function allows to extract the survey codes in a text format with associated the respective position in the dendrogram.
+If groups of a dendrogram have been identified, also the ID group will be associated to each survey code.
 }
