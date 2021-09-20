@@ -4,12 +4,18 @@
 \alias{first_ten_species}
 \title{First ten species for dendrogram}
 \usage{
-first_ten_species(data_SRA_SC, export)
+first_ten_species(data_SRA_SC, join.dendrogram, cluster.hclust)
 }
 \arguments{
-\item{data_SRA_SC}{database with abundance data expressed as SRA or SC, calculated with \link[iPastoralist]{vegetation_abundance}.Database class must be \emph{data.frame}}
+\item{data_SRA_SC}{database with abundance data expressed as SRA or SC, calculated with \link[iPastoralist]{vegetation_abundance}.Database class must be \emph{data.frame}. Rows are species and Columns are surveys. Species names must be included as row names and not in the data.}
 
-\item{export}{Logical. TRUE if you want export data in a csv format}
+\item{join.dendrogram}{LOGICAL. TRUE if species abundance need to be joined with a dendrogram.}
+
+\item{cluster.hclust}{output from 'hclust' function of 'stats' package}
+}
+\value{
+when 'join.dendrogram' = TRUE: a dataframe in which surveys are orderd in the same way of the dendrogram and for each of them are listed the species orderd dicreasingly by their abundance.
+when 'join.dendrogram' = FALSE: a dataframe in which for each survey the species are ordered decreasingly by their abundance
 }
 \description{
 First ten species for dendrogram
