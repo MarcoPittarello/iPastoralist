@@ -106,3 +106,104 @@ species_4 | 9| 18|999 |
 ... | | | |
 
 
+<<<<<<< HEAD
+=======
+## **5. Examples**
+
+The dataframe setting should looks like the below one:
+
+![esempio](image/datainput/Diapositiva1.JPG)
+
+* Columns in GREEN are the Landolt indicator values of each plant species
+* Column in BLUE contains the Index of Specific Quality (ISQ) for each species.
+* Column named Rxx are the vegetation survey codes 
+
+In this database, the total number of measurements along the transect line is **25**.
+
+
+We can import the dataframe in R environment:
+```
+data <- read_excel("~/yourdata.xlsx")
+View(data)
+```
+```{r echo=FALSE, warning=FALSE}
+load(file = "data/data.RData")
+kable(head(data),align = 'c')
+```
+
+
+Important note: make sure that the database class is **data.frame**. If not convert it as shown:
+```{r}
+data<-as.data.frame(data)
+```
+
+From the whole database, the columns related to plant species names and all surveys are selected, i.e. as specified in "Data input format" section
+```{r echo=TRUE}
+vegetation<-data[,c(2,7:30)]
+
+```
+```{r echo=FALSE}
+kable(head(vegetation),align = 'c')
+```
+
+
+### Example 1
+Suppose we want to convert Frequency of occurrence (FO) to Species percentage cover (%SC), considering also occasional species. As the %SC for each survey will (likely) be greater than 100, we want to rescale %SC of each species per each survey to obtain a sum of 100 (i.e. a proportion of %SC).
+As the total measurements per transect was 25, FO should be multiplied by **4** so that they refer to 100 measurements.
+```{r}
+library(iPastoralist)
+vegetation.sc<-vegetation_abundance(database = vegetation,
+                                    species.cover.coefficient = 4,
+                                    method = "SRA_SC.fo.occ")
+```
+```
+head(vegetation.sc)
+```
+```{r echo=FALSE}
+kable(head(vegetation.sc),align = 'c')
+```
+
+we can check that the sum of %SC for each survey is 100
+```{r}
+colSums(vegetation.sc)
+```
+
+### Example 2
+In this case we want to compute the average Landolt indicator values for each survey, weighted with species abundance. 
+
+If the occasional species are not considered, the SRA will be used. 
+Conversely, if we would like to keep into account also occasional species, the SRA will be calculated with the %SC rescaled to 100 (more detail in "vegetation_abundance" function).
+
+In this case we will consider also occasional species.
+
+The input database is the one with the Frequency of occurrences, i.e. the dataframe used in this tutorial named "vegetation".
+
+```{r}
+ec.index<-ecological_indexes(database.vegetation = vegetation,
+                             database.indexes = data[,c("F_Landolt","R_Landolt","N_Landolt")],
+                             occasional.species = TRUE,
+                             species.cover.coefficient = 4,
+                             weight = TRUE)
+```
+
+Notes about the "ecological_indexes" function:
+
+* **database.indexes** = database with Ecological indicators, without the column of species names. NA values must indicated as 999
+* **occasional.species** = Logical. TRUE if you want to take into account occasional species.
+* **species.cover.coefficient** = only if "occasional.species=TRUE". Coefficient that multiplies FO so that the number of total touches refer to 100
+* **weight**: Logical. TRUE if you want to weight Ecological indicators with abundance.
+
+the output will be as follow:
+
+```{r}
+ec.index
+```
+
+
+### Example 3
+
+cluster
+
+
+
+>>>>>>> f246e84695d93bbf677481283e0b3387eddd8ab0
