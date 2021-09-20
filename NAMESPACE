@@ -2,6 +2,8 @@
 
 export(PhytoCover)
 export(biodiversity)
+export(clustGroupAggregation)
+export(clustOrder)
 export(ecological_indexes)
 export(first_ten_species)
 export(pastoral_value)
