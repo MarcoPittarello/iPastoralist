@@ -1,4 +1,4 @@
-#' Computation of mean values for cluster groups
+#' Computation of means for cluster groups (aggregate)
 #'
 #' @description Once the groups of a cluster have been identified, the average value for each species (or target variable) are computed for each group. Moreover,
 #' within each group, species (or target variables) are sorted decreasingly by their cover (or value).
@@ -28,7 +28,7 @@
 
 
 
-clustGroupAggregation=function(database){
+clustGroupAggregate=function(database){
   
   options(max.print=5000E5)
   
