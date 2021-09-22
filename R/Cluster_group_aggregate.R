@@ -93,3 +93,4 @@ clustGroupAggregate=function(database){
   aggregation_cluster.table<-df_final
   return(aggregation_cluster.table)
 }
+
