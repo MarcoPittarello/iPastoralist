@@ -289,10 +289,10 @@ kable(head(dendro.merge1,10),align='c')%>%
   kable_styling(font_size = 12)
 ```
 
-Lastly, with the **'clustGroupAggregation'** function, the average composition for each group can be computed:
+Lastly, with the **'clustGroupAggregate'** function, the average composition for each group can be computed:
 
 ```{r}
-aggregate<-clustGroupAggregation(dendro.merge1)
+aggregate<-clustGroupAggregate(dendro.merge1)
 ```
 
 ```{r echo=FALSE}

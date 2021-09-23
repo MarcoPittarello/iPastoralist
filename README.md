@@ -15329,11 +15329,11 @@ R18
 </tbody>
 </table>
 
-Lastly, with the **‘clustGroupAggregation’** function, the average
+Lastly, with the **‘clustGroupAggregate’** function, the average
 composition for each group can be computed:
 
 ``` r
-aggregate<-clustGroupAggregation(dendro.merge1)
+aggregate<-clustGroupAggregate(dendro.merge1)
 ```
 
 <table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
