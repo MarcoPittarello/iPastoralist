@@ -18,7 +18,8 @@ library(kableExtra)
 library(iPastoralist)
 ```
   
-# iPastoralist
+# **iPastoralist** 
+<font size="4"> _Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys_ </font>
 
 <!-- badges: start -->
 <!-- badges: end -->

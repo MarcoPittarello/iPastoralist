@@ -1,7 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# iPastoralist
+# **iPastoralist**
+
+<font size="4"> *Management, conversion, and analyses of vegetation data
+derived from phytosociological and point-quadrat method surveys* </font>
 
 <!-- badges: start -->
 <!-- badges: end -->
