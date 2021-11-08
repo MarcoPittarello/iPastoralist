@@ -1,5 +1,5 @@
 Package: iPastoralist
-Title: Computation of vegetation-derived indexes from fito-pastoral surveys
+Title: Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Marco",
@@ -7,10 +7,9 @@ Authors@R:
            role = c("aut", "cre"),
            email = "marco.pittarello1987@gmail.com",
            comment = c(ORCID = "0000-0001-6748-8790"))
-Description: Computation of vegetation-derived indexes from fito-pastoral surveys. https://github.com/MarcoPittarello/iPastoralist}{github.com/MarcoPittarello/iPastoralist
+Description: Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys https://github.com/MarcoPittarello/iPastoralist}{github.com/MarcoPittarello/iPastoralist
 Imports: reshape2
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
