@@ -15,7 +15,7 @@
 #' * **"SC_fo_occ"**: like SC_fo but with in addition the occasional species, considered as 0.3%. The total %SC  per each surveys will be > 100 %. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 #' * **"SRA_SC.fo.occ"**: SRA calculated from SC_fo_occ, i.e. rescale SC_fo_occ so that the total sum per each survey sum up to 100 %. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 #' @param species.cover.coefficient Coeffient that multiplies FO so that the number of total touches refer to 100. Only required when method = "SC_fo_occ","SC_fo", "SRA_SC.fo.occ"
-#' @return database with abundance data
+#' @return database with abundance data: rows are species  and columns are surveys
 #' @references Pittarello, M., Probo, M., Lonati, M., Lombardi, G., 2016. Restoration of sub-alpine shrub-encroached grasslands through pastoral practices: effects on vegetation structure and botanical composition. Appl. Veg. Sci. 19, 381–390. https://doi.org/10.1111/avsc.12222
 #' @examples  Structure of the database to use as input:
 #'

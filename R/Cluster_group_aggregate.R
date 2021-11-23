@@ -4,7 +4,7 @@
 #' within each group, species (or target variables) are sorted decreasingly by their cover (or value).
 #' 
 #' @param database a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups see @example for a graphical detail
-#' @return dataframe with the average value for each species (or target variable) within each group sorted decreasingly
+#' @return dataframe with the average value of abundance for each species (or target variable) within each group sorted decreasingly by the abundance
 #' @examples  Structure of the database to use as input:
 #'
 #'       Rows: Vegetation survey
@@ -22,8 +22,7 @@
 #'           3     0.0     23.3
 #'           3     14.3    0.0
 #'
-#'   Note 1: the column of Group (e.g. Vegetation type, Facies..) 
-#'            has to be in the first position
+#'   Note 1: the column of Group has to be in the first position
 #' @export
 
 
