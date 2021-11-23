@@ -10,7 +10,7 @@ clustGroupAggregate(database)
 \item{database}{a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups see @example for a graphical detail}
 }
 \value{
-dataframe with the average value for each species (or target variable) within each group sorted decreasingly
+dataframe with the average value of abundance for each species (or target variable) within each group sorted decreasingly by the abundance
 }
 \description{
 Once the groups of a cluster have been identified, the average value for each species (or target variable) are computed for each group. Moreover,
@@ -34,6 +34,5 @@ within each group, species (or target variables) are sorted decreasingly by thei
           3     0.0     23.3
           3     14.3    0.0
 
-  Note 1: the column of Group (e.g. Vegetation type, Facies..) 
-           has to be in the first position
+  Note 1: the column of Group has to be in the first position
 }

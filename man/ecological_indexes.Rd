@@ -31,7 +31,7 @@ Computation of Ecological indicators, which can be either weighted or not weight
 account. If occasional species are considered, SRA correspond to "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})
 }
 \examples{
-Structure of the database with ISQ to use as input:
+Structure of the database with Ecological Indicators to use as input:
 
       Headings must be imported. Species name column has not to be considered.
 

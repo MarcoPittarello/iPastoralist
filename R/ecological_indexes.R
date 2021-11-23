@@ -9,7 +9,7 @@
 #' @param weight Logical. TRUE if you want to weight Ecological indicators with SRA.
 #' @return database with Ecological indicators for each survey.
 #' @import reshape2
-#' @examples Structure of the database with ISQ to use as input:
+#' @examples Structure of the database with Ecological Indicators to use as input:
 #'
 #'       Headings must be imported. Species name column has not to be considered.
 #'

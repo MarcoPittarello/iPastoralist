@@ -19,7 +19,7 @@ vegetation_abundance(database, method, species.cover.coefficient)
 \item{species.cover.coefficient}{Coeffient that multiplies FO so that the number of total touches refer to 100. Only required when method = "SC_fo_occ","SC_fo", "SRA_SC.fo.occ"}
 }
 \value{
-database with abundance data
+database with abundance data: rows are species  and columns are surveys
 }
 \description{
 From a database with Frequency of occurrences of species identified along a linear transect and occasional species (i.e. species found within vegetation plots but not along the linear transects), Species relative abundance (SRA) and percentage species cover(\%SC) are computed, either considering or not considering occasional species.\cr

@@ -14,7 +14,7 @@ biodiversity(database, occasional.species, species.cover.coefficient)
 \item{species.cover.coefficient}{To set only when "occasional.species=TRUE":coeffient that multiplies FO so that the number of total touches refer to 100. SRA values for Shannon diversity index derive from the "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})}
 }
 \value{
-biodiversity indexes
+biodiversity indexes per each survey
 }
 \description{
 From a database with Frequency of occurrence (FO) and occasional species as 999 you can compute the following biodiversity indexes:
@@ -24,4 +24,7 @@ From a database with Frequency of occurrence (FO) and occasional species as 999 
 \item Shannon max
 \item Equitability
 }
+}
+\references{
+Magurran, A.E., 1988. Ecological diversity and its measurement. Princeton University Press.
 }
