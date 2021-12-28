@@ -21,6 +21,7 @@ From a database with Frequency of occurrence (FO) and occasional species as 999 
 \itemize{
 \item Species richness
 \item Shannon diversity index (log2)
+\item Effective number of species (ENS)
 \item Shannon max
 \item Equitability
 }
