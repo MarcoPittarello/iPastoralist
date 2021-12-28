@@ -44,7 +44,7 @@ If botanical composition was surveyed with the **point-quadrat / pinpoint (or po
   ![esempio](image/Wrkflw_abundance_conversion.png)
 
 2. Compute:
-    + **Biodiversity indexes**: Species richness, Shannon diversity index, Shannon max, Equitability. (see "**biodiversity**" function)
+    + **Biodiversity indexes**: Species richness, Shannon diversity index (log2), Effective Number of Species,Shannon max, Equitability. (see "**biodiversity**" function)
     + **Forage Pastoral Value (PV)** (see "**pastoral_value**" function)
     + **Ecological indexes**: Landolt, Ellenberg (either weighted or not weighted with plant species abundance and either considering or not considering occasional species). (see "**ecological_indexes**" function)
  

@@ -3,6 +3,7 @@
 #' @description From a database with Frequency of occurrence (FO) and occasional species as 999 you can compute the following biodiversity indexes:
 #' * Species richness
 #' * Shannon diversity index (log2)
+#' * Effective number of species (ENS)
 #' * Shannon max
 #' * Equitability
 #'
@@ -30,6 +31,9 @@ biodiversity=function(database,occasional.species,species.cover.coefficient){
     shannon_computation[is.na(shannon_computation)] <- 0 #replace NA values with 0
     shannon<-as.matrix(apply(shannon_computation,2,function(x) sum(x)*-1))
     
+    ################################# Computation of Effective number of species (ENS)
+    ENS<-2^shannon
+    
     ################################# Computation of species number
     FS_number<-database[,-1]
     FS_number[is.na(FS_number)] <- 0 #replace NA values with 0
@@ -48,7 +52,7 @@ biodiversity=function(database,occasional.species,species.cover.coefficient){
     rownames(equitability)<-names(FS_number)
     
     ################################ Export
-    biodiversity.no.occasional<-cbind(data.frame(spec_numb),data.frame(shannon),data.frame(shannon_max),data.frame(equitability))
+    biodiversity.no.occasional<-cbind(data.frame(spec_numb),data.frame(shannon),data.frame(ENS),data.frame(shannon_max),data.frame(equitability))
     return(biodiversity.no.occasional)
   }
   else if (occasional.species==TRUE){
@@ -69,6 +73,9 @@ biodiversity=function(database,occasional.species,species.cover.coefficient){
     shannon_computation[is.na(shannon_computation)] <- 0 #replace NA values with 0
     shannon<-as.matrix(apply(shannon_computation,2,function(x) sum(x)*-1))
     
+    ################################# Computation of Effective number of species (ENS)
+    ENS<-2^shannon
+    
     ################################# Computation of species number
     FS_number<-database[,-1]
     FS_number[is.na(FS_number)] <- 0 #replace NA values with 0
@@ -85,7 +92,7 @@ biodiversity=function(database,occasional.species,species.cover.coefficient){
     rownames(equitability)<-names(FS_number)
     
     ################################ Export
-    biodiversity.yes.occasional<-cbind(data.frame(spec_numb),data.frame(shannon),data.frame(shannon_max),data.frame(equitability))
+    biodiversity.yes.occasional<-cbind(data.frame(spec_numb),data.frame(shannon),data.frame(ENS),data.frame(shannon_max),data.frame(equitability))
     return(biodiversity.yes.occasional)
   }
 }

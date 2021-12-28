@@ -47,8 +47,8 @@ point-intercept method often miss rare species.
 
 2.  Compute:
     -   **Biodiversity indexes**: Species richness, Shannon diversity
-        index, Shannon max, Equitability. (see “**biodiversity**”
-        function)
+        index (log2), Effective Number of Species,Shannon max,
+        Equitability. (see “**biodiversity**” function)
     -   **Forage Pastoral Value (PV)** (see “**pastoral\_value**”
         function)
     -   **Ecological indexes**: Landolt, Ellenberg (either weighted or
