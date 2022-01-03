@@ -99,7 +99,7 @@ following code:
 
     install.packages("devtools")
     library(devtools)
-    install_github("MarcoPittarello/iPastoralist")
+    install_github("MarcoPittarello/iPastoralist",build_vignettes = TRUE)
 
 ## **4. Data input format**
 
