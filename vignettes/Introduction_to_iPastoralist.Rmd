@@ -36,7 +36,7 @@ If botanical composition was surveyed with the **point-quadrat / pinpoint (or po
     + **Species percentage cover (%SC)**: conversion of frequency of occurrence to 100 measurements (e.g. if a species had a FO= 20 measurements out of 50 total measurements along the transect line, the FO will be multiplied by 2). To all  occasional species (i.e. species found within vegetation plots but not along the linear transects) a %SC value = 0.3% is attributed.
     More details are provided in the **vegetation_abundance** function, which process FO data with the following workflow: 
 
-![Workflow](C:/Users/Marco/Documents/Pacchetti R/iPastoralist/image/Wrkflw_abundance_conversion.png){width=100%}
+![Workflow](Wrkflw_abundance_conversion.png){width=100%}
 
 
 2. Compute:
@@ -106,7 +106,7 @@ species_4 | 9| 18|999 |
 
 The dataframe setting should looks like the below one:
 
-![Figure 1](C:/Users/Marco/Documents/Pacchetti R/iPastoralist/image/datainput/Diapositiva1.JPG){width=100%}
+![Figure 1](datainput/Diapositiva1.JPG){width=100%}
 
 * Columns in GREEN are the Landolt indicator values of each plant species
 * Column in BLUE contains the Index of Specific Quality (ISQ) for each species.
@@ -121,7 +121,7 @@ data <- read_excel("~/yourdata.xlsx")
 View(data)
 ```
 ```{r echo=FALSE, warning=FALSE}
-load(file = "C:/Users/Marco/Documents/Pacchetti R/iPastoralist/data/data.RData")
+load(file = "data.RData")
 kable(head(data[,1:15]),align = 'c')%>%
   kable_styling(font_size = 12) 
   
@@ -248,7 +248,7 @@ kable(head(firstTenSpecies[,1:10],15),align='c')%>%
 ```
 This output can be graphically merged with the dendrogram:
 
-![Figure 2](C:/Users/Marco/Documents/Pacchetti R/iPastoralist/image/fig2.jpg){width=100%}
+![Figure 2](fig2.jpg){width=100%}
 
 
 From this view, it can be easier to identify survey groups based on their vegetation composition and abundance. Suppose here to identify 8 groups, that can be visually shown with the following base plotting functions:
