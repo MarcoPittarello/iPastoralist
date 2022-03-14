@@ -1,6 +1,6 @@
 #' Computation of Ecological indicators (Landolt, Ellenberg)
 #'
-#' Computation of Ecological indicators, which can be either weighted or not weighted with SRA. Occasional species can be taken into
+#' @description Computation of Ecological indicators, which can be either weighted or not weighted with SRA. Occasional species can be taken into
 #' account. If occasional species are considered, SRA correspond to "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})
 #' @param database.vegetation database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys. The column of species names must be imported. Database class must be *data.frame*
 #' @param database.indexes database with Ecological indicators, without the column of species names. NA values must indicated as 999
