@@ -8,6 +8,13 @@
 \description{
 Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys https://github.com/MarcoPittarello/iPastoralist}{github.com/MarcoPittarello/iPastoralist
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/MarcoPittarello/iPastoralist.git}
+}
+
+}
 \author{
 \strong{Maintainer}: Marco Pittarello \email{marco.pittarello1987@gmail.com} (\href{https://orcid.org/0000-0001-6748-8790}{ORCID})
 
