@@ -4,4 +4,11 @@ pkgdown_sha: ~
 articles:
   Introduction_to_iPastoralist: Introduction_to_iPastoralist.html
 last_built: 2022-03-22T16:54Z
+url: https://marcopittarello.github.io/iPastoralist
+template:
+  bootstrap: 5
+  bootswatch: cerulean
+resource_files:
+  - vignettes/fig2.jpg
+  - vignettes/Wrkflw_abundance_conversion.jpg 
 
