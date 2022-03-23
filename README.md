@@ -43,7 +43,7 @@ point-intercept method often miss rare species.
         are provided in the **vegetation\_abundance** function, which
         process FO data with the following workflow:
 
-![esempio](man/figures/image/Wrkflw_abundance_conversion.png)
+![esempio](man/figures/Wrkflw_abundance_conversion.png)
 
 2.  Compute:
     -   **Biodiversity indexes**: Species richness, Shannon diversity
@@ -122,7 +122,7 @@ following code:
 
 The dataframe setting should looks like the below one:
 
-![esempio](man/figures/image/datainput/Diapositiva1.JPG) **FIGURE 1**
+![esempio](man/figures/Diapositiva1.JPG) **FIGURE 1**
 
 -   Columns in GREEN are the Landolt indicator values of each plant
     species
@@ -10059,7 +10059,7 @@ Viobifl 0
 
 This output can be graphically merged with the dendrogram:
 
-![Figure 2](man/figures/image/fig2.jpg)
+![Figure 2](man/figures/fig2.jpg)
 
 From this view, it can be easier to identify survey groups based on
 their vegetation composition and abundance. Suppose here to identify 8
