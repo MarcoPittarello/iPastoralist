@@ -1,9 +1,9 @@
 ---
-title: "Data_input_format"
+title: "Data input format"
 author: Marco Pittarello
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data_input_format}
+  %\VignetteIndexEntry{Data input format}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

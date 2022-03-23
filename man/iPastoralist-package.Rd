@@ -11,6 +11,7 @@ Management, conversion, and analyses of vegetation data derived from phytosociol
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://marcopittarello.github.io/iPastoralist}
   \item \url{https://github.com/MarcoPittarello/iPastoralist.git}
 }
 
