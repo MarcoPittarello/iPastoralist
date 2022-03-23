@@ -965,7 +965,7 @@ NA
 </h4>
 <p>Suppose we want to convert Frequency of occurrence (FO) to Species percentage cover (%SC), considering also occasional species. As the %SC for each survey will (likely) be greater than 100, we want to rescale %SC of each species per each survey to obtain a sum of 100 (i.e. a proportion of %SC). As the total measurements per transect was 25, FO should be multiplied by <strong>4</strong> so that they refer to 100 measurements.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist">iPastoralist</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span>
 <span class="va">vegetation.sc</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>,
                                     species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,
                                     method <span class="op">=</span> <span class="st">"SRA_SC.fo.occ"</span><span class="op">)</span></code></pre></div>
