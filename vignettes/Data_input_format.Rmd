@@ -1,5 +1,5 @@
 ---
-title: "Data input format"
+title: "Data_input_format"
 author: Marco Pittarello
 output: rmarkdown::html_vignette
 vignette: >

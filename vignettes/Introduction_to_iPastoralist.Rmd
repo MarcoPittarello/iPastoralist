@@ -1,5 +1,5 @@
 ---
-title: "Introduction to iPastoralist"
+title: "Introduction_to_iPastoralist"
 author: Marco Pittarello
 output: rmarkdown::html_vignette
 vignette: >
