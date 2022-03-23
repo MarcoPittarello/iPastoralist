@@ -9,6 +9,7 @@ template:
   bootstrap: 5
   bootswatch: cerulean
 resource_files:
-  - vignettes/fig2.jpg
-  - vignettes/Wrkflw_abundance_conversion.jpg 
+  - image/fig2.jpg
+  - image/Wrkflw_abundance_conversion.png
+  - image/datainput/Diapositiva1.JPG
 
