@@ -1,0 +1,29 @@
+---
+title: "Installation"
+author: Marco Pittarello
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Installation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(iPastoralist)
+```
+
+
+You can install *iPastoralist* by running the following code:
+
+```
+install.packages("devtools")
+library(devtools)
+install_github("MarcoPittarello/iPastoralist",build_vignettes = TRUE)
+```

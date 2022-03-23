@@ -1,0 +1,78 @@
+---
+title: "Data input format"
+author: Marco Pittarello
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data_input_format}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE, include = FALSE)
+library(iPastoralist)
+```
+
+The database of input has to be structured like this:
+
+* **Rows**: species
+* **Columns**: surveys
+* **Values** are Frequency of occurrence (FO)
+* **Occasional species** are coded as 999
+* Leave other cells empty (i.e NA) 
+* database class MUST BE a **dataframe**
+
+
+Species | Survey_1 | Survey_2 | Survey_3 | ...
+---------- | -------- | -------- | -------- |
+species_1 |12 | 1| |
+species_2 | | 3| |
+species_3 | | | 4|
+species_4 | 9| 18|999 |
+... | | | |
+
+Here is an real example image from an excel file:
+
+![Figure 1](Diapositiva1.jpg){width=100%}
+
+* Columns in GREEN are the Landolt indicator values of each plant species
+* Column in BLUE contains the Index of Specific Quality (ISQ) for each species.
+* Column named Rxx are the vegetation survey codes 
+
+In this database, the total number of measurements along the transect line is **25**.
+
+
+We can import the dataframe in R environment:
+```
+data <- read_excel("~/yourdata.xlsx")
+View(data)
+```
+```{r echo=FALSE, warning=FALSE}
+load(file = "data.RData")
+kable(head(data[,1:15]),align = 'c')%>%
+  kable_styling(font_size = 12) 
+  
+```
+
+
+Important note: make sure that the database class is **data.frame**. If not convert it as shown:
+```{r}
+data<-as.data.frame(data)
+```
+
+From the whole database, the columns related to plant species names and all surveys are selected, i.e. as specified in "Data input format" section
+```{r echo=TRUE}
+vegetation<-data[,c(2,7:30)]
+
+```
+```{r echo=FALSE}
+kable(head(vegetation[,1:15]),align = 'c')%>%
+  kable_styling(font_size = 12)
+```

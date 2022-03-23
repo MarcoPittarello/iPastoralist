@@ -1,51 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/articles/index.html</loc>
+    <loc>/articles/Data_input_format.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/articles/Introduction_to_iPastoralist.html</loc>
+    <loc>/articles/Examples.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/authors.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/index.html</loc>
+    <loc>/articles/Installation.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/LICENSE.html</loc>
+    <loc>/articles/Introduction_to_iPastoralist.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/biodiversity.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/clustGroupAggregate.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/clustOrder.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/ecological_indexes.html</loc>
+    <loc>/reference/biodiversity.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/first_ten_species.html</loc>
+    <loc>/reference/clustGroupAggregate.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/index.html</loc>
+    <loc>/reference/clustOrder.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/iPastoralist-package.html</loc>
+    <loc>/reference/ecological_indexes.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/pastoral_value.html</loc>
+    <loc>/reference/first_ten_species.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/PhytoCover.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.html</loc>
+    <loc>/reference/iPastoralist-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pastoral_value.html</loc>
+  </url>
+  <url>
+    <loc>/reference/PhytoCover.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vegetation_abundance.html</loc>
   </url>
 </urlset>
