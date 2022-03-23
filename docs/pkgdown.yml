@@ -10,4 +10,7 @@ last_built: 2022-03-23T15:26Z
 urls:
   reference: https://marcopittarello.github.io/iPastoralist/reference
   article: https://marcopittarello.github.io/iPastoralist/articles
-
+resource_files:
+- man/figures/image/fig2.jpg
+- man/figures/image/Wrkflw_abundance_conversion.png
+- man/figures/image/datainput/Diapositiva1.jpg
