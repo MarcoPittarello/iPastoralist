@@ -41,7 +41,7 @@ If botanical composition was surveyed with the **point-quadrat / pinpoint (or po
     + **Species percentage cover (%SC)**: conversion of frequency of occurrence to 100 measurements (e.g. if a species had a FO= 20 measurements out of 50 total measurements along the transect line, the FO will be multiplied by 2). To all  occasional species (i.e. species found within vegetation plots but not along the linear transects) a %SC value = 0.3% is attributed.
     More details are provided in the **vegetation_abundance** function, which process FO data with the following workflow: 
 
-  ![esempio](image/Wrkflw_abundance_conversion.png)
+  ![esempio](vignettes/Wrkflw_abundance_conversion.png)
 
 2. Compute:
     + **Biodiversity indexes**: Species richness, Shannon diversity index (log2), Effective Number of Species,Shannon max, Equitability. (see "**biodiversity**" function)
@@ -111,7 +111,7 @@ species_4 | 9| 18|999 |
 
 The dataframe setting should looks like the below one:
 
-![esempio](image/datainput/Diapositiva1.JPG)
+![esempio](vignettes/datainput/Diapositiva1.JPG)
 **FIGURE 1**
 
 * Columns in GREEN are the Landolt indicator values of each plant species
@@ -253,7 +253,7 @@ kable(head(firstTenSpecies,15),align='c')%>%
 ```
 This output can be graphically merged with the dendrogram:
 
-![Figure 2](image/fig2.jpg)
+![Figure 2](vignettes/fig2.jpg)
 
 
 From this view, it can be easier to identify survey groups based on their vegetation composition and abundance. Suppose here to identify 8 groups, that can be visually shown with the following base plotting functions:
