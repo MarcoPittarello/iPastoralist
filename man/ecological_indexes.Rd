@@ -13,7 +13,7 @@ ecological_indexes(
 )
 }
 \arguments{
-\item{database.vegetation}{database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys. The column of species names must be imported. Database class must be \emph{data.frame}}
+\item{database.vegetation}{database with Frequency of occurrence (FO) and occasional species as 999 (see \link[iPastoralist]{vegetation_abundance}). Rows are species and columns are surveys. The column of species names must be imported. Database class must be \emph{data.frame}}
 
 \item{database.indexes}{database with Ecological indicators, without the column of species names. NA values must indicated as 999}
 
@@ -40,5 +40,6 @@ Structure of the database with Ecological Indicators to use as input:
             5         1
             4         999
 
-      Note: For species without an Index value specify a value of 999.
+      Note: For species without an Index value specify a value of 999.\cr
+ see also vignettes
 }

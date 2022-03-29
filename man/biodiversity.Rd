@@ -7,7 +7,7 @@
 biodiversity(database, occasional.species, species.cover.coefficient)
 }
 \arguments{
-\item{database}{database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys. Database class must be \emph{data.frame}}
+\item{database}{database with Frequency of occurrence (FO) and occasional species as 999 (see \link[iPastoralist]{vegetation_abundance} for terminology). Rows are species and columns are surveys. Database class must be \emph{data.frame}}
 
 \item{occasional.species}{Logical. TRUE if you want to take into account occasional species. If occasional species are considered, SRA correspond to "SRA_SC.fs.occ" (see \link[iPastoralist]{vegetation_abundance})}
 
@@ -17,7 +17,7 @@ biodiversity(database, occasional.species, species.cover.coefficient)
 biodiversity indexes per each survey
 }
 \description{
-From a database with Frequency of occurrence (FO) and occasional species as 999 you can compute the following biodiversity indexes:
+From a database with Frequency of occurrence (FO) (see \link[iPastoralist]{vegetation_abundance} for terminology) and occasional species as 999 you can compute the following biodiversity indexes:
 \itemize{
 \item Species richness
 \item Shannon diversity index (log2)
@@ -25,6 +25,9 @@ From a database with Frequency of occurrence (FO) and occasional species as 999 
 \item Shannon max
 \item Equitability
 }
+}
+\examples{
+see vignettes
 }
 \references{
 Magurran, A.E., 1988. Ecological diversity and its measurement. Princeton University Press.

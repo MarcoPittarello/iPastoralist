@@ -21,3 +21,6 @@ when 'cluster.group' = FALSE: a dataframe in which for each survey its position 
 After the creation of a dendrogram image, it would be helpful to associate to it also the survey code in a text format. The 'clustOrder' function allows to extract the survey codes in a text format with associated the respective position in the dendrogram.
 If groups of a dendrogram have been identified, also the ID group will be associated to each survey code.
 }
+\examples{
+see vignettes
+}

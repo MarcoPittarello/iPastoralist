@@ -7,7 +7,7 @@
 first_ten_species(data_SRA_SC, join.dendrogram, cluster.hclust)
 }
 \arguments{
-\item{data_SRA_SC}{database with abundance data expressed as SRA or SC, calculated with \link[iPastoralist]{vegetation_abundance}.Database class must be \emph{data.frame}. Rows are species and Columns are surveys. Species names must be included as row names and not in the data.}
+\item{data_SRA_SC}{database with abundance data expressed as SRA or SC, calculated with \link[iPastoralist]{vegetation_abundance}. Database class must be \emph{data.frame}. Rows are species and Columns are surveys. Species names must be included as row names and not in the data.}
 
 \item{join.dendrogram}{LOGICAL. TRUE if species abundance need to be joined with a dendrogram.}
 
@@ -19,4 +19,7 @@ when 'join.dendrogram' = FALSE: a dataframe in which for each survey the species
 }
 \description{
 For each survey, plant species names and their abundance are listed in a decreasing order of abundance allowing an easier interpretation of the dendrogram.
+}
+\examples{
+see vignettes
 }

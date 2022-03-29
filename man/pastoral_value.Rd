@@ -45,7 +45,9 @@ Structure of the database with ISQ database to use as input:
             4
             999
 
-      Note: For species without an ISQ specify a value of 999.
+      Note: For species without an ISQ specify a value of 999.\cr
+      
+ see also vignettes
       
 }
 \references{

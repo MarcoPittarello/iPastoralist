@@ -26,7 +26,7 @@ Species cover visually estimated in a phytosociological survey are transformed t
 see @details
 }
 \details{
-Conversion table\tabular{cccc}{
+\strong{Conversion table}\tabular{cccc}{
    Visually estimated cover (\%) \tab Braun Blanquet \tab Van Der Maarel \tab Tasser and Tappeiner \cr
    0 \tab 0 \tab 0 \tab 0 \cr
    <1 \tab + \tab 2 \tab 0.3 \cr
@@ -53,7 +53,10 @@ Conversion table\tabular{cccc}{
             spe5             20
 
           Note 1: For species without cover leave the cells empty (NA values)
-          Note 2: rare species as '+'
+          Note 2: rare species as '+'\cr
+          
+   see also vignettes
+   @md
 }
 \references{
 \itemize{

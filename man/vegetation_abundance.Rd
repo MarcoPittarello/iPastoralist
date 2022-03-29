@@ -10,10 +10,10 @@ vegetation_abundance(database, method, species.cover.coefficient)
 \item{database}{database with FO and occasional species as 999. Rows are species and columns are surveys. The first column of the database reports the species names. Database class must be \emph{data.frame}}
 
 \item{method}{\itemize{
-\item \strong{"SRA_fo"}: SRA calculated from FO without occasional species.see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
-\item \strong{"SC_fo"}: \%SC calculated by multiplying FO for a coeffient so that the number of total measurements along the transect line refer to 100 (occasional species are excluded). see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
-\item \strong{"SC_fo_occ"}: like SC_fo but with in addition the occasional species, considered as 0.3\%. The total \%SC  per each surveys will be > 100 \%. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
-\item \strong{"SRA_SC.fo.occ"}: SRA calculated from SC_fo_occ, i.e. rescale SC_fo_occ so that the total sum per each survey sum up to 100 \%. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+\item \strong{"SRA_fo"}: SRA calculated from FO without occasional species.see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+\item \strong{"SC_fo"}: \%SC calculated by multiplying FO for a coeffient so that the number of total measurements along the transect line refer to 100 (occasional species are excluded). see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+\item \strong{"SC_fo_occ"}: like SC_fo but with in addition the occasional species, considered as 0.3\%. The total \%SC  per each surveys will be > 100 \%. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+\item \strong{"SRA_SC.fo.occ"}: SRA calculated from SC_fo_occ, i.e. rescale SC_fo_occ so that the total sum per each survey sum up to 100 \%. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 }}
 
 \item{species.cover.coefficient}{Coeffient that multiplies FO so that the number of total touches refer to 100. Only required when method = "SC_fo_occ","SC_fo", "SRA_SC.fo.occ"}
@@ -31,7 +31,7 @@ Terminology:
 \item Species percentage cover \strong{(\%SC)}: conversion of frequency of occurrence to 100 measurements (e.g. if a species had a FO= 20 measurements out of 50 total measurements along the transect line, the FO will be multiplied by 2). To all occasional species (i.e. species found within vegetation plots but not along the linear transects) a \%SC value = 0.3\% is attributed.\cr
 }
 
-see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 }
 \examples{
  Structure of the database to use as input:
@@ -48,7 +48,8 @@ see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/im
             spe5             20
 
           Note 1: For species without FO leave the cells empty (NA values)
-          Note 2: occasional species (i.e. "+") as 999
+          Note 2: occasional species (i.e. "+") as 999\cr
+ see also vignettes
 }
 \references{
 Pittarello, M., Probo, M., Lonati, M., Lombardi, G., 2016. Restoration of sub-alpine shrub-encroached grasslands through pastoral practices: effects on vegetation structure and botanical composition. Appl. Veg. Sci. 19, 381–390. https://doi.org/10.1111/avsc.12222

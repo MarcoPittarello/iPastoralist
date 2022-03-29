@@ -34,5 +34,7 @@ within each group, species (or target variables) are sorted decreasingly by thei
           3     0.0     23.3
           3     14.3    0.0
 
-  Note 1: the column of Group has to be in the first position
+  Note 1: the column of Group has to be in the first position\cr
+  
+  see also vignettes
 }
