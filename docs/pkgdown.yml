@@ -6,11 +6,8 @@ articles:
   Examples: Examples.html
   Installation: Installation.html
   Introduction_to_iPastoralist: Introduction_to_iPastoralist.html
-last_built: 2022-03-23T15:38Z
+last_built: 2022-03-29T13:07Z
 urls:
   reference: https://marcopittarello.github.io/iPastoralist/reference
   article: https://marcopittarello.github.io/iPastoralist/articles
-resource_files:
- - reference/figures/image/datainput/Diapositiva1.jpg
- - reference/figures/image/fig2.jpg
- - reference/figures/image/Wrkflow_abundance_conversion.png
+
