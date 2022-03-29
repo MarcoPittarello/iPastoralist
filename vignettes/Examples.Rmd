@@ -34,9 +34,9 @@ vegetation<-data[,c(2,7:30)]
 
 
 
-# Example 1
+# Example 1 - use of 'vegetation_abundance' function
 Suppose we want to convert Frequency of occurrence (FO) to Species percentage cover (%SC), considering also occasional species. As the %SC for each survey will (likely) be greater than 100, we want to rescale %SC of each species per each survey to obtain a sum of 100 (i.e. a proportion of %SC).
-As the total measurements per transect was 25, FO should be multiplied by **4** so that they refer to 100 measurements.
+The dataset used as example is shown in "Data input format" vignette, where the total measurements per transect is 25. Therefore, to obtain $SC FO should be multiplied by **4** (so that they refer to 100 measurements.)
 ```{r}
 library(iPastoralist)
 vegetation.sc<-vegetation_abundance(database = vegetation,
@@ -56,7 +56,7 @@ we can check that the sum of %SC for each survey is 100
 colSums(vegetation.sc)
 ```
 
-# Example 2
+# Example 2 - computation of ecological indexes
 In this case we want to compute the average Landolt indicator values for each survey, weighted with species abundance. 
 
 If the occasional species are not considered, the SRA will be used. 
@@ -88,10 +88,21 @@ ec.index
 ```
 
 
-# Example 3 
+# Example 3 - Matching a dendrogram with vegetation data 
 The aim of this example is to generate a cluster analysis of vegetation data, with associated to the dendrogram the species of each survey ordered by their abundance. This approach would help where to cut the dendrogram.
 
-From a dataset like the one shown in FIGURE 1, we first need to compute the Species Relative Abundance from the 'vegetation' dataset generated before
+From the dataset shown in 'Data input format' vignette, the columns related to plant species names and all surveys are selected.
+
+```{r echo=TRUE}
+vegetation<-data[,c(2,7:30)]
+
+```
+```{r echo=FALSE}
+kable(head(vegetation[,1:15]),align = 'c')%>%
+  kable_styling(font_size = 12)
+```
+
+Then, we need to compute the Species Relative Abundance
 
 ```{r}
 sra<-vegetation_abundance(database = vegetation,method = "SRA_fo")
