@@ -1,4 +1,7 @@
 url: https://marcopittarello.github.io/iPastoralist
 template:
   bootstrap: 5
-
+resource_files:
+- man/figures/Diapositiva1.jpg
+- man/figures/fig2.jpg
+- man/figures/Wrkflw_abundance_conversion.png
