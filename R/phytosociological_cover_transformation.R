@@ -13,7 +13,7 @@
 #' * **"Maarel"**: transform cover visually estimated to the Van Der Maarel cover-abundance scale (see @details )
 #' * **"TassTapp"**: transform cover visually estimated to dominance percentage according to Tasser and Tappeiner (2005) (see @details ) 
 #' @details 
-#' Conversion table
+#' **Conversion table**
 #' 
 #' | Visually estimated cover (%)| Braun Blanquet | Van Der Maarel  | Tasser and Tappeiner|
 #' | :-------------------: |:-------:| :------:|:------:|
@@ -45,7 +45,10 @@
 #'             spe5             20
 #'
 #'           Note 1: For species without cover leave the cells empty (NA values)
-#'           Note 2: rare species as '+'
+#'           Note 2: rare species as '+'\cr
+#'           
+#'    see also vignettes
+#'    @md
 #' @export
 
 PhytoCover<-function(database,method){

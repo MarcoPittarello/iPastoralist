@@ -6,6 +6,7 @@
 #' @param cluster.number: To be specified only if 'cluster.group' is TRUE. Set the number of groups the dendrogram will be divided
 #' @return when 'cluster.group' = TRUE: a dataframe in which for each survey is specified the group id of appartenance and its position in the dendrogram
 #' when 'cluster.group' = FALSE: a dataframe in which for each survey its position in the dendrogram
+#' @examples see vignettes
 #' @export
 
 clustOrder<-function(cluster.hclust,cluster.group,cluster.number){

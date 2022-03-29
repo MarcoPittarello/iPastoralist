@@ -87,16 +87,6 @@ to:
 |            51-75             |       4        |       8        |            63            |
 |            76-100            |       5        |       9        |            88            |
 
--   Braun-Blanquet J (1932) Plant sociology. The study of plant communi-
-    ties. GD Fuller and HS Conard (Eds.). Authorized English
-    translations of ‘Pflanzensoziologie’. 1st ed. Printed in the United
-    States of America. New York and London: McGraw-Hill Book Co. Inc.
--   Van der Maarel, E. (1979). Transformation of cover-abundance values
-    in phytosociology and its effects on community similarity.
-    Vegetatio, 39(2), 97-114.
--   Tasser E, Tappeiner U (2005) New model to predict rooting in diverse
-    plant community compositions. Ecological Modelling 185:195-211.
-
 ## **Installation**
 
 You can install the development version of *iPastoralist* by running the
@@ -105,3 +95,17 @@ following code:
     install.packages("devtools")
     library(devtools)
     install_github("MarcoPittarello/iPastoralist",build_vignettes = TRUE)
+
+## **References**
+
+-   Braun-Blanquet J (1932) Plant sociology. The study of plant communi-
+    ties. GD Fuller and HS Conard (Eds.). Authorized English
+    translations of ‘Pflanzensoziologie’. 1st ed. Printed in the United
+    States of America. New York and London: McGraw-Hill Book Co. Inc.
+-   Daget, P., Poissonet, J., 1971. A method of plant analysis of
+    pastures. Ann. Agron. 22, 5–41.
+-   Van der Maarel, E. (1979). Transformation of cover-abundance values
+    in phytosociology and its effects on community similarity.
+    Vegetatio, 39(2), 97-114.
+-   Tasser E, Tappeiner U (2005) New model to predict rooting in diverse
+    plant community compositions. Ecological Modelling 185:195-211.

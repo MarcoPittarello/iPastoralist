@@ -14,7 +14,9 @@
 #'             4
 #'             999
 #'
-#'       Note: For species without an ISQ specify a value of 999.
+#'       Note: For species without an ISQ specify a value of 999.\cr
+#'       
+#'  see also vignettes
 #'       
 #' @details The forage productivity and quality can be expressed through the 
 #' Pastoral Value (PV), which is a unique and synthetic index derived from sward botanical 

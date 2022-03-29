@@ -7,13 +7,13 @@
 #' * Species relative abundance **(SRA)** : ratio between frequency of occurrence and the sum of frequency of occurrences values for all species in the transect, then multiplied by 100
 #' * Species percentage cover **(%SC)**: conversion of frequency of occurrence to 100 measurements (e.g. if a species had a FO= 20 measurements out of 50 total measurements along the transect line, the FO will be multiplied by 2). To all occasional species (i.e. species found within vegetation plots but not along the linear transects) a %SC value = 0.3% is attributed.\cr
 #' 
-#' see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+#' see \href{https://github.com/MarcoPittarello/iPastoralist/blob/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 #'
 #' @param database database with FO and occasional species as 999. Rows are species and columns are surveys. The first column of the database reports the species names. Database class must be *data.frame*
-#' @param method * **"SRA_fo"**: SRA calculated from FO without occasional species.see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
-#' * **"SC_fo"**: %SC calculated by multiplying FO for a coeffient so that the number of total measurements along the transect line refer to 100 (occasional species are excluded). see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
-#' * **"SC_fo_occ"**: like SC_fo but with in addition the occasional species, considered as 0.3%. The total %SC  per each surveys will be > 100 %. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
-#' * **"SRA_SC.fo.occ"**: SRA calculated from SC_fo_occ, i.e. rescale SC_fo_occ so that the total sum per each survey sum up to 100 %. see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/image/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+#' @param method * **"SRA_fo"**: SRA calculated from FO without occasional species.see \href{https://github.com/MarcoPittarello/iPastoralist/blob/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+#' * **"SC_fo"**: %SC calculated by multiplying FO for a coeffient so that the number of total measurements along the transect line refer to 100 (occasional species are excluded). see \href{https://github.com/MarcoPittarello/iPastoralist/blob/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+#' * **"SC_fo_occ"**: like SC_fo but with in addition the occasional species, considered as 0.3%. The total %SC  per each surveys will be > 100 %. see \href{https://github.com/MarcoPittarello/iPastoralist/blob/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
+#' * **"SRA_SC.fo.occ"**: SRA calculated from SC_fo_occ, i.e. rescale SC_fo_occ so that the total sum per each survey sum up to 100 %. see \href{https://github.com/MarcoPittarello/iPastoralist/blob/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 #' @param species.cover.coefficient Coeffient that multiplies FO so that the number of total touches refer to 100. Only required when method = "SC_fo_occ","SC_fo", "SRA_SC.fo.occ"
 #' @return database with abundance data: rows are species  and columns are surveys
 #' @references Pittarello, M., Probo, M., Lonati, M., Lombardi, G., 2016. Restoration of sub-alpine shrub-encroached grasslands through pastoral practices: effects on vegetation structure and botanical composition. Appl. Veg. Sci. 19, 381–390. https://doi.org/10.1111/avsc.12222
@@ -31,7 +31,8 @@
 #'             spe5             20
 #'
 #'           Note 1: For species without FO leave the cells empty (NA values)
-#'           Note 2: occasional species (i.e. "+") as 999
+#'           Note 2: occasional species (i.e. "+") as 999\cr
+#'  see also vignettes
 #' @export
 
 

@@ -2,7 +2,7 @@
 #'
 #' @description Computation of Ecological indicators, which can be either weighted or not weighted with SRA. Occasional species can be taken into
 #' account. If occasional species are considered, SRA correspond to "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})
-#' @param database.vegetation database with Frequency of occurrence (FO) and occasional species as 999. Rows are species and columns are surveys. The column of species names must be imported. Database class must be *data.frame*
+#' @param database.vegetation database with Frequency of occurrence (FO) and occasional species as 999 (see \link[iPastoralist]{vegetation_abundance}). Rows are species and columns are surveys. The column of species names must be imported. Database class must be *data.frame*
 #' @param database.indexes database with Ecological indicators, without the column of species names. NA values must indicated as 999
 #' @param occasional.species Logical. TRUE if you want to take into account occasional species. If occasional species are considered, SRA correspond to "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})
 #' @param species.cover.coefficient only if "occasional.species=TRUE". Coeffient that multiplies FS so that the number of total touches refer to 100
@@ -18,7 +18,8 @@
 #'             5         1
 #'             4         999
 #'
-#'       Note: For species without an Index value specify a value of 999.
+#'       Note: For species without an Index value specify a value of 999.\cr
+#'  see also vignettes
 #' @export
 
 ecological_indexes=function(database.vegetation,database.indexes,occasional.species,species.cover.coefficient,weight){
