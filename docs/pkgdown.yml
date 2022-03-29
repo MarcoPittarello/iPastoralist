@@ -11,6 +11,6 @@ urls:
   reference: https://marcopittarello.github.io/iPastoralist/reference
   article: https://marcopittarello.github.io/iPastoralist/articles
 resource_files:
- - vignettes/Diapositiva1.jpg
- - vignettes/fig2.jpg
- - vignettes/Wrkflow_abundance_conversion.png
+ - man/figures/Diapositiva1.jpg
+ - man/figures/fig2.jpg
+ - man/figures/Wrkflow_abundance_conversion.png
