@@ -1,6 +1,6 @@
 Package: iPastoralist
 Title: Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: 
     person(given = "Marco",
            family = "Pittarello",
@@ -8,17 +8,18 @@ Authors@R:
            email = "marco.pittarello1987@gmail.com",
            comment = c(ORCID = "0000-0001-6748-8790"))
 Description: Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys https://github.com/MarcoPittarello/iPastoralist}{github.com/MarcoPittarello/iPastoralist
-Imports: reshape2 
+Imports: reshape2
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 URL: https://marcopittarello.github.io/iPastoralist,
     https://github.com/MarcoPittarello/iPastoralist.git
 Suggests: 
     rmarkdown,
+    kableExtra,
     knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-VignetteBuilder: knitr
+VignetteBuilder: rmarkdown
