@@ -96,6 +96,16 @@ following code:
     library(devtools)
     install_github("MarcoPittarello/iPastoralist",build_vignettes = TRUE)
 
+If through the following code
+
+    install_github("MarcoPittarello/iPastoralist",build_vignettes = TRUE)
+
+the installation does not complete, run this other code (the vignettes
+will not be installed, but you can still view the tutorials on the
+package site <https://marcopittarello.github.io/iPastoralist/>):
+
+    install_github("MarcoPittarello/iPastoralist")
+
 ## **References**
 
 -   Braun-Blanquet J (1932) Plant sociology. The study of plant communi-
