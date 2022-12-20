@@ -1,4 +1,4 @@
-#' Computation of Ecological indicators (Landolt, Ellenberg)
+#' Computation of Ecological indicators (Landolt, Ellenberg) from vertical point-quadrat method surveys
 #'
 #' @description Computation of Ecological indicators, which can be either weighted or not weighted with SRA. Occasional species can be taken into
 #' account. If occasional species are considered, SRA correspond to "SRA_SC.fo.occ" (see \link[iPastoralist]{vegetation_abundance})
