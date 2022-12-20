@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">iPastoralist</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,8 @@ Pittarello</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>warning <span class="op">=</span> <span class="cn">FALSE</span>, message <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="example-1---use-of-vegetation_abundance-function">Example 1 - use of ‘vegetation_abundance’ function<a class="anchor" aria-label="anchor" href="#example-1---use-of-vegetation_abundance-function"></a>
 </h2>
@@ -1812,22 +1813,44 @@ Bislaev 4.3
 </tr>
 </tbody>
 </table>
-<p>This output can be graphically merged with the dendrogram:</p>
-<div class="figure">
-<img src="../../../Pacchetti%20R/iPastoralist/articles/fig2.jpg" style="width:100.0%" alt=""><p class="caption">Figure 2</p>
-</div>
+<p>This output can be graphically merged with the dendrogram. First of
+all it is needed to create a database for running the cluster analysis
+with (e.g. four) species ordered by abundance as row labels, with the
+use of <code>dendspe</code> function:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db.dendroLab</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/denspe.html">denspe</a></span><span class="op">(</span>nspe<span class="op">=</span><span class="fl">4</span>,</span>
+<span>                     SpeAbund <span class="op">=</span> <span class="va">firstTenSpecies</span>,</span>
+<span>                     dbClust <span class="op">=</span> <span class="va">db.dendro</span><span class="op">)</span></span></code></pre></div>
+<p>Then, the cluster analysis can be run again by using the new database
+and then plot the dendrogram:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d.lab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/amap/man/dist.html" class="external-link">Dist</a></span><span class="op">(</span><span class="va">db.dendroLab</span>,<span class="co">#database name</span></span>
+<span>           method<span class="op">=</span> <span class="st">"correlation"</span><span class="op">)</span> </span>
+<span><span class="va">cluster.lab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">d.lab</span>,<span class="co">#distance matrix</span></span>
+<span>                   method<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">cluster.plot</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">cluster.lab</span><span class="op">)</span><span class="co">#coversion of cluster to class 'dendrogram' of 'dendexted' package (which allows a better customisation of the plot)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">18</span><span class="op">)</span><span class="op">)</span><span class="co">#graphical settings</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster.plot</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.6</span><span class="op">)</span>,horiz<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Examples_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>From this view, it can be easier to identify survey groups based on
 their vegetation composition and abundance. Suppose here to identify 8
 groups, that can be visually shown with the following base plotting
 functions:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster</span>,cex<span class="op">=</span><span class="fl">0.8</span>,hang <span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/rect.hclust.html" class="external-link">rect.hclust</a></span><span class="op">(</span><span class="va">cluster</span>,k<span class="op">=</span><span class="fl">8</span>,border<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Examples_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
-<p>Now, for each group it would be helful to compute the average
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">18</span><span class="op">)</span><span class="op">)</span><span class="co">#graphical settings</span></span>
+<span><span class="va">cluster.plot</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.6</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"branches_k_color"</span>, </span>
+<span>      k <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Dendrogram"</span>,horiz<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Examples_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
+<p>Now, for each group it would be helpful to compute the average
 composition. First of all we can extract the ID group for each survey
 with the <strong>‘clustOrder’</strong> function:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group.id</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustOrder.html">clustOrder</a></span><span class="op">(</span>cluster.hclust <span class="op">=</span> <span class="va">cluster</span>,<span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></span>
 <span>                      cluster.group <span class="op">=</span> <span class="cn">T</span>, <span class="co">#Logical. TRUE if you want to specify the number of groups of the dendrogram. </span></span>
 <span>                      cluster.number <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># Specify the number of groups. </span></span></code></pre></div>
@@ -1960,7 +1983,7 @@ R18
 surveys will be pooled together. Therefore, we first need to add this
 column to the database with the abundances used as input of the
 dendrogram (i.e. ‘db.dendro’ dataset)</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dendro.merge</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">group.id</span>,<span class="va">db.dendro</span>,by.x <span class="op">=</span> <span class="st">"Survey"</span>,by.y <span class="op">=</span> <span class="st">"row.names"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">dendro.merge</span><span class="op">)</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="co">#renaming dataset rows</span></span>
 <span><span class="va">dendro.merge1</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="co">#deleting useless columns</span></span></code></pre></div>
@@ -2519,7 +2542,7 @@ R18
 </table>
 <p>Lastly, with the <strong>‘clustGroupAggregate’</strong> function, the
 average composition for each group can be computed:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aggregate</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustGroupAggregate.html">clustGroupAggregate</a></span><span class="op">(</span><span class="va">dendro.merge1</span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
