@@ -15,15 +15,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ```{r setup}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(iPastoralist)
+
 
 ```
 
 ```{r include=FALSE}
 library(knitr)
 library(kableExtra)
+library(dendextend)
+library(iPastoralist)
+library(amap)
 
 load(file = "data.RData")
 data<-as.data.frame(data)
@@ -32,35 +36,35 @@ vegetation<-data[,c(2,7:30)]
 
 ```
 
-
-
 # Example 1 - use of 'vegetation_abundance' function
-Suppose we want to convert Frequency of occurrence (FO) to Species percentage cover (%SC), considering also occasional species. As the %SC for each survey will (likely) be greater than 100, we want to rescale %SC of each species per each survey to obtain a sum of 100 (i.e. a proportion of %SC).
-The dataset used as example is shown in "Data input format" vignette, where the total measurements per transect is 25. Therefore, to obtain $SC FO should be multiplied by **4** (so that they refer to 100 measurements.)
+
+Suppose we want to convert Frequency of occurrence (FO) to Species percentage cover (%SC), considering also occasional species. As the %SC for each survey will (likely) be greater than 100, we want to rescale %SC of each species per each survey to obtain a sum of 100 (i.e. a proportion of %SC). The dataset used as example is shown in "Data input format" vignette, where the total measurements per transect is 25. Therefore, to obtain \$SC FO should be multiplied by **4** (so that they refer to 100 measurements.)
+
 ```{r}
 library(iPastoralist)
 vegetation.sc<-vegetation_abundance(database = vegetation,
                                     species.cover.coefficient = 4,
                                     method = "SRA_SC.fo.occ")
 ```
-```
-head(vegetation.sc)
-```
+
+    head(vegetation.sc)
+
 ```{r echo=FALSE}
 kable(head(vegetation.sc[,1:15]),align = 'c')%>%
   kable_styling(font_size = 12)
 ```
 
 we can check that the sum of %SC for each survey is 100
+
 ```{r}
 colSums(vegetation.sc)
 ```
 
 # Example 2 - computation of ecological indexes
-In this case we want to compute the average Landolt indicator values for each survey, weighted with species abundance. 
 
-If the occasional species are not considered, the SRA will be used. 
-Conversely, if we would like to keep into account also occasional species, the SRA will be calculated with the %SC rescaled to 100 (more detail in "vegetation_abundance" function).
+In this case we want to compute the average Landolt indicator values for each survey, weighted with species abundance.
+
+If the occasional species are not considered, the SRA will be used. Conversely, if we would like to keep into account also occasional species, the SRA will be calculated with the %SC rescaled to 100 (more detail in "vegetation_abundance" function).
 
 In this case we will consider also occasional species.
 
@@ -76,10 +80,10 @@ ec.index<-ecological_indexes(database.vegetation = vegetation,
 
 Notes about the "ecological_indexes" function:
 
-* **database.indexes** = database with Ecological indicators, without the column of species names. NA values must indicated as 999
-* **occasional.species** = Logical. TRUE if you want to take into account occasional species.
-* **species.cover.coefficient** = only if "occasional.species=TRUE". Coefficient that multiplies FO so that the number of total touches refer to 100
-* **weight**: Logical. TRUE if you want to weight Ecological indicators with abundance.
+-   **database.indexes** = database with Ecological indicators, without the column of species names. NA values must indicated as 999
+-   **occasional.species** = Logical. TRUE if you want to take into account occasional species.
+-   **species.cover.coefficient** = only if "occasional.species=TRUE". Coefficient that multiplies FO so that the number of total touches refer to 100
+-   **weight**: Logical. TRUE if you want to weight Ecological indicators with abundance.
 
 the output will be as follow:
 
@@ -87,8 +91,8 @@ the output will be as follow:
 ec.index
 ```
 
+# Example 3 - Matching a dendrogram with vegetation data
 
-# Example 3 - Matching a dendrogram with vegetation data 
 The aim of this example is to generate a cluster analysis of vegetation data, with associated to the dendrogram the species of each survey ordered by their abundance. This approach would help where to cut the dendrogram.
 
 From the dataset shown in 'Data input format' vignette, the columns related to plant species names and all surveys are selected.
@@ -97,6 +101,7 @@ From the dataset shown in 'Data input format' vignette, the columns related to p
 vegetation<-data[,c(2,7:30)]
 
 ```
+
 ```{r echo=FALSE}
 kable(head(vegetation[,1:15]),align = 'c')%>%
   kable_styling(font_size = 12)
@@ -108,9 +113,8 @@ Then, we need to compute the Species Relative Abundance
 sra<-vegetation_abundance(database = vegetation,method = "SRA_fo")
 ```
 
-```
-head(sra)
-```
+    head(sra)
+
 ```{r echo=FALSE}
 kable(head(sra[,1:15]),align = 'c')%>%
   kable_styling(font_size = 12)
@@ -132,7 +136,6 @@ plot(cluster,cex=0.8,hang =-1,
 
 ```
 
-
 To extract the first ten species ordered decreasingly by their SRA for each survey, we can run the **'first_ten_species'** function:
 
 ```{r}
@@ -147,20 +150,42 @@ firstTenSpecies<-first_ten_species(data_SRA_SC = sra ,#database with species abu
 kable(head(firstTenSpecies[,1:10],15),align='c')%>%
   kable_styling(font_size = 12)
 ```
-This output can be graphically merged with the dendrogram:
 
-![Figure 2](fig2.jpg){width=100%}
+This output can be graphically merged with the dendrogram. First of all it is needed to create a database for running the cluster analysis with (e.g. four) species ordered by abundance as row labels, with the use of `dendspe` function:
 
+```{r}
+db.dendroLab<-denspe(nspe=4,
+                     SpeAbund = firstTenSpecies,
+                     dbClust = db.dendro)
+```
+
+Then, the cluster analysis can be run again by using the new database and then plot the dendrogram:
+
+```{r fig.height=7, fig.width=7}
+d.lab <- Dist(db.dendroLab,#database name
+           method= "correlation") 
+cluster.lab <- hclust(d.lab,#distance matrix
+                   method="average") 
+
+cluster.plot<-as.dendrogram(cluster.lab)#coversion of cluster to class 'dendrogram' of 'dendexted' package (which allows a better customisation of the plot)
+
+par(mfrow=c(1,1),mar=c(1,2,2,18))#graphical settings
+plot(cluster.plot %>% 
+  set("labels_cex", 0.6),horiz=T)
+```
 
 From this view, it can be easier to identify survey groups based on their vegetation composition and abundance. Suppose here to identify 8 groups, that can be visually shown with the following base plotting functions:
 
-```{r fig.height=5, fig.width=7}
-plot(cluster,cex=0.8,hang =-1)
-rect.hclust(cluster,k=8,border="red")
-
+```{r fig.height=7, fig.width=7}
+par(mfrow=c(1,1),mar=c(1,2,2,18))#graphical settings
+cluster.plot %>% 
+  set("labels_cex", 0.6) %>% 
+  set("branches_k_color", 
+      k = 8) %>% 
+  plot(main = "Dendrogram",horiz=T)
 ```
 
-Now, for each group it would be helful to compute the average composition. First of all we can extract the ID group for each survey with the **'clustOrder'** function:
+Now, for each group it would be helpful to compute the average composition. First of all we can extract the ID group for each survey with the **'clustOrder'** function:
 
 ```{r}
 group.id<-clustOrder(cluster.hclust = cluster,# object of containing the output from 'hclust' function of 'stats' package
