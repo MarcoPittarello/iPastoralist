@@ -8,8 +8,8 @@
 <meta name="description" content="iPastoralist">
 <title>Examples • iPastoralist</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Examples">
 <meta property="og:description" content="iPastoralist">
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">iPastoralist</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,9 +70,10 @@
 
 <script src="Examples_files/kePrint-0.0.1/kePrint.js"></script><link href="Examples_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Examples</h1>
-                        <h4 data-toc-skip class="author">Marco Pittarello</h4>
+                        <h4 data-toc-skip class="author">Marco
+Pittarello</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/MarcoPittarello/iPastoralist.git/blob/HEAD/vignettes/Examples.Rmd" class="external-link"><code>vignettes/Examples.Rmd</code></a></small>
@@ -82,17 +83,24 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="example-1---use-of-vegetation_abundance-function">Example 1 - use of ‘vegetation_abundance’ function<a class="anchor" aria-label="anchor" href="#example-1---use-of-vegetation_abundance-function"></a>
 </h2>
-<p>Suppose we want to convert Frequency of occurrence (FO) to Species percentage cover (%SC), considering also occasional species. As the %SC for each survey will (likely) be greater than 100, we want to rescale %SC of each species per each survey to obtain a sum of 100 (i.e. a proportion of %SC). The dataset used as example is shown in “Data input format” vignette, where the total measurements per transect is 25. Therefore, to obtain $SC FO should be multiplied by <strong>4</strong> (so that they refer to 100 measurements.)</p>
+<p>Suppose we want to convert Frequency of occurrence (FO) to Species
+percentage cover (%SC), considering also occasional species. As the %SC
+for each survey will (likely) be greater than 100, we want to rescale
+%SC of each species per each survey to obtain a sum of 100 (i.e. a
+proportion of %SC). The dataset used as example is shown in “Data input
+format” vignette, where the total measurements per transect is 25.
+Therefore, to obtain $SC FO should be multiplied by <strong>4</strong>
+(so that they refer to 100 measurements.)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span>
-<span class="va">vegetation.sc</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>,
-                                    species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,
-                                    method <span class="op">=</span> <span class="st">"SRA_SC.fo.occ"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vegetation.sc</span><span class="op">)</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span></span>
+<span><span class="va">vegetation.sc</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>,</span>
+<span>                                    species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                                    method <span class="op">=</span> <span class="st">"SRA_SC.fo.occ"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vegetation.sc</span><span class="op">)</span></span></code></pre>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
@@ -448,73 +456,88 @@ Adealli
 </table>
 <p>we can check that the sum of %SC for each survey is 100</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">vegetation.sc</span><span class="op">)</span>
-<span class="co">#&gt;  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 </span>
-<span class="co">#&gt; 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 </span>
-<span class="co">#&gt; R21 R22 R23 R24 </span>
-<span class="co">#&gt; 100 100 100 100</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">vegetation.sc</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 </span></span>
+<span><span class="co">#&gt; 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 </span></span>
+<span><span class="co">#&gt; R21 R22 R23 R24 </span></span>
+<span><span class="co">#&gt; 100 100 100 100</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example-2---computation-of-ecological-indexes">Example 2 - computation of ecological indexes<a class="anchor" aria-label="anchor" href="#example-2---computation-of-ecological-indexes"></a>
 </h2>
-<p>In this case we want to compute the average Landolt indicator values for each survey, weighted with species abundance.</p>
-<p>If the occasional species are not considered, the SRA will be used. Conversely, if we would like to keep into account also occasional species, the SRA will be calculated with the %SC rescaled to 100 (more detail in “vegetation_abundance” function).</p>
+<p>In this case we want to compute the average Landolt indicator values
+for each survey, weighted with species abundance.</p>
+<p>If the occasional species are not considered, the SRA will be used.
+Conversely, if we would like to keep into account also occasional
+species, the SRA will be calculated with the %SC rescaled to 100 (more
+detail in “vegetation_abundance” function).</p>
 <p>In this case we will consider also occasional species.</p>
-<p>The input database is the one with the Frequency of occurrences, i.e. the dataframe used in this tutorial named “vegetation”.</p>
+<p>The input database is the one with the Frequency of occurrences,
+i.e. the dataframe used in this tutorial named “vegetation”.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ec.index</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/ecological_indexes.html">ecological_indexes</a></span><span class="op">(</span>database.vegetation <span class="op">=</span> <span class="va">vegetation</span>,
-                             database.indexes <span class="op">=</span> <span class="va">data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F_Landolt"</span>,<span class="st">"R_Landolt"</span>,<span class="st">"N_Landolt"</span><span class="op">)</span><span class="op">]</span>,
-                             occasional.species <span class="op">=</span> <span class="cn">TRUE</span>,
-                             species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,
-                             weight <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "INDEX WEIGHTED WITH OCCASIONAL SPECIES"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ec.index</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/ecological_indexes.html">ecological_indexes</a></span><span class="op">(</span>database.vegetation <span class="op">=</span> <span class="va">vegetation</span>,</span>
+<span>                             database.indexes <span class="op">=</span> <span class="va">data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F_Landolt"</span>,<span class="st">"R_Landolt"</span>,<span class="st">"N_Landolt"</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>                             occasional.species <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                             species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                             weight <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "INDEX WEIGHTED WITH OCCASIONAL SPECIES"</span></span></code></pre></div>
 <p>Notes about the “ecological_indexes” function:</p>
 <ul>
 <li>
-<strong>database.indexes</strong> = database with Ecological indicators, without the column of species names. NA values must indicated as 999</li>
+<strong>database.indexes</strong> = database with Ecological
+indicators, without the column of species names. NA values must
+indicated as 999</li>
 <li>
-<strong>occasional.species</strong> = Logical. TRUE if you want to take into account occasional species.</li>
+<strong>occasional.species</strong> = Logical. TRUE if you want to
+take into account occasional species.</li>
 <li>
-<strong>species.cover.coefficient</strong> = only if “occasional.species=TRUE”. Coefficient that multiplies FO so that the number of total touches refer to 100</li>
+<strong>species.cover.coefficient</strong> = only if
+“occasional.species=TRUE”. Coefficient that multiplies FO so that the
+number of total touches refer to 100</li>
 <li>
-<strong>weight</strong>: Logical. TRUE if you want to weight Ecological indicators with abundance.</li>
+<strong>weight</strong>: Logical. TRUE if you want to weight
+Ecological indicators with abundance.</li>
 </ul>
 <p>the output will be as follow:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ec.index</span>
-<span class="co">#&gt;    survey F_Landolt R_Landolt N_Landolt</span>
-<span class="co">#&gt; 1      R1  2.971600  2.253535  2.649474</span>
-<span class="co">#&gt; 2      R2  3.716373  3.265993  2.867099</span>
-<span class="co">#&gt; 3      R3  3.215537  2.981710  3.898948</span>
-<span class="co">#&gt; 4      R4  3.537678  2.765013  3.392741</span>
-<span class="co">#&gt; 5      R5  2.943190  2.734974  3.177504</span>
-<span class="co">#&gt; 6      R6  2.926874  2.671846  2.978367</span>
-<span class="co">#&gt; 7      R7  2.970695  2.635527  3.145236</span>
-<span class="co">#&gt; 8      R8  3.362342  3.126754  4.306474</span>
-<span class="co">#&gt; 9      R9  3.071611  2.824006  3.469644</span>
-<span class="co">#&gt; 10    R10  2.612803  2.806719  2.820766</span>
-<span class="co">#&gt; 11    R11  2.519994  2.808848  2.687676</span>
-<span class="co">#&gt; 12    R12  2.812606  2.856213  3.017767</span>
-<span class="co">#&gt; 13    R13  3.386566  2.210897  2.851104</span>
-<span class="co">#&gt; 14    R14  3.417881  2.941060  4.184106</span>
-<span class="co">#&gt; 15    R15  2.996712  2.227660  2.680000</span>
-<span class="co">#&gt; 16    R16  3.073070  1.668550  2.091525</span>
-<span class="co">#&gt; 17    R17  3.597692  2.285484  3.584541</span>
-<span class="co">#&gt; 18    R18  2.464270  2.142214  2.375730</span>
-<span class="co">#&gt; 19    R19  3.519828  2.043754  3.045977</span>
-<span class="co">#&gt; 20    R20  2.802508  2.937901  3.024198</span>
-<span class="co">#&gt; 21    R21  2.739275  2.523727  2.727625</span>
-<span class="co">#&gt; 22    R22  2.895071  2.384567  2.791045</span>
-<span class="co">#&gt; 23    R23  2.695533  2.274914  2.006186</span>
-<span class="co">#&gt; 24    R24  2.683857  1.880419  2.004484</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ec.index</span></span>
+<span><span class="co">#&gt;    survey F_Landolt R_Landolt N_Landolt</span></span>
+<span><span class="co">#&gt; 1      R1  2.971600  2.253535  2.649474</span></span>
+<span><span class="co">#&gt; 2      R2  3.716373  3.265993  2.867099</span></span>
+<span><span class="co">#&gt; 3      R3  3.215537  2.981710  3.898948</span></span>
+<span><span class="co">#&gt; 4      R4  3.537678  2.765013  3.392741</span></span>
+<span><span class="co">#&gt; 5      R5  2.943190  2.734974  3.177504</span></span>
+<span><span class="co">#&gt; 6      R6  2.926874  2.671846  2.978367</span></span>
+<span><span class="co">#&gt; 7      R7  2.970695  2.635527  3.145236</span></span>
+<span><span class="co">#&gt; 8      R8  3.362342  3.126754  4.306474</span></span>
+<span><span class="co">#&gt; 9      R9  3.071611  2.824006  3.469644</span></span>
+<span><span class="co">#&gt; 10    R10  2.612803  2.806719  2.820766</span></span>
+<span><span class="co">#&gt; 11    R11  2.519994  2.808848  2.687676</span></span>
+<span><span class="co">#&gt; 12    R12  2.812606  2.856213  3.017767</span></span>
+<span><span class="co">#&gt; 13    R13  3.386566  2.210897  2.851104</span></span>
+<span><span class="co">#&gt; 14    R14  3.417881  2.941060  4.184106</span></span>
+<span><span class="co">#&gt; 15    R15  2.996712  2.227660  2.680000</span></span>
+<span><span class="co">#&gt; 16    R16  3.073070  1.668550  2.091525</span></span>
+<span><span class="co">#&gt; 17    R17  3.597692  2.285484  3.584541</span></span>
+<span><span class="co">#&gt; 18    R18  2.464270  2.142214  2.375730</span></span>
+<span><span class="co">#&gt; 19    R19  3.519828  2.043754  3.045977</span></span>
+<span><span class="co">#&gt; 20    R20  2.802508  2.937901  3.024198</span></span>
+<span><span class="co">#&gt; 21    R21  2.739275  2.523727  2.727625</span></span>
+<span><span class="co">#&gt; 22    R22  2.895071  2.384567  2.791045</span></span>
+<span><span class="co">#&gt; 23    R23  2.695533  2.274914  2.006186</span></span>
+<span><span class="co">#&gt; 24    R24  2.683857  1.880419  2.004484</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example-3---matching-a-dendrogram-with-vegetation-data">Example 3 - Matching a dendrogram with vegetation data<a class="anchor" aria-label="anchor" href="#example-3---matching-a-dendrogram-with-vegetation-data"></a>
 </h2>
-<p>The aim of this example is to generate a cluster analysis of vegetation data, with associated to the dendrogram the species of each survey ordered by their abundance. This approach would help where to cut the dendrogram.</p>
-<p>From the dataset shown in ‘Data input format’ vignette, the columns related to plant species names and all surveys are selected.</p>
+<p>The aim of this example is to generate a cluster analysis of
+vegetation data, with associated to the dendrogram the species of each
+survey ordered by their abundance. This approach would help where to cut
+the dendrogram.</p>
+<p>From the dataset shown in ‘Data input format’ vignette, the columns
+related to plant species names and all surveys are selected.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">vegetation</span><span class="op">&lt;-</span><span class="va">data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">7</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vegetation</span><span class="op">&lt;-</span><span class="va">data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">7</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -850,8 +873,8 @@ NA
 </table>
 <p>Then, we need to compute the Species Relative Abundance</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sra</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>,method <span class="op">=</span> <span class="st">"SRA_fo"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span></code></pre>
+<code class="sourceCode R"><span><span class="va">sra</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>,method <span class="op">=</span> <span class="st">"SRA_fo"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span></span></code></pre>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
@@ -1205,24 +1228,27 @@ Adealli
 </tr>
 </tbody>
 </table>
-<p>Now we can generate a dendrogram using the <strong>hclust</strong> function of the R ‘stats’ base package.</p>
+<p>Now we can generate a dendrogram using the <strong>hclust</strong>
+function of the R ‘stats’ base package.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">db.dendro</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span><span class="co">#for the cluster analysis the database has to be transposed so to have surveys on rows and species on columns</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">amap</span><span class="op">)</span><span class="co">#package for computing a distance matrix</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/amap/man/dist.html" class="external-link">Dist</a></span><span class="op">(</span><span class="va">db.dendro</span>, method <span class="op">=</span> <span class="st">"correlation"</span><span class="op">)</span><span class="co">#distance matrix</span>
-<span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">d</span>, method<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="co"># clustering method</span>
-
-<span class="co">#plotting the dendrogram</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">0.5</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="co">#set label size</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster</span>,cex<span class="op">=</span><span class="fl">0.8</span>,hang <span class="op">=</span><span class="op">-</span><span class="fl">1</span>,
-     main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"dMatrix: Correlation"</span>,<span class="st">"---"</span>,<span class="st">"clustMet: UPGMA"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">db.dendro</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span><span class="co">#for the cluster analysis the database has to be transposed so to have surveys on rows and species on columns</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">amap</span><span class="op">)</span><span class="co">#package for computing a distance matrix</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/amap/man/dist.html" class="external-link">Dist</a></span><span class="op">(</span><span class="va">db.dendro</span>, method <span class="op">=</span> <span class="st">"correlation"</span><span class="op">)</span><span class="co">#distance matrix</span></span>
+<span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">d</span>, method<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="co"># clustering method</span></span>
+<span></span>
+<span><span class="co">#plotting the dendrogram</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">0.5</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="co">#set label size</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster</span>,cex<span class="op">=</span><span class="fl">0.8</span>,hang <span class="op">=</span><span class="op">-</span><span class="fl">1</span>,</span>
+<span>     main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"dMatrix: Correlation"</span>,<span class="st">"---"</span>,<span class="st">"clustMet: UPGMA"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Examples_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<p>To extract the first ten species ordered decreasingly by their SRA for each survey, we can run the <strong>‘first_ten_species’</strong> function:</p>
+<p>To extract the first ten species ordered decreasingly by their SRA
+for each survey, we can run the <strong>‘first_ten_species’</strong>
+function:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">firstTenSpecies</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/first_ten_species.html">first_ten_species</a></span><span class="op">(</span>data_SRA_SC <span class="op">=</span> <span class="va">sra</span> ,<span class="co">#database with species abundance. In this example is the 'sra' database </span>
-                                   join.dendrogram <span class="op">=</span> <span class="cn">TRUE</span>,<span class="co">#LOGICAL. TRUE if species abundance need to be joined with a dendrogram</span>
-                                   cluster.hclust <span class="op">=</span> <span class="va">cluster</span><span class="op">)</span><span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">firstTenSpecies</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/first_ten_species.html">first_ten_species</a></span><span class="op">(</span>data_SRA_SC <span class="op">=</span> <span class="va">sra</span> ,<span class="co">#database with species abundance. In this example is the 'sra' database </span></span>
+<span>                                   join.dendrogram <span class="op">=</span> <span class="cn">TRUE</span>,<span class="co">#LOGICAL. TRUE if species abundance need to be joined with a dendrogram</span></span>
+<span>                                   cluster.hclust <span class="op">=</span> <span class="va">cluster</span><span class="op">)</span><span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
@@ -1790,16 +1816,21 @@ Bislaev 4.3
 <div class="figure">
 <img src="../../../Pacchetti%20R/iPastoralist/articles/fig2.jpg" style="width:100.0%" alt=""><p class="caption">Figure 2</p>
 </div>
-<p>From this view, it can be easier to identify survey groups based on their vegetation composition and abundance. Suppose here to identify 8 groups, that can be visually shown with the following base plotting functions:</p>
+<p>From this view, it can be easier to identify survey groups based on
+their vegetation composition and abundance. Suppose here to identify 8
+groups, that can be visually shown with the following base plotting
+functions:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster</span>,cex<span class="op">=</span><span class="fl">0.8</span>,hang <span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/rect.hclust.html" class="external-link">rect.hclust</a></span><span class="op">(</span><span class="va">cluster</span>,k<span class="op">=</span><span class="fl">8</span>,border<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster</span>,cex<span class="op">=</span><span class="fl">0.8</span>,hang <span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/rect.hclust.html" class="external-link">rect.hclust</a></span><span class="op">(</span><span class="va">cluster</span>,k<span class="op">=</span><span class="fl">8</span>,border<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Examples_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
-<p>Now, for each group it would be helful to compute the average composition. First of all we can extract the ID group for each survey with the <strong>‘clustOrder’</strong> function:</p>
+<p>Now, for each group it would be helful to compute the average
+composition. First of all we can extract the ID group for each survey
+with the <strong>‘clustOrder’</strong> function:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">group.id</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustOrder.html">clustOrder</a></span><span class="op">(</span>cluster.hclust <span class="op">=</span> <span class="va">cluster</span>,<span class="co"># object of containing the output from 'hclust' function of 'stats' package</span>
-                      cluster.group <span class="op">=</span> <span class="cn">T</span>, <span class="co">#Logical. TRUE if you want to specify the number of groups of the dendrogram. </span>
-                      cluster.number <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># Specify the number of groups. </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">group.id</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustOrder.html">clustOrder</a></span><span class="op">(</span>cluster.hclust <span class="op">=</span> <span class="va">cluster</span>,<span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></span>
+<span>                      cluster.group <span class="op">=</span> <span class="cn">T</span>, <span class="co">#Logical. TRUE if you want to specify the number of groups of the dendrogram. </span></span>
+<span>                      cluster.number <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># Specify the number of groups. </span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1925,11 +1956,14 @@ R18
 </tr>
 </tbody>
 </table>
-<p>The ‘cluster’ column is the one according to which the vegetation surveys will be pooled together. Therefore, we first need to add this column to the database with the abundances used as input of the dendrogram (i.e. ‘db.dendro’ dataset)</p>
+<p>The ‘cluster’ column is the one according to which the vegetation
+surveys will be pooled together. Therefore, we first need to add this
+column to the database with the abundances used as input of the
+dendrogram (i.e. ‘db.dendro’ dataset)</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dendro.merge</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">group.id</span>,<span class="va">db.dendro</span>,by.x <span class="op">=</span> <span class="st">"Survey"</span>,by.y <span class="op">=</span> <span class="st">"row.names"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">dendro.merge</span><span class="op">)</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="co">#renaming dataset rows</span>
-<span class="va">dendro.merge1</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="co">#deleting useless columns</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dendro.merge</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">group.id</span>,<span class="va">db.dendro</span>,by.x <span class="op">=</span> <span class="st">"Survey"</span>,by.y <span class="op">=</span> <span class="st">"row.names"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">dendro.merge</span><span class="op">)</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="co">#renaming dataset rows</span></span>
+<span><span class="va">dendro.merge1</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="co">#deleting useless columns</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
@@ -2483,9 +2517,10 @@ R18
 </tr>
 </tbody>
 </table>
-<p>Lastly, with the <strong>‘clustGroupAggregate’</strong> function, the average composition for each group can be computed:</p>
+<p>Lastly, with the <strong>‘clustGroupAggregate’</strong> function, the
+average composition for each group can be computed:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">aggregate</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustGroupAggregate.html">clustGroupAggregate</a></span><span class="op">(</span><span class="va">dendro.merge1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">aggregate</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustGroupAggregate.html">clustGroupAggregate</a></span><span class="op">(</span><span class="va">dendro.merge1</span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -2971,7 +3006,7 @@ Arnmont
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
