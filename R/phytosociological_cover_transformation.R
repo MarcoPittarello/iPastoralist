@@ -63,11 +63,11 @@ row.names(veg1)<-row.names(veg)
 
 if (method=="BrBl"){
   return(data.frame(apply(veg1,MARGIN = c(1,2),function(x) ifelse(x>=1 && x<=5,"1",
-                                                       ifelse(x>=6 && x<=15,"2a",
-                                                              ifelse(x>=16 && x<=25,"2b",
-                                                                     ifelse(x>=26 && x<=50,"3",
-                                                                            ifelse(x>=51 && x<=75,"4",
-                                                                                   ifelse(x>=76 && x<=100,"5",
+                                                       ifelse(x>5 && x<=15,"2a",
+                                                              ifelse(x>15 && x<=25,"2b",
+                                                                     ifelse(x>25 && x<=50,"3",
+                                                                            ifelse(x>50 && x<=75,"4",
+                                                                                   ifelse(x>75,"5",
                                                                                           ifelse(x==0,"0","+"))))))))))
   
   
@@ -75,20 +75,20 @@ if (method=="BrBl"){
 
 else if (method=="Maarel"){
   return(data.frame(apply(veg1,MARGIN = c(1,2),function(x) ifelse(x>=1 && x<=5,3,
-                                                       ifelse(x>=6 && x<=25,5,
-                                                              ifelse(x>=26 && x<=50,7,
-                                                                     ifelse(x>=51 && x<=75,8,
-                                                                            ifelse(x>=76 && x<=100,9,
+                                                       ifelse(x>5 && x<=25,5,
+                                                              ifelse(x>25 && x<=50,7,
+                                                                     ifelse(x>50 && x<=75,8,
+                                                                            ifelse(x>75,9,
                                                                                    ifelse(x==0,0,2)))))))))
 }
 
 else if (method=="TassTapp"){
   return(data.frame(apply(veg1,MARGIN = c(1,2),function(x) ifelse(x>=1 && x<=5,2.8,
-                                                       ifelse(x>=6 && x<=15,10,
-                                                              ifelse(x>=16 && x<=25,20.5,
-                                                                     ifelse(x>=26 && x<=50,38,
-                                                                            ifelse(x>=51 && x<=75,63,
-                                                                                   ifelse(x>=76 && x<=100,88,
+                                                       ifelse(x>5 && x<=15,10,
+                                                              ifelse(x>15 && x<=25,20.5,
+                                                                     ifelse(x>25 && x<=50,38,
+                                                                            ifelse(x>50 && x<=75,63,
+                                                                                   ifelse(x>75,88,
                                                                                           ifelse(x==0,0,0.3))))))))))
 }
   
