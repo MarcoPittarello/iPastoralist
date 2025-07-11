@@ -24,11 +24,15 @@
 #'   Note 1: the column of Group has to be in the first position\cr
 #'   
 #'   see also vignettes
+#'  @description
+#'  `r lifecycle::badge("deprecated")`
+#'  `This function was deprecated, please use clustGroupAggregate2() instead`
 #' @export
 
-
-
 clustGroupAggregate=function(database){
+  lifecycle::deprecate_warn("2.0.0", "clustGroupAggregate()", "clustGroupAggregate2()",
+                            details = "This function has been deprecated in favour of clustGroupAggregate2(),
+                            characterised by more exhaustive output")
   
   options(max.print=5000E5)
   
