@@ -15,6 +15,9 @@ PhytoCover(database, method)
 \item \strong{"TassTapp"}: transform cover visually estimated to dominance percentage according to Tasser and Tappeiner (2005) (see @details )
 }}
 }
+\value{
+database with cover-abundance values. Rows are species and columns are surveys
+}
 \description{
 Species cover visually estimated in a phytosociological survey are transformed to:\cr
 \itemize{

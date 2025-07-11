@@ -27,7 +27,7 @@
 #' |76-100| 5  | 9  | 88 |
 #' @md
 #' 
-#' #' @return database with cover-abundance values. Rows are species and columns are surveys
+#' @return database with cover-abundance values. Rows are species and columns are surveys
 #' @references * Braun-Blanquet J (1932) Plant sociology. The study of plant communi- ties. GD Fuller and HS Conard (Eds.). Authorized English translations of 'Pflanzensoziologie'. 1st ed. Printed in the United States of America. New York and London: McGraw-Hill Book Co. Inc.\cr
 #' * Van der Maarel, E. (1979). Transformation of cover-abundance values in phytosociology and its effects on community similarity. Vegetatio, 39(2), 97-114.\cr
 #' * Tasser E, Tappeiner U (2005) New model to predict rooting in diverse plant community compositions. Ecological Modelling 185:195-211.\cr

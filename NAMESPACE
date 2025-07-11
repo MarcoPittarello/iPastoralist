@@ -3,6 +3,7 @@
 export(PhytoCover)
 export(biodiversity)
 export(clustGroupAggregate)
+export(clustGroupAggregate2)
 export(clustOrder)
 export(denspe)
 export(ecological_indexes)

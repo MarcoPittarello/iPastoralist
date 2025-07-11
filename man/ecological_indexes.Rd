@@ -2,7 +2,7 @@
 % Please edit documentation in R/ecological_indexes.R
 \name{ecological_indexes}
 \alias{ecological_indexes}
-\title{Computation of Ecological indicators (Landolt, Ellenberg)}
+\title{Computation of Ecological indicators (Landolt, Ellenberg) from vertical point-quadrat method surveys}
 \usage{
 ecological_indexes(
   database.vegetation,
