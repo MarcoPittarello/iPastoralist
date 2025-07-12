@@ -47,7 +47,9 @@ vegetation.sc<-vegetation_abundance(database = vegetation,
                                     method = "SRA_SC.fo.occ")
 ```
 
-    head(vegetation.sc)
+```         
+head(vegetation.sc)
+```
 
 ```{r echo=FALSE}
 kable(head(vegetation.sc[,1:15]),align = 'c')%>%
@@ -113,7 +115,9 @@ Then, we need to compute the Species Relative Abundance
 sra<-vegetation_abundance(database = vegetation,method = "SRA_fo")
 ```
 
-    head(sra)
+```         
+head(sra)
+```
 
 ```{r echo=FALSE}
 kable(head(sra[,1:15]),align = 'c')%>%
@@ -211,13 +215,18 @@ kable(head(dendro.merge1[,1:15],10),align='c')%>%
   kable_styling(font_size = 12)
 ```
 
-Lastly, with the **'clustGroupAggregate'** function, the average composition for each group can be computed:
+Lastly, with the **'clustGroupAggregate2'** function (clustGroupAggregate() will be deprecated!!!), the average composition for each group can be computed:
 
 ```{r}
-aggregate<-clustGroupAggregate(dendro.merge1)
+aggregate<-clustGroupAggregate2(dendro.merge1)
+```
+
+Let's extract the table format of aggregate
+```         
+aggregate$table
 ```
 
 ```{r echo=FALSE}
-kable(head(aggregate[,1:15],10),align='c')%>%
-  kable_styling(font_size = 12)
+# kable(head(aggregate$table[,1:14],10),align='c')%>%
+#   kable_styling(font_size = 12)
 ```
