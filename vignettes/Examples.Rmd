@@ -28,6 +28,7 @@ library(kableExtra)
 library(dendextend)
 library(iPastoralist)
 library(amap)
+library(tidyverse)
 
 load(file = "data.RData")
 data<-as.data.frame(data)
@@ -227,6 +228,6 @@ aggregate$table
 ```
 
 ```{r echo=FALSE}
-# kable(head(aggregate$table[,1:14],10),align='c')%>%
-#   kable_styling(font_size = 12)
+ kable(head(aggregate$table[,1:14],10),align='c')%>%
+   kable_styling(font_size = 12)
 ```
