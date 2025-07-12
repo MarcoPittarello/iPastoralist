@@ -37,7 +37,5 @@ within each group, species (or target variables) are sorted decreasingly by thei
   Note 1: the column of Group has to be in the first position\cr
   
   see also vignettes
- @description
- `r lifecycle::badge("deprecated")`
- `This function was deprecated, please use clustGroupAggregate2() instead`
+ @deprecated Use `clustGroupAggregate2()` instead.
 }
