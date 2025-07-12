@@ -7,7 +7,7 @@
 clustGroupAggregate(database)
 }
 \arguments{
-\item{database}{a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups see @example for a graphical detail}
+\item{database}{a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups. The group identifier must be numeric. see @example for a graphical detail}
 }
 \value{
 dataframe with the average value of abundance for each species (or target variable) within each group sorted decreasingly by the abundance

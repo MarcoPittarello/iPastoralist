@@ -2,7 +2,7 @@
 #'
 #' @description Once the groups of a cluster have been identified, the average value for each species (or target variable) are computed for each group. Moreover,
 #' within each group, species (or target variables) are sorted decreasingly by their cover (or value).
-#' @param database a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups see @example for a graphical detail
+#' @param database a dataframe in which Rows are surveys and Columns are Species. The first column is the identifier of dendrogram groups. The group identifier must be numeric. see @example for a graphical detail
 #' @return dataframe with the average value of abundance for each species (or target variable) within each group sorted decreasingly by the abundance
 #' @examples  Structure of the database to use as input:
 #'
@@ -30,10 +30,10 @@
 #' @export
 
 clustGroupAggregate=function(database){
+  
   lifecycle::deprecate_warn("2.0.0", "clustGroupAggregate()", "clustGroupAggregate2()",
                             details = "This function has been deprecated in favour of clustGroupAggregate2(),
-                            characterised by more exhaustive output")
-  
+                            which has more exhaustive output")
   options(max.print=5000E5)
   
   database<-database
@@ -43,7 +43,12 @@ clustGroupAggregate=function(database){
   colnames(database)[1] <- "Group"
   colnames(database_heading)[1] <- "Group"
   
+  if (anyNA(as.numeric(database$Group))) {
+    stop("Error: The field 'Group' must only contain numeric IDs")
+  }
+  
   database_group_numeric<-transform(database,Group=as.numeric(database$Group))
+  
   id_ok<-data.frame(database[,c("Group")])
   id_cod<-data.frame(database_group_numeric[,c("Group")])
   database_id<-cbind(id_ok,id_cod) 
@@ -96,5 +101,8 @@ clustGroupAggregate=function(database){
   df_final[is.na(df_final)] <- "" 
   aggregation_cluster.table<-df_final
   return(aggregation_cluster.table)
+  
+
+  
 }
 
