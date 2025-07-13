@@ -13,6 +13,7 @@ Useful links:
 \itemize{
   \item \url{https://marcopittarello.github.io/iPastoralist}
   \item \url{https://github.com/MarcoPittarello/iPastoralist.git}
+  \item \url{https://marcopittarello.github.io/iPastoralist/}
 }
 
 }
