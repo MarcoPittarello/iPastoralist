@@ -85,9 +85,11 @@ Therefore, to obtain $SC FO should be multiplied by <strong>4</strong>
 (so that they refer to 100 measurements.)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist" class="external-link">iPastoralist</a></span><span class="op">)</span></span>
-<span><span class="va">vegetation.sc</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>,</span>
-<span>                                    species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>                                    method <span class="op">=</span> <span class="st">"SRA_SC.fo.occ"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">vegetation.sc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span></span>
+<span>  database <span class="op">=</span> <span class="va">vegetation</span>,</span>
+<span>  species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"SRA_SC.fo.occ"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vegetation.sc</span><span class="op">)</span></span></code></pre>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
@@ -463,11 +465,13 @@ detail in “vegetation_abundance” function).</p>
 <p>The input database is the one with the Frequency of occurrences,
 i.e. the dataframe used in this tutorial named “vegetation”.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ec.index</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/ecological_indexes.html">ecological_indexes</a></span><span class="op">(</span>database.vegetation <span class="op">=</span> <span class="va">vegetation</span>,</span>
-<span>                             database.indexes <span class="op">=</span> <span class="va">data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F_Landolt"</span>,<span class="st">"R_Landolt"</span>,<span class="st">"N_Landolt"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>                             occasional.species <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                             species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>                             weight <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ec.index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ecological_indexes.html">ecological_indexes</a></span><span class="op">(</span></span>
+<span>  database.vegetation <span class="op">=</span> <span class="va">vegetation</span>,</span>
+<span>  database.indexes <span class="op">=</span> <span class="va">data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F_Landolt"</span>, <span class="st">"R_Landolt"</span>, <span class="st">"N_Landolt"</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>  occasional.species <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  species.cover.coefficient <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  weight <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "INDEX WEIGHTED WITH OCCASIONAL SPECIES"</span></span></code></pre></div>
 <p>Notes about the “ecological_indexes” function:</p>
 <ul>
@@ -525,7 +529,7 @@ the dendrogram.</p>
 <p>From the dataset shown in ‘Data input format’ vignette, the columns
 related to plant species names and all surveys are selected.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vegetation</span><span class="op">&lt;-</span><span class="va">data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">7</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">vegetation</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -861,7 +865,7 @@ NA
 </table>
 <p>Then, we need to compute the Species Relative Abundance</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sra</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>,method <span class="op">=</span> <span class="st">"SRA_fo"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">vegetation</span>, method <span class="op">=</span> <span class="st">"SRA_fo"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span></span></code></pre>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
@@ -1219,24 +1223,30 @@ Adealli
 <p>Now we can generate a dendrogram using the <strong>hclust</strong>
 function of the R ‘stats’ base package.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">db.dendro</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span><span class="co">#for the cluster analysis the database has to be transposed so to have surveys on rows and species on columns</span></span>
+<code class="sourceCode R"><span><span class="va">db.dendro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span> <span class="co">#for the cluster analysis the database has to be transposed so to have surveys on rows and species on columns</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">amap</span><span class="op">)</span><span class="co">#package for computing a distance matrix</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/amap/man/dist.html" class="external-link">Dist</a></span><span class="op">(</span><span class="va">db.dendro</span>, method <span class="op">=</span> <span class="st">"correlation"</span><span class="op">)</span><span class="co">#distance matrix</span></span>
-<span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">d</span>, method<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> <span class="co"># clustering method</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vegandevs.github.io/vegan/" class="external-link">vegan</a></span><span class="op">)</span> <span class="co">#package for computing a distance matrix</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></span><span class="op">(</span><span class="va">db.dendro</span>, method <span class="op">=</span> <span class="st">"chord"</span><span class="op">)</span> <span class="co">#distance matrix</span></span>
+<span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">d</span>, method <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span> <span class="co"># clustering method</span></span>
 <span></span>
 <span><span class="co">#plotting the dendrogram</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">0.5</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="co">#set label size</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster</span>,cex<span class="op">=</span><span class="fl">0.8</span>,hang <span class="op">=</span><span class="op">-</span><span class="fl">1</span>,</span>
-<span>     main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"dMatrix: Correlation"</span>,<span class="st">"---"</span>,<span class="st">"clustMet: UPGMA"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">0.5</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co">#set label size</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">cluster</span>,</span>
+<span>  cex <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  hang <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>  main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"dMatrix: Chord"</span>, <span class="st">"---"</span>, <span class="st">"clustMet: UPGMA"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="Examples_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="672"></p>
 <p>To extract the first ten species ordered decreasingly by their SRA
 for each survey, we can run the <strong>‘first_ten_species’</strong>
 function:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">firstTenSpecies</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/first_ten_species.html">first_ten_species</a></span><span class="op">(</span>data_SRA_SC <span class="op">=</span> <span class="va">sra</span> ,<span class="co">#database with species abundance. In this example is the 'sra' database </span></span>
-<span>                                   join.dendrogram <span class="op">=</span> <span class="cn">TRUE</span>,<span class="co">#LOGICAL. TRUE if species abundance need to be joined with a dendrogram</span></span>
-<span>                                   cluster.hclust <span class="op">=</span> <span class="va">cluster</span><span class="op">)</span><span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">firstTenSpecies</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/first_ten_species.html">first_ten_species</a></span><span class="op">(</span></span>
+<span>  data_SRA_SC <span class="op">=</span> <span class="va">sra</span>, <span class="co">#database with species abundance. In this example is the 'sra' database</span></span>
+<span>  join.dendrogram <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#LOGICAL. TRUE if species abundance need to be joined with a dendrogram</span></span>
+<span>  cluster.hclust <span class="op">=</span> <span class="va">cluster</span></span>
+<span><span class="op">)</span> <span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
@@ -1590,72 +1600,72 @@ Caramar 3
 </tr>
 <tr>
 <td style="text-align:left;">
-3
+18
 </td>
 <td style="text-align:center;">
-R11
+R3
 </td>
 <td style="text-align:center;">
 10
 </td>
 <td style="text-align:center;">
-Fesmela 20.3
+Rumalpe 27.1
 </td>
 <td style="text-align:center;">
-Thaminu 12.7
+Triflav 22
 </td>
 <td style="text-align:center;">
-Rubidae 8.9
+Peuostr 20.3
 </td>
 <td style="text-align:center;">
-Chahirs 6.3
+Phlrhae 13.6
 </td>
 <td style="text-align:center;">
-Rhoferr 6.3
+Alcvulg 6.8
 </td>
 <td style="text-align:center;">
-Vacmyrt 6.3
+Poaalpi 3.4
 </td>
 <td style="text-align:center;">
-Agrcapi 5.1
+Agrcapi 1.7
 </td>
 <td style="text-align:center;">
-Fesovin 3.8
+Ranmont 1.7
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-13
+23
 </td>
 <td style="text-align:center;">
-R20
+R8
 </td>
 <td style="text-align:center;">
 11
 </td>
 <td style="text-align:center;">
-Rubidae 20.5
+Rumalpi 36.7
 </td>
 <td style="text-align:center;">
-Agrcapi 18.1
+Triflav 11.7
 </td>
 <td style="text-align:center;">
-Poanemo 15.7
+Chahirs 10
 </td>
 <td style="text-align:center;">
-Myoalpe 12
+Alcvulg 8.3
 </td>
 <td style="text-align:center;">
-Silvulg 6
+Phlrhae 8.3
 </td>
 <td style="text-align:center;">
-Rhoferr 3.6
+Poaalpi 6.7
 </td>
 <td style="text-align:center;">
-Rumalpe 3.6
+Rumalpe 6.7
 </td>
 <td style="text-align:center;">
-Triflav 3.6
+Myoalpe 5
 </td>
 </tr>
 <tr>
@@ -1805,42 +1815,52 @@ all it is needed to create a database for running the cluster analysis
 with (e.g. four) species ordered by abundance as row labels, with the
 use of <code>dendspe</code> function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">db.dendroLab</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/denspe.html">denspe</a></span><span class="op">(</span>nspe<span class="op">=</span><span class="fl">4</span>,</span>
-<span>                     SpeAbund <span class="op">=</span> <span class="va">firstTenSpecies</span>,</span>
-<span>                     dbClust <span class="op">=</span> <span class="va">db.dendro</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">db.dendroLab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denspe.html">denspe</a></span><span class="op">(</span></span>
+<span>  nspe <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  SpeAbund <span class="op">=</span> <span class="va">firstTenSpecies</span>,</span>
+<span>  dbClust <span class="op">=</span> <span class="va">db.dendro</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Then, the cluster analysis can be run again by using the new database
 and then plot the dendrogram:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d.lab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/amap/man/dist.html" class="external-link">Dist</a></span><span class="op">(</span><span class="va">db.dendroLab</span>,<span class="co">#database name</span></span>
-<span>           method<span class="op">=</span> <span class="st">"correlation"</span><span class="op">)</span> </span>
-<span><span class="va">cluster.lab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="va">d.lab</span>,<span class="co">#distance matrix</span></span>
-<span>                   method<span class="op">=</span><span class="st">"average"</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">d.lab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></span><span class="op">(</span></span>
+<span>  <span class="va">db.dendroLab</span>, <span class="co">#database name</span></span>
+<span>  method <span class="op">=</span> <span class="st">"chord"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">cluster.lab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span></span>
+<span>  <span class="va">d.lab</span>, <span class="co">#distance matrix</span></span>
+<span>  method <span class="op">=</span> <span class="st">"average"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">cluster.plot</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">cluster.lab</span><span class="op">)</span><span class="co">#coversion of cluster to class 'dendrogram' of 'dendexted' package (which allows a better customisation of the plot)</span></span>
+<span><span class="va">cluster.plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">cluster.lab</span><span class="op">)</span> <span class="co">#coversion of cluster to class 'dendrogram' of 'dendexted' package (which allows a better customisation of the plot)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">18</span><span class="op">)</span><span class="op">)</span><span class="co">#graphical settings</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cluster.plot</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.6</span><span class="op">)</span>,horiz<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">18</span><span class="op">)</span><span class="op">)</span> <span class="co">#graphical settings</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">cluster.plot</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">set</span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.6</span><span class="op">)</span>,</span>
+<span>  horiz <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="Examples_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="672"></p>
 <p>From this view, it can be easier to identify survey groups based on
 their vegetation composition and abundance. Suppose here to identify 8
 groups, that can be visually shown with the following base plotting
 functions:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">18</span><span class="op">)</span><span class="op">)</span><span class="co">#graphical settings</span></span>
-<span><span class="va">cluster.plot</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.6</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"branches_k_color"</span>, </span>
-<span>      k <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Dendrogram"</span>,horiz<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">18</span><span class="op">)</span><span class="op">)</span> <span class="co">#graphical settings</span></span>
+<span><span class="va">cluster.plot</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.6</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">set</span><span class="op">(</span><span class="st">"branches_k_color"</span>, k <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Dendrogram"</span>, horiz <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Examples_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="672"></p>
 <p>Now, for each group it would be helpful to compute the average
 composition. First of all we can extract the ID group for each survey
 with the <strong>‘clustOrder’</strong> function:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">group.id</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustOrder.html">clustOrder</a></span><span class="op">(</span>cluster.hclust <span class="op">=</span> <span class="va">cluster</span>,<span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></span>
-<span>                      cluster.group <span class="op">=</span> <span class="cn">T</span>, <span class="co">#Logical. TRUE if you want to specify the number of groups of the dendrogram. </span></span>
-<span>                      cluster.number <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># Specify the number of groups. </span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">group.id</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clustOrder.html">clustOrder</a></span><span class="op">(</span></span>
+<span>  cluster.hclust <span class="op">=</span> <span class="va">cluster</span>, <span class="co"># object of containing the output from 'hclust' function of 'stats' package</span></span>
+<span>  cluster.group <span class="op">=</span> <span class="cn">T</span>, <span class="co">#Logical. TRUE if you want to specify the number of groups of the dendrogram.</span></span>
+<span>  cluster.number <span class="op">=</span> <span class="fl">8</span></span>
+<span><span class="op">)</span> <span class="co"># Specify the number of groups.</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1881,10 +1901,10 @@ R10
 R11
 </td>
 <td style="text-align:center;">
-4
+5
 </td>
 <td style="text-align:center;">
-10
+23
 </td>
 </tr>
 <tr>
@@ -1903,7 +1923,7 @@ R12
 R13
 </td>
 <td style="text-align:center;">
-5
+6
 </td>
 <td style="text-align:center;">
 3
@@ -1914,7 +1934,7 @@ R13
 R14
 </td>
 <td style="text-align:center;">
-6
+7
 </td>
 <td style="text-align:center;">
 5
@@ -1936,7 +1956,7 @@ R15
 R16
 </td>
 <td style="text-align:center;">
-5
+6
 </td>
 <td style="text-align:center;">
 4
@@ -1947,7 +1967,7 @@ R16
 R17
 </td>
 <td style="text-align:center;">
-7
+8
 </td>
 <td style="text-align:center;">
 6
@@ -1971,9 +1991,9 @@ surveys will be pooled together. Therefore, we first need to add this
 column to the database with the abundances used as input of the
 dendrogram (i.e. ‘db.dendro’ dataset)</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dendro.merge</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">group.id</span>,<span class="va">db.dendro</span>,by.x <span class="op">=</span> <span class="st">"Survey"</span>,by.y <span class="op">=</span> <span class="st">"row.names"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">dendro.merge</span><span class="op">)</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="co">#renaming dataset rows</span></span>
-<span><span class="va">dendro.merge1</span><span class="op">&lt;-</span><span class="va">dendro.merge</span><span class="op">[</span>,<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="co">#deleting useless columns</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dendro.merge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">group.id</span>, <span class="va">db.dendro</span>, by.x <span class="op">=</span> <span class="st">"Survey"</span>, by.y <span class="op">=</span> <span class="st">"row.names"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">dendro.merge</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">dendro.merge</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="co">#renaming dataset rows</span></span>
+<span><span class="va">dendro.merge1</span> <span class="op">&lt;-</span> <span class="va">dendro.merge</span><span class="op">[</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span> <span class="co">#deleting useless columns</span></span></code></pre></div>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
@@ -2130,7 +2150,7 @@ R10
 R11
 </td>
 <td style="text-align:center;">
-4
+5
 </td>
 <td style="text-align:center;">
 0.000000
@@ -2230,7 +2250,7 @@ R12
 R13
 </td>
 <td style="text-align:center;">
-5
+6
 </td>
 <td style="text-align:center;">
 0.000000
@@ -2280,7 +2300,7 @@ R13
 R14
 </td>
 <td style="text-align:center;">
-6
+7
 </td>
 <td style="text-align:center;">
 2.702703
@@ -2380,7 +2400,7 @@ R15
 R16
 </td>
 <td style="text-align:center;">
-5
+6
 </td>
 <td style="text-align:center;">
 0.000000
@@ -2430,7 +2450,7 @@ R16
 R17
 </td>
 <td style="text-align:center;">
-7
+8
 </td>
 <td style="text-align:center;">
 0.000000
@@ -2531,7 +2551,7 @@ R18
 (clustGroupAggregate() will be deprecated!!!), the average composition
 for each group can be computed:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">aggregate</span><span class="op">&lt;-</span><span class="fu"><a href="../reference/clustGroupAggregate2.html">clustGroupAggregate2</a></span><span class="op">(</span><span class="va">dendro.merge1</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">aggregate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clustGroupAggregate2.html">clustGroupAggregate2</a></span><span class="op">(</span><span class="va">dendro.merge1</span><span class="op">)</span></span></code></pre></div>
 <p>Let’s extract the table format of aggregate</p>
 <pre><code><span><span class="va">aggregate</span><span class="op">$</span><span class="va">table</span></span></code></pre>
 <table class="table table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
@@ -2594,16 +2614,22 @@ Descesp
 42.719735
 </td>
 <td style="text-align:center;">
+Rumalpe
+</td>
+<td style="text-align:center;">
+27.118644
+</td>
+<td style="text-align:center;">
 Rumalpi
 </td>
 <td style="text-align:center;">
-18.333333
+36.666667
 </td>
 <td style="text-align:center;">
-Fesmela
+Rubidae
 </td>
 <td style="text-align:center;">
-20.253165
+14.671344
 </td>
 <td style="text-align:center;">
 Rhoferr
@@ -2616,12 +2642,6 @@ Adealli
 </td>
 <td style="text-align:center;">
 21.621622
-</td>
-<td style="text-align:center;">
-Alnviri
-</td>
-<td style="text-align:center;">
-47.087133
 </td>
 </tr>
 <tr>
@@ -2638,16 +2658,22 @@ Carclav
 11.111111
 </td>
 <td style="text-align:center;">
-Rumalpe
+Triflav
 </td>
 <td style="text-align:center;">
-16.892655
+22.033898
 </td>
 <td style="text-align:center;">
-Thaminu
+Triflav
 </td>
 <td style="text-align:center;">
-12.658228
+11.666667
+</td>
+<td style="text-align:center;">
+Agrcapi
+</td>
+<td style="text-align:center;">
+11.567790
 </td>
 <td style="text-align:center;">
 Calvill
@@ -2660,12 +2686,6 @@ Rubidae
 </td>
 <td style="text-align:center;">
 16.216216
-</td>
-<td style="text-align:center;">
-Agrcapi
-</td>
-<td style="text-align:center;">
-11.018237
 </td>
 </tr>
 <tr>
@@ -2682,16 +2702,22 @@ Phlrhae
 9.320066
 </td>
 <td style="text-align:center;">
-Triflav
+Peuostr
 </td>
 <td style="text-align:center;">
-16.850282
+20.338983
 </td>
 <td style="text-align:center;">
-Rubidae
+Chahirs
 </td>
 <td style="text-align:center;">
-8.860760
+10.000000
+</td>
+<td style="text-align:center;">
+Fesmela
+</td>
+<td style="text-align:center;">
+10.126582
 </td>
 <td style="text-align:center;">
 Vacmyrt
@@ -2704,12 +2730,6 @@ Urtdioi
 </td>
 <td style="text-align:center;">
 16.216216
-</td>
-<td style="text-align:center;">
-Calvill
-</td>
-<td style="text-align:center;">
-5.952381
 </td>
 </tr>
 <tr>
@@ -2729,13 +2749,19 @@ Fesnigr
 Phlrhae
 </td>
 <td style="text-align:center;">
-10.946328
+13.559322
 </td>
 <td style="text-align:center;">
-Chahirs
+Alcvulg
 </td>
 <td style="text-align:center;">
-6.329114
+8.333333
+</td>
+<td style="text-align:center;">
+Poanemo
+</td>
+<td style="text-align:center;">
+8.464237
 </td>
 <td style="text-align:center;">
 Junnana
@@ -2748,12 +2774,6 @@ Rumalpe
 </td>
 <td style="text-align:center;">
 13.513514
-</td>
-<td style="text-align:center;">
-Viobifl
-</td>
-<td style="text-align:center;">
-5.319149
 </td>
 </tr>
 <tr>
@@ -2770,13 +2790,19 @@ Poaalpi
 5.936982
 </td>
 <td style="text-align:center;">
-Peuostr
+Alcvulg
 </td>
 <td style="text-align:center;">
-10.169491
+6.779661
 </td>
 <td style="text-align:center;">
-Rhoferr
+Phlrhae
+</td>
+<td style="text-align:center;">
+8.333333
+</td>
+<td style="text-align:center;">
+Thaminu
 </td>
 <td style="text-align:center;">
 6.329114
@@ -2793,12 +2819,6 @@ Alnviri
 <td style="text-align:center;">
 8.108108
 </td>
-<td style="text-align:center;">
-Rhoferr
-</td>
-<td style="text-align:center;">
-4.761905
-</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -2814,16 +2834,22 @@ Alcvulg
 4.477612
 </td>
 <td style="text-align:center;">
-Alcvulg
+Poaalpi
 </td>
 <td style="text-align:center;">
-7.556497
+3.389830
 </td>
 <td style="text-align:center;">
-Vacmyrt
+Poaalpi
 </td>
 <td style="text-align:center;">
-6.329114
+6.666667
+</td>
+<td style="text-align:center;">
+Myoalpe
+</td>
+<td style="text-align:center;">
+6.024096
 </td>
 <td style="text-align:center;">
 Alnviri
@@ -2836,12 +2862,6 @@ Galtetr
 </td>
 <td style="text-align:center;">
 8.108108
-</td>
-<td style="text-align:center;">
-Vacmyrt
-</td>
-<td style="text-align:center;">
-4.635258
 </td>
 </tr>
 <tr>
@@ -2858,16 +2878,22 @@ Peuostr
 4.096186
 </td>
 <td style="text-align:center;">
-Poaalpi
-</td>
-<td style="text-align:center;">
-5.028249
-</td>
-<td style="text-align:center;">
 Agrcapi
 </td>
 <td style="text-align:center;">
-5.063291
+1.694915
+</td>
+<td style="text-align:center;">
+Rumalpe
+</td>
+<td style="text-align:center;">
+6.666667
+</td>
+<td style="text-align:center;">
+Rhoferr
+</td>
+<td style="text-align:center;">
+4.971786
 </td>
 <td style="text-align:center;">
 Fesscab
@@ -2880,12 +2906,6 @@ Viobifl
 </td>
 <td style="text-align:center;">
 5.405405
-</td>
-<td style="text-align:center;">
-Adealli
-</td>
-<td style="text-align:center;">
-3.191489
 </td>
 </tr>
 <tr>
@@ -2902,16 +2922,22 @@ Verlobe
 3.731343
 </td>
 <td style="text-align:center;">
-Chahirs
+Ranmont
+</td>
+<td style="text-align:center;">
+1.694915
+</td>
+<td style="text-align:center;">
+Myoalpe
 </td>
 <td style="text-align:center;">
 5.000000
 </td>
 <td style="text-align:center;">
-Fesovin
+Chahirs
 </td>
 <td style="text-align:center;">
-3.797468
+3.766967
 </td>
 <td style="text-align:center;">
 Aveflex
@@ -2924,12 +2950,6 @@ Achmacr
 </td>
 <td style="text-align:center;">
 2.702703
-</td>
-<td style="text-align:center;">
-Luzalpi
-</td>
-<td style="text-align:center;">
-2.254306
 </td>
 </tr>
 <tr>
@@ -2946,16 +2966,22 @@ Rumalpe
 2.238806
 </td>
 <td style="text-align:center;">
-Myoalpe
+Silvulg
 </td>
 <td style="text-align:center;">
-2.500000
+1.694915
 </td>
 <td style="text-align:center;">
-Acialpi
+Agrcapi
 </td>
 <td style="text-align:center;">
-2.531646
+1.666667
+</td>
+<td style="text-align:center;">
+Silvulg
+</td>
+<td style="text-align:center;">
+3.644960
 </td>
 <td style="text-align:center;">
 Gymdryo
@@ -2968,12 +2994,6 @@ Acolama
 </td>
 <td style="text-align:center;">
 2.702703
-</td>
-<td style="text-align:center;">
-Alcvulg
-</td>
-<td style="text-align:center;">
-2.127660
 </td>
 </tr>
 <tr>
@@ -2990,16 +3010,22 @@ Caramar
 1.492537
 </td>
 <td style="text-align:center;">
-Agrcapi
+Triprat
 </td>
 <td style="text-align:center;">
-1.680791
+1.694915
 </td>
 <td style="text-align:center;">
-Antalpi
+Fesnigr
 </td>
 <td style="text-align:center;">
-2.531646
+1.666667
+</td>
+<td style="text-align:center;">
+Vacmyrt
+</td>
+<td style="text-align:center;">
+3.164557
 </td>
 <td style="text-align:center;">
 Arnmont
@@ -3012,12 +3038,6 @@ Fesnigr
 </td>
 <td style="text-align:center;">
 2.702703
-</td>
-<td style="text-align:center;">
-Peuostr
-</td>
-<td style="text-align:center;">
-2.127660
 </td>
 </tr>
 </tbody>
