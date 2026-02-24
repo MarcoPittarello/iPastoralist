@@ -1,0 +1,83 @@
+# Transform Frequency of occurrence (FO) to Species relative abundance (SRA) or Species percentage cover(%SC)
+
+From a database with Frequency of occurrences of species identified
+along a linear transect and occasional species (i.e. species found
+within vegetation plots but not along the linear transects), Species
+relative abundance (SRA) and percentage species cover(%SC) are computed,
+either considering or not considering occasional species.  
+
+Terminology:
+
+- Frequency of occurrence **(FO)** : number of species occurrences out
+  of 'N' points of vegetation measurements along a transect line
+
+- Species relative abundance **(SRA)** : ratio between frequency of
+  occurrence and the sum of frequency of occurrences values for all
+  species in the transect, then multiplied by 100
+
+- Species percentage cover **(%SC)**: conversion of frequency of
+  occurrence to 100 measurements (e.g. if a species had a FO= 20
+  measurements out of 50 total measurements along the transect line, the
+  FO will be multiplied by 2). To all occasional species (i.e. species
+  found within vegetation plots but not along the linear transects) a
+  %SC value = 0.3% is attributed.  
+
+see
+[MarcoPittarello/iPastoralist](https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png)
+for a full graphical explanation
+
+## Usage
+
+``` r
+vegetation_abundance(database, method, species.cover.coefficient)
+```
+
+## Arguments
+
+- database:
+
+  database with FO and occasional species as 999. Rows are species and
+  columns are surveys. The first column of the database reports the
+  species names. Database class must be *data.frame*
+
+- method:
+
+  - **"SRA_fo"**: SRA calculated from FO without occasional species.see
+    [MarcoPittarello/iPastoralist](https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png)
+    for a full graphical explanation
+
+  - **"SC_fo"**: %SC calculated by multiplying FO for a coefficient so
+    that the number of total measurements along the transect line refer
+    to 100 (occasional species are excluded). see
+    [MarcoPittarello/iPastoralist](https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png)
+    for a full graphical explanation
+
+  - **"SC_fo_occ"**: like SC_fo but with in addition the occasional
+    species, considered as 0.3%. The total %SC per each surveys will be
+    \> 100 %. see
+    [MarcoPittarello/iPastoralist](https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png)
+    for a full graphical explanation
+
+  - **"SRA_SC.fo.occ"**: SRA calculated from SC_fo_occ, i.e. rescale
+    SC_fo_occ so that the total sum per each survey sum up to 100 %. see
+    [MarcoPittarello/iPastoralist](https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png)
+    for a full graphical explanation
+
+- species.cover.coefficient:
+
+  Coeffient that multiplies FO so that the number of total touches refer
+  to 100. Only required when method = "SC_fo_occ","SC_fo",
+  "SRA_SC.fo.occ"
+
+## Value
+
+database with abundance data: rows are species and columns are surveys
+
+## References
+
+Pittarello, M., Probo, M., Lonati, M., Lombardi, G., 2016. Restoration
+of sub-alpine shrub-encroached grasslands through pastoral practices:
+effects on vegetation structure and botanical composition. Appl. Veg.
+Sci. 19, 381–390. https://doi.org/10.1111/avsc.12222
+
+## Examples
