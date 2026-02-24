@@ -79,13 +79,14 @@ plotClustAggregate = function(
   file.height = 2500,
   file.width = 1200,
   file.res = 200,
+  labels.cex = 0.5,
   aggregate = TRUE,
   aggr.Nspe = 5,
   n.clust = NULL
 ) {
-  if (is.null(firt10) | is.null(dbClust) | is.null(n.clust)) {
+  if (is.null(firt10) | is.null(dbClust)) {
     stop(
-      "Please provide the database of the first ten species, the database used for cluster analysis, and the number of clusters for aggregation."
+      "Please provide the database of the first ten species and the database used for cluster analysis."
     )
   }
 
@@ -109,7 +110,7 @@ plotClustAggregate = function(
     par(mfrow = c(1, 1), mar = clust.mar) #graphical settings
     plot(
       clst.dxt %>%
-        set("labels_cex", 0.5),
+        set("labels_cex", labels.cex),
       horiz = T
     )
 
@@ -123,11 +124,17 @@ plotClustAggregate = function(
     par(mfrow = c(1, 1), mar = clust.mar) #graphical settings
     plot(
       clst.dxt %>%
-        set("labels_cex", 0.5),
+        set("labels_cex", labels.cex),
       horiz = T
     )
     dev.off()
   } else if (aggregate == TRUE) {
+    if (is.null(n.clust)) {
+      stop(
+        "Please provide the number of clusters for aggregation."
+      )
+    }
+
     groups <- iPastoralist::clustOrder(
       cluster.hclust = clst,
       cluster.group = T,
@@ -172,7 +179,7 @@ plotClustAggregate = function(
     par(mfrow = c(1, 1), mar = clust.mar)
     plot(
       clst.dxt.aggr %>%
-        set("labels_cex", 0.5),
+        set("labels_cex", labels.cex),
       horiz = T
     )
     rect.dendrogram(
@@ -194,7 +201,7 @@ plotClustAggregate = function(
     par(mfrow = c(1, 1), mar = clust.mar)
     plot(
       clst.dxt.aggr %>%
-        set("labels_cex", 0.5),
+        set("labels_cex", labels.cex),
       horiz = T
     )
     rect.dendrogram(

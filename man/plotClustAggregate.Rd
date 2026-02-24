@@ -15,6 +15,7 @@ plotClustAggregate(
   file.height = 2500,
   file.width = 1200,
   file.res = 200,
+  labels.cex = 0.5,
   aggregate = TRUE,
   aggr.Nspe = 5,
   n.clust = NULL
