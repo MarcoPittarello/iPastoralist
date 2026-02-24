@@ -27,12 +27,12 @@ library(knitr)
 library(kableExtra)
 library(dendextend)
 library(iPastoralist)
-library(amap)
+library(vegan)
 library(tidyverse)
 
 load(file = "data.RData")
-data<-as.data.frame(data)
-vegetation<-data[,c(2,7:30)]
+data <- as.data.frame(data)
+vegetation <- data[, c(2, 7:30)]
 
 
 ```
@@ -43,9 +43,11 @@ Suppose we want to convert Frequency of occurrence (FO) to Species percentage co
 
 ```{r}
 library(iPastoralist)
-vegetation.sc<-vegetation_abundance(database = vegetation,
-                                    species.cover.coefficient = 4,
-                                    method = "SRA_SC.fo.occ")
+vegetation.sc <- vegetation_abundance(
+  database = vegetation,
+  species.cover.coefficient = 4,
+  method = "SRA_SC.fo.occ"
+)
 ```
 
 ```         
@@ -53,7 +55,7 @@ head(vegetation.sc)
 ```
 
 ```{r echo=FALSE}
-kable(head(vegetation.sc[,1:15]),align = 'c')%>%
+kable(head(vegetation.sc[, 1:15]), align = 'c') %>%
   kable_styling(font_size = 12)
 ```
 
@@ -74,11 +76,13 @@ In this case we will consider also occasional species.
 The input database is the one with the Frequency of occurrences, i.e. the dataframe used in this tutorial named "vegetation".
 
 ```{r}
-ec.index<-ecological_indexes(database.vegetation = vegetation,
-                             database.indexes = data[,c("F_Landolt","R_Landolt","N_Landolt")],
-                             occasional.species = TRUE,
-                             species.cover.coefficient = 4,
-                             weight = TRUE)
+ec.index <- ecological_indexes(
+  database.vegetation = vegetation,
+  database.indexes = data[, c("F_Landolt", "R_Landolt", "N_Landolt")],
+  occasional.species = TRUE,
+  species.cover.coefficient = 4,
+  weight = TRUE
+)
 ```
 
 Notes about the "ecological_indexes" function:
@@ -101,19 +105,19 @@ The aim of this example is to generate a cluster analysis of vegetation data, wi
 From the dataset shown in 'Data input format' vignette, the columns related to plant species names and all surveys are selected.
 
 ```{r echo=TRUE}
-vegetation<-data[,c(2,7:30)]
+vegetation <- data[, c(2, 7:30)]
 
 ```
 
 ```{r echo=FALSE}
-kable(head(vegetation[,1:15]),align = 'c')%>%
+kable(head(vegetation[, 1:15]), align = 'c') %>%
   kable_styling(font_size = 12)
 ```
 
 Then, we need to compute the Species Relative Abundance
 
 ```{r}
-sra<-vegetation_abundance(database = vegetation,method = "SRA_fo")
+sra <- vegetation_abundance(database = vegetation, method = "SRA_fo")
 ```
 
 ```         
@@ -121,105 +125,121 @@ head(sra)
 ```
 
 ```{r echo=FALSE}
-kable(head(sra[,1:15]),align = 'c')%>%
+kable(head(sra[, 1:15]), align = 'c') %>%
   kable_styling(font_size = 12)
 ```
 
 Now we can generate a dendrogram using the **hclust** function of the R 'stats' base package.
 
 ```{r fig.height=4, fig.width=7}
-db.dendro<-t(sra)#for the cluster analysis the database has to be transposed so to have surveys on rows and species on columns
+db.dendro <- t(sra) #for the cluster analysis the database has to be transposed so to have surveys on rows and species on columns
 
-library(amap)#package for computing a distance matrix
-d <- Dist(db.dendro, method = "correlation")#distance matrix
-cluster <- hclust(d, method="average") # clustering method
+library(vegan) #package for computing a distance matrix
+d <- vegdist(db.dendro, method = "chord") #distance matrix
+cluster <- hclust(d, method = "average") # clustering method
 
 #plotting the dendrogram
-par(cex=0.5, mar=c(5, 8, 4, 1))#set label size
-plot(cluster,cex=0.8,hang =-1,
-     main=paste0("dMatrix: Correlation","---","clustMet: UPGMA"))
+par(cex = 0.5, mar = c(5, 8, 4, 1)) #set label size
+plot(
+  cluster,
+  cex = 0.8,
+  hang = -1,
+  main = paste0("dMatrix: Chord", "---", "clustMet: UPGMA")
+)
 
 ```
 
 To extract the first ten species ordered decreasingly by their SRA for each survey, we can run the **'first_ten_species'** function:
 
 ```{r}
-firstTenSpecies<-first_ten_species(data_SRA_SC = sra ,#database with species abundance. In this example is the 'sra' database 
-                                   join.dendrogram = TRUE,#LOGICAL. TRUE if species abundance need to be joined with a dendrogram
-                                   cluster.hclust = cluster)# object of containing the output from 'hclust' function of 'stats' package
+firstTenSpecies <- first_ten_species(
+  data_SRA_SC = sra, #database with species abundance. In this example is the 'sra' database
+  join.dendrogram = TRUE, #LOGICAL. TRUE if species abundance need to be joined with a dendrogram
+  cluster.hclust = cluster
+) # object of containing the output from 'hclust' function of 'stats' package
 
 
 ```
 
 ```{r echo=FALSE}
-kable(head(firstTenSpecies[,1:10],15),align='c')%>%
+kable(head(firstTenSpecies[, 1:10], 15), align = 'c') %>%
   kable_styling(font_size = 12)
 ```
 
 This output can be graphically merged with the dendrogram. First of all it is needed to create a database for running the cluster analysis with (e.g. four) species ordered by abundance as row labels, with the use of `dendspe` function:
 
 ```{r}
-db.dendroLab<-denspe(nspe=4,
-                     SpeAbund = firstTenSpecies,
-                     dbClust = db.dendro)
+db.dendroLab <- denspe(
+  nspe = 4,
+  SpeAbund = firstTenSpecies,
+  dbClust = db.dendro
+)
 ```
 
 Then, the cluster analysis can be run again by using the new database and then plot the dendrogram:
 
 ```{r fig.height=7, fig.width=7}
-d.lab <- Dist(db.dendroLab,#database name
-           method= "correlation") 
-cluster.lab <- hclust(d.lab,#distance matrix
-                   method="average") 
+d.lab <- vegdist(
+  db.dendroLab, #database name
+  method = "chord"
+)
+cluster.lab <- hclust(
+  d.lab, #distance matrix
+  method = "average"
+)
 
-cluster.plot<-as.dendrogram(cluster.lab)#coversion of cluster to class 'dendrogram' of 'dendexted' package (which allows a better customisation of the plot)
+cluster.plot <- as.dendrogram(cluster.lab) #coversion of cluster to class 'dendrogram' of 'dendexted' package (which allows a better customisation of the plot)
 
-par(mfrow=c(1,1),mar=c(1,2,2,18))#graphical settings
-plot(cluster.plot %>% 
-  set("labels_cex", 0.6),horiz=T)
+par(mfrow = c(1, 1), mar = c(1, 2, 2, 18)) #graphical settings
+plot(
+  cluster.plot %>%
+    set("labels_cex", 0.6),
+  horiz = T
+)
 ```
 
 From this view, it can be easier to identify survey groups based on their vegetation composition and abundance. Suppose here to identify 8 groups, that can be visually shown with the following base plotting functions:
 
 ```{r fig.height=7, fig.width=7}
-par(mfrow=c(1,1),mar=c(1,2,2,18))#graphical settings
-cluster.plot %>% 
-  set("labels_cex", 0.6) %>% 
-  set("branches_k_color", 
-      k = 8) %>% 
-  plot(main = "Dendrogram",horiz=T)
+par(mfrow = c(1, 1), mar = c(1, 2, 2, 18)) #graphical settings
+cluster.plot %>%
+  set("labels_cex", 0.6) %>%
+  set("branches_k_color", k = 8) %>%
+  plot(main = "Dendrogram", horiz = T)
 ```
 
 Now, for each group it would be helpful to compute the average composition. First of all we can extract the ID group for each survey with the **'clustOrder'** function:
 
 ```{r}
-group.id<-clustOrder(cluster.hclust = cluster,# object of containing the output from 'hclust' function of 'stats' package
-                      cluster.group = T, #Logical. TRUE if you want to specify the number of groups of the dendrogram. 
-                      cluster.number = 8) # Specify the number of groups. 
+group.id <- clustOrder(
+  cluster.hclust = cluster, # object of containing the output from 'hclust' function of 'stats' package
+  cluster.group = T, #Logical. TRUE if you want to specify the number of groups of the dendrogram.
+  cluster.number = 8
+) # Specify the number of groups.
 ```
 
 ```{r echo=FALSE}
-kable(head(group.id,10),align='c')%>%
+kable(head(group.id, 10), align = 'c') %>%
   kable_styling(font_size = 12)
 ```
 
 The 'cluster' column is the one according to which the vegetation surveys will be pooled together. Therefore, we first need to add this column to the database with the abundances used as input of the dendrogram (i.e. 'db.dendro' dataset)
 
 ```{r}
-dendro.merge<-merge(group.id,db.dendro,by.x = "Survey",by.y = "row.names")
-row.names(dendro.merge)<-dendro.merge[,1]#renaming dataset rows
-dendro.merge1<-dendro.merge[,-c(1,3)]#deleting useless columns
+dendro.merge <- merge(group.id, db.dendro, by.x = "Survey", by.y = "row.names")
+row.names(dendro.merge) <- dendro.merge[, 1] #renaming dataset rows
+dendro.merge1 <- dendro.merge[, -c(1, 3)] #deleting useless columns
 ```
 
 ```{r echo=FALSE}
-kable(head(dendro.merge1[,1:15],10),align='c')%>%
+kable(head(dendro.merge1[, 1:15], 10), align = 'c') %>%
   kable_styling(font_size = 12)
 ```
 
 Lastly, with the **'clustGroupAggregate2'** function (clustGroupAggregate() will be deprecated!!!), the average composition for each group can be computed:
 
 ```{r}
-aggregate<-clustGroupAggregate2(dendro.merge1)
+aggregate <- clustGroupAggregate2(dendro.merge1)
 ```
 
 Let's extract the table format of aggregate
@@ -228,6 +248,6 @@ aggregate$table
 ```
 
 ```{r echo=FALSE}
- kable(head(aggregate$table[,1:14],10),align='c')%>%
-   kable_styling(font_size = 12)
+kable(head(aggregate$table[, 1:14], 10), align = 'c') %>%
+  kable_styling(font_size = 12)
 ```

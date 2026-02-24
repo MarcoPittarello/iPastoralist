@@ -1,6 +1,5 @@
-#' @keywords internal
-"_PACKAGE"
-
-## usethis namespace: start
-## usethis namespace: end
+#' iPastoralist: Tools for pastoralist survey analysis
+#'
+#' @docType _PACKAGE
+#' @name iPastoralist
 NULL

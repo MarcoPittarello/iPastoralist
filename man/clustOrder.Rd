@@ -9,9 +9,9 @@ clustOrder(cluster.hclust, cluster.group, cluster.number)
 \arguments{
 \item{cluster.hclust:}{output from 'hclust' function of 'stats' package}
 
-\item{cluster.group:}{Logical. TRUE if you want to specify the number of groups of the dendrogram.}
+\item{cluster.group:}{Logical; TRUE if you want to specify the number of groups of the dendrogram.}
 
-\item{cluster.number:}{To be specified only if 'cluster.group' is TRUE. Set the number of groups the dendrogram will be divided}
+\item{cluster.number:}{Integer; To be specified only if 'cluster.group' is TRUE. Set the number of groups the dendrogram will be divided}
 }
 \value{
 when 'cluster.group' = TRUE: a dataframe in which for each survey is specified the group id of appartenance and its position in the dendrogram
