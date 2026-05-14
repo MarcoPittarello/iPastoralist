@@ -13,7 +13,6 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 URL: https://marcopittarello.github.io/iPastoralist, https://github.com/MarcoPittarello/iPastoralist.git, https://marcopittarello.github.io/iPastoralist/
 Suggests: 
     rmarkdown,
@@ -22,3 +21,4 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0
