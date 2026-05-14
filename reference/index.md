@@ -23,6 +23,8 @@
   dendrogram
 - [`iPastoralist`](iPastoralist.md) : iPastoralist: Tools for
   pastoralist survey analysis
+- [`nameGroups()`](nameGroups.md) : Name vegetation groups based on
+  dominant species
 - [`pastoral_value()`](pastoral_value.md) : Computation of Pastoral
   Value (PV)
 - [`plotClustAggregate()`](plotClustAggregate.md) : Plot dendrograms and

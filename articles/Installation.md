@@ -1,6 +1,7 @@
 # Installation
 
 ``` r
+
 library(iPastoralist)
 #> Registered S3 method overwritten by 'vegan':
 #>   method     from      
