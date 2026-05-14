@@ -3,9 +3,10 @@
 Create a dendrogram from a surveys-by-species matrix where survey row
 names can be labelled with the top species by decreasing abundance.
 Optionally aggregate surveys by cluster and return a summary of the top
-species for each cluster. The function writes PNG files (one for the
-non-aggregated dendrogram and, when aggregation is used, one prefixed
-with "aggregate\_") to the current working directory.
+species for each cluster. When `save.file = TRUE`, the function writes a
+PDF (default) or PNG file (one for the non-aggregated dendrogram and,
+when aggregation is used, one prefixed with `"aggregate_"`) to the
+current working directory.
 
 ## Usage
 
@@ -17,14 +18,16 @@ plotClustAggregate(
   distance = "chord",
   clust.method = "average",
   clust.mar = c(1, 2, 2, 18),
-  file.name = "dendrogram.png",
-  file.height = 2500,
-  file.width = 1200,
+  file.name = "dendrogram.pdf",
+  file.height = 30,
+  file.width = 15,
   file.res = 200,
   labels.cex = 0.5,
   aggregate = TRUE,
   aggr.Nspe = 5,
-  n.clust = NULL
+  n.clust = NULL,
+  save.file = TRUE,
+  format = "pdf"
 )
 ```
 
@@ -62,20 +65,24 @@ plotClustAggregate(
 
 - file.name:
 
-  Character; filename for the saved dendrogram PNG (default
-  "dendrogram.png").
+  Character; filename for the output file (default `"dendrogram.pdf"`).
 
 - file.height:
 
-  Integer; height (pixels) for the PNG device (default 2500).
+  Numeric; height of the output file. For PDF (default) this is in
+  inches (default 30); for PNG it is used together with `file.res` to
+  compute pixel dimensions.
 
 - file.width:
 
-  Integer; width (pixels) for the PNG device (default 1200).
+  Numeric; width of the output file. For PDF (default) this is in inches
+  (default 15); for PNG it is used together with `file.res` to compute
+  pixel dimensions.
 
 - file.res:
 
-  Integer; resolution (ppi) for the PNG device (default 200).
+  Integer; resolution in ppi, used only when `format = "png"` (default
+  200).
 
 - aggregate:
 
@@ -90,14 +97,23 @@ plotClustAggregate(
 - n.clust:
 
   Integer; number of clusters used for grouping and for drawing
-  rectangles on the aggregated dendrogram (default 20).
+  rectangles on the aggregated dendrogram.
+
+- save.file:
+
+  Logical; if TRUE (default), the dendrogram(s) are exported to disk.
+  Set to FALSE to skip file output.
+
+- format:
+
+  Character; output format, either `"pdf"` (default) or `"png"`.
 
 ## Value
 
 If `aggregate = TRUE`, a tibble/data.frame with one row per cluster and
 a `name` column containing the top species (with rounded percentage)
 concatenated for that cluster. If `aggregate = FALSE`, the function
-invisibly returns NULL (plots and saves the plain dendrogram).
+invisibly returns NULL (and optionally saves the plain dendrogram).
 
 ## Details
 
@@ -111,7 +127,8 @@ iPastoralist::clustGroupAggregate2 to compute cluster-level average
 compositions, relabels rows with a cluster prefix, reclusters aggregated
 profiles and draws cluster rectangles on the aggregated dendrogram.
 
-Side effects: PNG files are written to the working directory. Use
+Side effects: when `save.file = TRUE`, a PDF or PNG file is written to
+the working directory depending on `format`. Use
 [getwd](https://rdrr.io/r/base/getwd.html) to inspect or change the
 location before running.
 
@@ -130,21 +147,39 @@ if (FALSE) { # \dontrun{
 firt10_obj <- iPastoralist::first_ten_species(my_survey_matrix)
 db_matrix <- my_survey_matrix
 
-# aggregated run: returns cluster top-species summary and writes PNGs
+# aggregated run: save as PDF (default)
 plotClustAggregate(
-  nspePlot = 5,
-  firt10 = firt10_obj,
-  dbClust = db_matrix,
-  aggregate = TRUE,
-  n.clust = 10
+  nspePlot    = 5,
+  firt10      = firt10_obj,
+  dbClust     = db_matrix,
+  aggregate   = TRUE,
+  n.clust     = 10,
+  save.file   = TRUE,
+  format      = "pdf"
 )
 
-# non-aggregated run: just produces and saves a dendrogram
+# aggregated run: save as PNG
 plotClustAggregate(
-  nspePlot = 5,
-  firt10 = firt10_obj,
-  dbClust = db_matrix,
-  aggregate = FALSE
+  nspePlot    = 5,
+  firt10      = firt10_obj,
+  dbClust     = db_matrix,
+  file.name   = "dendrogram.png",
+  file.height = 30,
+  file.width  = 15,
+  file.res    = 200,
+  aggregate   = TRUE,
+  n.clust     = 10,
+  save.file   = TRUE,
+  format      = "png"
+)
+
+# non-aggregated run: display only, no file saved
+plotClustAggregate(
+  nspePlot  = 5,
+  firt10    = firt10_obj,
+  dbClust   = db_matrix,
+  aggregate = FALSE,
+  save.file = FALSE
 )
 } # }
 ```
