@@ -109,7 +109,7 @@ plotClustAggregate = function(
   save.file = TRUE,
   format = "pdf"
 ) {
-  if (is.null(firt10) | is.null(dbClust)) {
+  if (is.null(firt10) || is.null(dbClust)) {
     stop(
       "Please provide the database of the first ten species and the database used for cluster analysis."
     )
@@ -120,15 +120,15 @@ plotClustAggregate = function(
     SpeAbund = firt10,
     dbClust = dbClust
   )
-  d <- vegdist(db.lab, method = distance)
-  clst <- hclust(d, method = clust.method)
 
-  # helper: open the appropriate graphics device
+  d <- vegan::vegdist(db.lab, method = distance)
+  clst <- stats::hclust(d, method = clust.method)
+
   open_device <- function(fname, format, file.height, file.width, file.res) {
     if (format == "pdf") {
-      pdf(file = fname, height = file.height, width = file.width)
+      grDevices::pdf(file = fname, height = file.height, width = file.width)
     } else if (format == "png") {
-      png(
+      grDevices::png(
         file = fname,
         height = file.height * file.res,
         width = file.width * file.res,
@@ -139,68 +139,85 @@ plotClustAggregate = function(
     }
   }
 
-  if (aggregate == FALSE) {
+  if (!aggregate) {
     clst.dxt <- as.dendrogram(clst)
 
     if (save.file) {
       open_device(file.name, format, file.height, file.width, file.res)
-      par(mfrow = c(1, 1), mar = clust.mar)
-      plot(clst.dxt %>% set("labels_cex", labels.cex), horiz = TRUE)
-      dev.off()
-    }
-  } else if (aggregate == TRUE) {
-    if (is.null(n.clust)) {
-      stop("Please provide the number of clusters for aggregation.")
+      graphics::par(mfrow = c(1, 1), mar = clust.mar)
+      graphics::plot(clst.dxt, horiz = TRUE, cex = labels.cex)
+      grDevices::dev.off()
     }
 
-    groups <- iPastoralist::clustOrder(
-      cluster.hclust = clst,
-      cluster.group = TRUE,
-      cluster.number = n.clust
-    )
-    dt.g <- merge(groups, db.lab, by.x = "Survey", by.y = "row.names")
-
-    db.aggr <- as.data.frame(dt.g[, -c(1, 3)])
-    aggr <- iPastoralist::clustGroupAggregate2(db.aggr)
-
-    group.names <- aggr$df.long %>%
-      group_by(group) %>%
-      arrange(-abundance) %>%
-      slice(1:aggr.Nspe) %>%
-      mutate(
-        ab_pct = round(abundance, 0),
-        label = paste0(species, " (", ab_pct, "%)")
-      ) %>%
-      summarize(name = paste(label, collapse = ", "), .groups = "drop")
-
-    dbClust.aggr <- dt.g %>%
-      mutate(
-        cluster = sprintf("%04d", as.integer(as.character(cluster))),
-        Survey = paste0(cluster, "_", Survey)
-      ) %>%
-      select(-c(cluster, Survey.order)) %>%
-      column_to_rownames("Survey")
-
-    d.aggr <- vegdist(dbClust.aggr, method = distance)
-    clst.aggr <- hclust(d.aggr, method = clust.method)
-    clst.dxt.aggr <- as.dendrogram(clst.aggr)
-
-    if (save.file) {
-      fname <- paste0("aggregate_", file.name)
-      open_device(fname, format, file.height, file.width, file.res)
-      par(mfrow = c(1, 1), mar = clust.mar)
-      plot(clst.dxt.aggr %>% set("labels_cex", labels.cex), horiz = TRUE)
-      rect.dendrogram(
-        clst.dxt.aggr,
-        k = n.clust,
-        horiz = TRUE,
-        border = 5,
-        lty = 1,
-        lwd = 1
-      )
-      dev.off()
-    }
-
-    return(group.names)
+    return(invisible(clst.dxt))
   }
+
+  if (is.null(n.clust)) {
+    stop("Please provide the number of clusters for aggregation.")
+  }
+
+  groups <- iPastoralist::clustOrder(
+    cluster.hclust = clst,
+    cluster.group = TRUE,
+    cluster.number = n.clust
+  )
+
+  dt.g <- merge(groups, db.lab, by.x = "Survey", by.y = "row.names")
+
+  db.aggr <- as.data.frame(dt.g[, -c(1, 3)])
+
+  # Inline replacement for iPastoralist::clustGroupAggregate2()
+  # (avoids listenv::map() conflict)
+  df.long <- db.aggr %>%
+    dplyr::group_by(cluster) %>%
+    dplyr::summarise(
+      dplyr::across(dplyr::everything(), mean),
+      .groups = "drop"
+    ) %>%
+    tidyr::pivot_longer(
+      -cluster,
+      names_to = "species",
+      values_to = "abundance"
+    ) %>%
+    dplyr::rename(group = cluster)
+
+  group.names <- df.long %>%
+    dplyr::group_by(group) %>%
+    dplyr::arrange(dplyr::desc(abundance), .by_group = TRUE) %>%
+    dplyr::slice_head(n = aggr.Nspe) %>%
+    dplyr::mutate(
+      ab_pct = round(abundance, 0),
+      label = paste0(species, " (", ab_pct, "%)")
+    ) %>%
+    dplyr::summarise(name = paste(label, collapse = ", "), .groups = "drop")
+
+  dbClust.aggr <- dt.g %>%
+    dplyr::mutate(
+      cluster = sprintf("%04d", as.integer(as.character(cluster))),
+      Survey = paste0(cluster, "_", Survey)
+    ) %>%
+    dplyr::select(-cluster, -Survey.order) %>%
+    tibble::column_to_rownames("Survey")
+
+  d.aggr <- vegan::vegdist(dbClust.aggr, method = distance)
+  clst.aggr <- stats::hclust(d.aggr, method = clust.method)
+  clst.dxt.aggr <- as.dendrogram(clst.aggr)
+
+  if (save.file) {
+    fname <- paste0("aggregate_", file.name)
+    open_device(fname, format, file.height, file.width, file.res)
+    graphics::par(mfrow = c(1, 1), mar = clust.mar)
+    graphics::plot(clst.dxt.aggr, horiz = TRUE, cex = labels.cex)
+    dendextend::rect.dendrogram(
+      clst.dxt.aggr,
+      k = n.clust,
+      horiz = TRUE,
+      border = 5,
+      lty = 1,
+      lwd = 1
+    )
+    grDevices::dev.off()
+  }
+
+  return(group.names)
 }
