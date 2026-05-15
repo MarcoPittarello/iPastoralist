@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/MarcoPittarello/iPastoralist.git/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/MarcoPittarello/iPastoralist.git/blob/v2.2.0/DESCRIPTION)
 
 Pittarello M (2026). *iPastoralist: Management, conversion, and analyses
 of vegetation data derived from phytosociological and point-quadrat
