@@ -3,7 +3,7 @@ title: "Introduction to iPastoralist"
 author: Marco Pittarello
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Examples}
+  %\VignetteIndexEntry{Introduction to iPastoralist}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -80,7 +80,7 @@ For occasional species recorded within the vegetation plot but not intercepted a
 The processing and conversion procedure implemented in `vegetation_abundance()` is summarized in the following workflow.
 
 
-![Workflow for vegetation abundance conversion](man/figures/Wrkflw_abundance_conversion.png){width=100%}
+![Workflow for vegetation abundance conversion](Wrkflw_abundance_conversion.png){width=100%}
 
 For further information about the available conversion methods and their implementation, see `vegetation_abundance()`.
 

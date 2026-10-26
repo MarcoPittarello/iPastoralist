@@ -1,9 +1,9 @@
 ---
-title: "Examples"
+title: "Tutorial 1"
 author: Marco Pittarello
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Examples}
+  %\VignetteIndexEntry{Tutorial 1}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
