@@ -5,23 +5,34 @@ export(biodiversity)
 export(clustGroupAggregate)
 export(clustGroupAggregate2)
 export(clustOrder)
+export(clustOrder_twspn)
 export(denspe)
+export(denspe_twspn)
 export(ecological_indexes)
 export(ecological_indexesPHYTO)
+export(export_synoptic)
 export(first_ten_species)
+export(first_ten_species_twspn)
+export(maxFusionLevel)
 export(nameGroups)
 export(pastoral_value)
 export(plotClustAggregate)
+export(plotClustAggregate_twspn)
+export(synoptic_table)
+export(tb_pca_plot)
+export(twinspan_optimclass_ecan)
 export(vegetation_abundance)
 import(dendextend)
 import(reshape2)
 import(tidyverse)
 import(vegan)
-importFrom(dplyr,arrange)
-importFrom(dplyr,cur_data)
-importFrom(dplyr,desc)
-importFrom(dplyr,join_by)
-importFrom(dplyr,lag)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,summarise)
+importFrom(dplyr,
+  arrange,
+  cur_data,
+  desc,
+  join_by,
+  lag,
+  left_join,
+  mutate,
+  summarise
+)

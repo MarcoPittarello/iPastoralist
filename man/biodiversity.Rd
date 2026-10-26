@@ -27,7 +27,7 @@ From a database with Frequency of occurrence (FO) (see \link[iPastoralist]{veget
 }
 }
 \examples{
-see vignettes
+# See the package vignettes for complete examples.
 }
 \references{
 Magurran, A.E., 1988. Ecological diversity and its measurement. Princeton University Press.

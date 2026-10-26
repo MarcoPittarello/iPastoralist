@@ -16,26 +16,17 @@ dataframe with the average value of abundance for each species (or target variab
 Once the groups of a cluster have been identified, the average value for each species (or target variable) are computed for each group. Moreover,
 within each group, species (or target variables) are sorted decreasingly by their cover (or value).
 }
+\details{
+This function is deprecated. Use \code{\link{clustGroupAggregate2}}
+instead.
+}
 \examples{
- Structure of the database to use as input:
+# Structure of the database to use as input:
+# Rows: Vegetation surveys
+# Columns: species
+# Group  Spe1  Spe2
+# 1      12.3   0.0
+# 1       0.0   5.0
+# See the package vignettes for complete examples.
 
-      Rows: Vegetation survey
-      Columns: species
-      Headings and row names must be imported
-
-        Group	  Spe1	  Spe2	...
-          1     12.3	   0.0
-          1     0.0     5.0
-          1     2.0     0.0
-          1     10.4    0.0
-          2     0.0     20.7
-          2     0.0     2.0
-          2     2.3     0.0
-          3     0.0     23.3
-          3     14.3    0.0
-
-  Note 1: the column of Group has to be in the first position\cr
-  
-  see also vignettes
- @deprecated Use `clustGroupAggregate2()` instead.
 }

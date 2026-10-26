@@ -1,0 +1,562 @@
+---
+title: "Vegetation classification: a pastoral approach"
+author: Marco Pittarello
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vegetation classification: a pastoral approach}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = TRUE,
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+Suppose we want to identify vegetation groups that can be interpreted
+from the dominant species and their relative abundances. A useful first
+step is to display a dendrogram together with the most abundant species
+in each survey. This makes it easier to see which surveys share a similar
+composition and to decide where to cut the dendrogram.
+
+In this example, we calculate Species Relative Abundance (SRA), run an
+agglomerative cluster analysis, and match the first ten species of each
+survey to the dendrogram. After choosing a cut, we calculate mean group
+composition and explore the groups using transformation-based PCA
+(tb-PCA), with species labels selected by `ordiselect`.
+
+# 1. Packages and example data
+
+The example uses `iPastoralist::data`. Survey values are frequencies of
+occurrence (FO), `999` identifies occasional species, and empty cells
+indicate absences. We use species codes to keep dendrogram labels compact.
+
+```{r setup}
+library(iPastoralist)
+library(vegan)
+library(dendextend)
+library(tidyverse)
+
+# If tb_pca_plot() is stored in a separate script, load it here with source().
+if (!exists("tb_pca_plot", mode = "function")) {
+  stop("Load tb_pca_plot() before rendering this vignette.")
+}
+stopifnot(
+  requireNamespace("cluster", quietly = TRUE),
+  requireNamespace("goeveg", quietly = TRUE)
+)
+```
+
+Select species codes and survey columns, excluding ecological indicator
+values and other ancillary information. The first column contains the
+species codes, as required by `vegetation_abundance()`.
+
+```{r dati}
+data_example <- as.data.frame(iPastoralist::data)
+survey_columns <- grep("^R[0-9]+$", names(data_example), value = TRUE)
+
+vegetation <- data_example[,
+  c("species.name.code", survey_columns),
+  drop = FALSE
+]
+
+knitr::kable(head(vegetation[, seq_len(min(7L, ncol(vegetation)))]))
+```
+
+# 2. Species Relative Abundance
+
+First, calculate SRA from FO. With `method = "SRA_fo"`, occasional species
+are excluded and species abundances sum to 100 within each survey.
+
+```{r sra}
+sra <- vegetation_abundance(
+  database = vegetation,
+  method = "SRA_fo"
+)
+
+# For subsequent analyses: rows = surveys; columns = species.
+veg <- t(as.matrix(sra))
+
+# Remove only species that are completely absent after calculating SRA.
+veg <- veg[, colSums(veg) > 0, drop = FALSE]
+sra <- as.data.frame(t(veg), check.names = FALSE)
+
+rowSums(veg)
+dim(veg)
+```
+
+```{r show-abundances, echo=FALSE}
+knitr::kable(head(sra[, seq_len(min(6L, ncol(sra)))]), digits = 1)
+```
+
+If occasional species should be included, replace the abundance call
+above with `method = "SRA_SC.fo.occ"` and
+`species.cover.coefficient = 4`, then rerun the subsequent steps. The
+coefficient of 4 corresponds to the 25 measurement points in this dataset.
+
+# 3. Cluster analysis
+
+Now we can calculate chord distances and apply UPGMA (`average`).
+Chord distances are obtained as Euclidean distances between survey rows
+normalised to unit length.
+
+```{r clustering}
+veg_chord <- vegan::decostand(veg, method = "normalize", MARGIN = 1)
+d <- stats::dist(veg_chord, method = "euclidean")
+clst <- stats::hclust(d, method = "average")
+
+par(mfrow = c(1, 1), mar = c(4, 4, 3, 1))
+plot(clst, cex = 0.6, hang = -1, main = "Chord distance - UPGMA")
+```
+
+# 4. Matching the first ten species to the dendrogram
+
+To interpret the branches, extract the species of each survey ordered
+by decreasing SRA, using `first_ten_species()`. Setting
+`join.dendrogram = TRUE` associates each survey with its position in
+the dendrogram.
+
+```{r first-ten-species}
+first10 <- first_ten_species(
+  data_SRA_SC = sra,
+  join.dendrogram = TRUE,
+  cluster.hclust = clst
+)
+
+# Retain the ten highest ranks and order surveys as in the dendrogram.
+first10 <- first10[order(first10$Survey.order), , drop = FALSE]
+rank_columns <- setdiff(names(first10), c("Survey", "Survey.order"))
+rank_columns <- head(rank_columns, 10L)
+first10_table <- first10[,
+  c("Survey", "Survey.order", rank_columns),
+  drop = FALSE
+]
+rownames(first10_table) <- NULL
+
+knitr::kable(first10_table)
+```
+
+Each species entry reports its code followed by its SRA. The table
+already helps identify changes in the dominant species along the
+dendrogram.
+
+We can also display these species directly beside the survey labels.
+The `denspe()` function creates labels containing the survey identifier
+and the selected number of ranked species. Here we show all ten; set
+`n_species_labels` to 4 or 5 for a more compact figure.
+
+```{r species-labels}
+n_species_labels <- 10L
+
+db_labels <- denspe(
+  nspe = n_species_labels,
+  SpeAbund = first10,
+  dbClust = veg
+)
+
+# Keep the original clustering and change only the displayed labels.
+stopifnot(identical(unname(as.matrix(db_labels)), unname(veg)))
+clst_labels <- clst
+clst_labels$labels <- rownames(db_labels)[
+  match(clst$labels, rownames(veg))
+]
+
+dend_labels <- as.dendrogram(clst_labels)
+label_cex <- 0.5
+dend_labels <- dendextend::set(dend_labels, "labels_cex", label_cex)
+```
+
+```{r dendrogram-with-species, fig.width=15, fig.height=8, out.width="100%"}
+# Reserve enough space on the right for the species labels.
+right_margin <- max(strwidth(
+  clst_labels$labels,
+  units = "inches",
+  cex = label_cex
+)) /
+  par("csi") +
+  2
+
+par(mfrow = c(1, 1), mar = c(4, 2, 3, right_margin))
+plot(
+  dend_labels,
+  horiz = TRUE,
+  main = "Dendrogram with the ten most abundant species",
+  xlab = "Chord distance"
+)
+```
+
+From this view, it is easier to recognise groups sharing the same
+dominant species and to see whether subdivisions correspond to changes
+in their relative abundances. Inspect both species identities and SRA:
+surveys may share the same species but differ considerably in dominance.
+Ranks with an SRA of zero do not represent species present in that survey.
+
+The original cluster object `clst` is retained for every subsequent
+analysis. Adding species labels does not change distances, branch
+structure, or group membership.
+
+# 5. Choosing where to cut the dendrogram
+
+The cut should produce groups that can be interpreted in terms of
+vegetation composition and the purpose of the pastoral classification.
+The labelled dendrogram provides the main basis for this interpretation.
+Fusion levels and silhouettes can support the choice by suggesting
+alternative numbers of groups to inspect.
+
+For example, compare mean silhouette widths for 2 to 10 groups, using
+the same distance matrix as the cluster analysis. Here, automatic
+silhouette selection excludes partitions with fewer than two surveys
+in any group.
+
+```{r silhouette}
+k_values <- seq.int(2L, min(10L, nrow(veg) - 1L))
+min_group_size <- 2L
+
+silhouette_results <- do.call(
+  rbind,
+  lapply(k_values, function(k) {
+    membership <- stats::cutree(clst, k = k)
+    sil <- cluster::silhouette(membership, d)
+    sizes <- table(membership)
+
+    data.frame(
+      k = k,
+      mean_silhouette = mean(sil[, "sil_width"]),
+      smallest_group = min(sizes),
+      admissible = all(sizes >= min_group_size)
+    )
+  })
+)
+
+admissible_results <- subset(silhouette_results, admissible)
+if (nrow(admissible_results) == 0L) {
+  stop("No partition meets min_group_size: review k_values or the constraint.")
+}
+
+# In the event of a tie, select the smallest k among those examined.
+best_k <- admissible_results$k[
+  which.max(admissible_results$mean_silhouette)
+]
+
+knitr::kable(silhouette_results, digits = 3)
+best_k
+
+plot(
+  mean_silhouette ~ k,
+  data = silhouette_results,
+  type = "b",
+  xlab = "Number of groups",
+  ylab = "Mean silhouette width"
+)
+points(
+  mean_silhouette ~ k,
+  data = subset(silhouette_results, !admissible),
+  pch = 4,
+  col = "red",
+  cex = 1.4
+)
+abline(v = best_k, lty = 2, col = "blue")
+```
+
+If `maxFusionLevel()` is available, we can also inspect its suggested
+number of groups. This optional chunk is not evaluated during rendering.
+
+```{r fusion-levels, eval=FALSE}
+fusion <- maxFusionLevel(clst)
+fusion
+fusion$n.clust
+```
+
+Suppose we decide to examine four groups after reading the labelled
+dendrogram. We can set a custom cut, use `best_k`, or select the number
+suggested by `maxFusionLevel()`. A custom cut is an illustrative choice,
+not a claim that four groups are optimal for this dataset.
+
+```{r select-cut}
+selection_method <- "custom" # "custom", "silhouette", or "fusion"
+k_custom <- 4L
+
+n.cluster <- switch(
+  selection_method,
+  custom = k_custom,
+  silhouette = best_k,
+  fusion = {
+    if (!exists("maxFusionLevel", mode = "function")) {
+      stop("Load maxFusionLevel() to use the fusion criterion.")
+    }
+    maxFusionLevel(clst)$n.clust
+  },
+  stop("Unrecognised selection_method.")
+)
+
+stopifnot(
+  length(n.cluster) == 1L,
+  is.numeric(n.cluster),
+  is.finite(n.cluster),
+  n.cluster == as.integer(n.cluster),
+  n.cluster >= 2L,
+  n.cluster < nrow(veg)
+)
+n.cluster <- as.integer(n.cluster)
+```
+
+Highlight the selected groups on the same dendrogram with species
+labels. We can now inspect which dominant species characterise each
+group and whether the cut separates meaningful vegetation units.
+
+```{r display-cut, fig.width=15, fig.height=8, out.width="100%"}
+# Match branch colours to the group numbers returned by cutree().
+membership <- stats::cutree(clst, k = n.cluster)
+palette <- scales::hue_pal()(n.cluster)
+groups_in_dendrogram_order <- unique(membership[clst$order])
+branch_colours <- palette[groups_in_dendrogram_order]
+
+dend_selected <- dendextend::color_branches(
+  dend_labels,
+  k = n.cluster,
+  col = branch_colours
+)
+
+par(mfrow = c(1, 1), mar = c(4, 2, 3, right_margin))
+plot(
+  dend_selected,
+  horiz = TRUE,
+  main = paste("Pastoral classification -", n.cluster, "groups"),
+  xlab = "Chord distance"
+)
+dendextend::rect.dendrogram(
+  dend_selected,
+  k = n.cluster,
+  horiz = TRUE,
+  border = branch_colours,
+  lty = 1,
+  lwd = 1.2
+)
+```
+
+# 6. Extracting groups and calculating mean composition
+
+Once the cut has been chosen, extract the group of each survey using
+`cutree()`. Align group membership with the rows of `veg` before
+calculating summaries or running the ordination.
+
+```{r gruppi}
+groups.hclust <- stats::cutree(clst, k = n.cluster)
+groups <- data.frame(
+  stand = names(groups.hclust),
+  group = paste0("G", groups.hclust),
+  stringsAsFactors = FALSE
+)
+
+stopifnot(
+  !anyDuplicated(groups$stand),
+  setequal(rownames(veg), as.character(groups$stand))
+)
+
+groups <- groups[
+  match(rownames(veg), as.character(groups$stand)),
+  c("stand", "group"),
+  drop = FALSE
+]
+rownames(groups) <- NULL
+groups$group <- factor(groups$group, levels = paste0("G", seq_len(n.cluster)))
+
+stopifnot(
+  identical(rownames(veg), as.character(groups$stand)),
+  !anyNA(groups$group),
+  nlevels(droplevels(groups$group)) == n.cluster
+)
+
+knitr::kable(groups)
+table(groups$group)
+```
+
+Always inspect group sizes, especially after a custom cut. The
+`min_group_size` constraint above applies only to automatic selection
+by silhouette.
+
+To describe the groups, calculate the mean SRA of each species using
+`clustGroupAggregate2()`. The group identifier must be the first column.
+Zeros are included when averaging surveys where a species is absent.
+
+The simplified table lists species in decreasing order of mean SRA
+within each group, providing a concise description of the vegetation
+units identified from the dendrogram.
+
+```{r composizione-media}
+db_aggregate <- data.frame(
+  group = groups$group,
+  as.data.frame(veg, check.names = FALSE),
+  check.names = FALSE
+)
+
+aggregate_groups <- clustGroupAggregate2(db_aggregate)
+knitr::kable(head(aggregate_groups$table, 10), digits = 1)
+
+head(aggregate_groups$df.long)
+aggregate_groups$df.wide
+```
+
+# 7. Exploring the groups with tb-PCA and ordiselect
+
+We can now explore the selected groups using a PCA of
+Hellinger-transformed SRA values. Groups are overlaid on the ordination;
+they do not determine the PCA axes.
+
+To keep the species plot readable, use `species = "ordiselect"` in
+`tb_pca_plot()`. This calls `goeveg::ordiselect()` to select species
+according to abundance and fit to the displayed axes:
+
+- `ablim = 0.3` retains the most abundant 30% of species;
+- `fitlim = 0.8` retains the 80% of species with the best fit to the axes;
+- `freq = FALSE` uses abundance rather than occurrence frequency.
+
+Species must meet both selection criteria. In `tb_pca_plot()`,
+`ordiselect()` receives the transformed matrix used for the PCA.
+The abundance threshold is a proportion of species, not a cumulative
+percentage of total SRA.
+
+```{r tb-pca, fig.width=8, fig.height=6}
+set.seed(123)
+pca <- tb_pca_plot(
+  veg = veg,
+  groups = groups,
+  transformation = "hellinger", # alternative: "chord"
+  axes = c(1, 2),
+  area = "hull", # "hull", "ellipse", or "none"
+  species = "ordiselect",
+  ablim = 0.3,
+  fitlim = 0.8,
+  freq = FALSE,
+  label_groups = TRUE,
+  segment.alpha_labelSpe = 0.3,
+  segment.size_labelSpe = 0.3
+)
+
+pca$plot_sites
+pca$plot_species
+```
+
+The survey plot shows how groups are distributed in the ordination
+plane. The species plot helps interpret the main compositional gradients.
+For `ordiselect`, the species colour identifies the group with the
+highest mean SRA; this is a descriptive assignment, not a test of
+indicator value.
+
+Convex hulls describe the distribution of surveys and are not confidence
+intervals. Interpret overlap or separation alongside the variance
+explained by the axes and the group composition tables.
+
+```{r risultati-pca}
+pca$variance
+head(pca$sites)
+head(pca$species)
+pca$selected_species
+```
+
+# 8. Optional extension: Indicator Species Analysis
+
+IndVal can also be applied to the selected groups to identify species
+associated with individual vegetation units. This complements the
+description based on dominant species and the exploratory species
+selection provided by `ordiselect`.
+
+The following optional chunk applies `IndVal.g` to SRA values, accounting
+for unequal group sizes. Setting `duleg = TRUE` limits the analysis to
+individual groups. Adapt the permutation design if surveys are repeated
+or arranged in blocks.
+
+```{r optional-indval, eval=FALSE}
+set.seed(123)
+indval <- indicspecies::multipatt(
+  x = veg,
+  cluster = groups$group,
+  func = "IndVal.g",
+  duleg = TRUE,
+  control = permute::how(nperm = 9999)
+)
+
+summary(indval, alpha = 0.05, indvalcomp = TRUE)
+```
+
+The statistic returned by `multipatt()` is the square root of IndVal.
+Its summary uses unadjusted p-values. Since groups were derived from
+the same species matrix, this analysis characterises the classification
+and does not provide an independent validation.
+
+If desired, display species selected by IndVal in a separate tb-PCA
+figure, keeping the same surveys, groups, transformation, and axes.
+
+```{r optional-indval-pca, eval=FALSE}
+pca_indval <- tb_pca_plot(
+  veg = veg,
+  groups = groups,
+  transformation = "hellinger",
+  axes = c(1, 2),
+  area = "hull",
+  species = "indval",
+  indval = indval,
+  alpha = 0.05,
+  label_groups = TRUE
+)
+
+pca_indval$plot_sites
+pca_indval$plot_species
+```
+
+# 9. Optional export
+
+Run the following chunk interactively to save the species table,
+classification, group composition, and ordination results.
+
+```{r export-results, eval=FALSE}
+output_dir <- "risultati_pastoralista"
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+
+write.csv2(
+  first10_table,
+  file.path(output_dir, "first_ten_species.csv"),
+  row.names = FALSE
+)
+write.csv2(groups, file.path(output_dir, "gruppi.csv"), row.names = FALSE)
+write.csv2(
+  silhouette_results,
+  file.path(output_dir, "silhouette.csv"),
+  row.names = FALSE
+)
+write.csv2(
+  aggregate_groups$table,
+  file.path(output_dir, "composizione_media.csv"),
+  row.names = FALSE
+)
+
+saveRDS(
+  list(
+    veg = veg,
+    distance = d,
+    clustering = clst,
+    first10 = first10_table,
+    selection_method = selection_method,
+    n.cluster = n.cluster,
+    silhouette = silhouette_results,
+    groups = groups,
+    aggregate = aggregate_groups,
+    pca = pca,
+    session = sessionInfo()
+  ),
+  file.path(output_dir, "analisi_pastoralista.rds")
+)
+```
+
+# Function references
+
+- [iPastoralist documentation and source code](https://github.com/MarcoPittarello/iPastoralist).
+- [goeveg documentation](https://fvlampe.r-universe.dev/goeveg).
+- [silhouette documentation](https://stat.ethz.ch/R-manual/R-devel/library/cluster/html/silhouette.html).
+- [multipatt documentation](https://search.r-project.org/CRAN/refmans/indicspecies/html/multipatt.html).

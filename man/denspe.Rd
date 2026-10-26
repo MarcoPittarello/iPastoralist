@@ -17,8 +17,8 @@ denspe(nspe = 5, SpeAbund, dbClust)
 numeric matrix to use for the computation of surveys' distance matrix. The dendrogram plot derived from such a numeric matrix will show the survey ID concatenated with a certain number of species ordered by decreasing abundance.
 }
 \description{
-After creating the dendrogram it may be appropriate to append the species sorted by decreasing abundance to each survey in order to facilitate the interpretation of the analysis. The function makes it possible to generate a database with the row names coded as survey code concatenated with a certain number of species ordered by decreasing abundance. Therefore, this database can be used in place of the original database (matrix survey by species) for the calculation of the dissimilarity matrix and for the creation of the dendrogram (e.g. with \link[base]{hclust}).
+After creating the dendrogram it may be appropriate to append the species sorted by decreasing abundance to each survey in order to facilitate the interpretation of the analysis. The function makes it possible to generate a database with the row names coded as survey code concatenated with a certain number of species ordered by decreasing abundance. Therefore, this database can be used in place of the original database (matrix survey by species) for the calculation of the dissimilarity matrix and for the creation of the dendrogram (e.g. with \link[stats]{hclust}).
 }
 \examples{
-see vignettes
+# See the package vignettes for complete examples.
 }

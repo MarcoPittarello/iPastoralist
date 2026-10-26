@@ -35,20 +35,18 @@ attributed each species an Index of specific quality (ISQ)
 }
 }
 \examples{
-Structure of the database with ISQ database to use as input:
+# Structure of the ISQ database:
+# Rows represent species and the column contains ISQ values.
+# Column headings must be provided.
+# The species name column must not be included.
 
-      Headings must be imported. Species name column has not to be considered.
+isq_data <- data.frame(
+  ISQ = c(2, 5, 4, 999)
+)
 
-            ISQ 
-            2
-            5
-            4
-            999
+# Use 999 for species with missing ISQ values.
 
-      Note: For species without an ISQ specify a value of 999.\cr
-      
- see also vignettes
-      
+# See also the package vignettes for complete examples.
 }
 \references{
 \itemize{

@@ -21,5 +21,5 @@ when 'join.dendrogram' = FALSE: a dataframe in which for each survey the species
 For each survey, plant species names and their abundance are listed in a decreasing order of abundance allowing an easier interpretation of the dendrogram.
 }
 \examples{
-see vignettes
+# See the package vignettes for complete examples.
 }
