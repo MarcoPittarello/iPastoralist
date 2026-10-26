@@ -1,12 +1,13 @@
 #' Individuation of the position and/or the group of appartenance of surveys in a dendrogram
 #' @description After the creation of a dendrogram image, it would be helpful to associate to it also the survey code in a text format. The 'clustOrder' function allows to extract the survey codes in a text format with associated the respective position in the dendrogram.
 #' If groups of a dendrogram have been identified, also the ID group will be associated to each survey code.
-#' @param cluster.hclust: output from 'hclust' function of 'stats' package
-#' @param cluster.group: Logical; TRUE if you want to specify the number of groups of the dendrogram.
-#' @param cluster.number: Integer; To be specified only if 'cluster.group' is TRUE. Set the number of groups the dendrogram will be divided
+#' @param cluster.hclust output from 'hclust' function of 'stats' package
+#' @param cluster.group Logical; TRUE if you want to specify the number of groups of the dendrogram.
+#' @param cluster.number Integer; To be specified only if 'cluster.group' is TRUE. Set the number of groups the dendrogram will be divided
 #' @return when 'cluster.group' = TRUE: a dataframe in which for each survey is specified the group id of appartenance and its position in the dendrogram
 #' when 'cluster.group' = FALSE: a dataframe in which for each survey its position in the dendrogram
-#' @examples see vignettes
+#' @examples
+#' # See the package vignettes for complete examples.
 #' @export
 
 clustOrder <- function(cluster.hclust, cluster.group, cluster.number) {

@@ -25,6 +25,7 @@
 #' @param n.clust Integer; number of clusters used for grouping and for drawing rectangles on the aggregated dendrogram.
 #' @param save.file Logical; if TRUE (default), the dendrogram(s) are exported to disk. Set to FALSE to skip file output.
 #' @param format Character; output format, either \code{"pdf"} (default) or \code{"png"}.
+#' @param labels.cex Numeric. Character expansion factor for dendrogram labels (default 0.5).
 #'
 #' @details
 #' The function uses iPastoralist::denspe to create labelled survey rows, computes
@@ -91,7 +92,7 @@
 #' \link[iPastoralist]{clustOrder}, \link[iPastoralist]{clustGroupAggregate2}
 #' @export
 
-plotClustAggregate = function(
+plotClustAggregate <- function(
   nspePlot = 5,
   firt10 = NULL,
   dbClust = NULL,

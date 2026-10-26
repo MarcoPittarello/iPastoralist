@@ -2,69 +2,71 @@
 % Please edit documentation in R/phytosociological_cover_transformation.R
 \name{PhytoCover}
 \alias{PhytoCover}
-\title{Transformation of visually estimated cover (\%) in a phytosociological survey to cover-abundance values}
+\title{Transform visually estimated species cover to cover-abundance values}
 \usage{
 PhytoCover(database, method)
 }
 \arguments{
-\item{database}{database with visually estimated cover of plant species. Rare species are added as '+". Rows are species and columns are surveys. The first column of the database reports the species names (Important: no space among words must exist). Database class must be \emph{data.frame}}
+\item{database}{A data frame with species in rows and surveys in columns.
+The first column contains non-missing, non-empty, unique species names;
+spaces in species names are allowed. Remaining columns contain percentages
+from 0 to 100, numeric strings, or \code{"+"} for trace cover. Factors are accepted
+through their labels. \code{NA} and blank strings are interpreted as absence (0).}
 
-\item{method}{\itemize{
-\item \strong{"BrBl"}: transform cover visually estimated to the Braun-Blanquet cover-abundance scale (see @details )
-\item \strong{"Maarel"}: transform cover visually estimated to the Van Der Maarel cover-abundance scale (see @details )
-\item \strong{"TassTapp"}: transform cover visually estimated to dominance percentage according to Tasser and Tappeiner (2005) (see @details )
-}}
+\item{method}{One of \code{"BrBl"}, \code{"Maarel"}, or \code{"TassTapp"}.}
 }
 \value{
-database with cover-abundance values. Rows are species and columns are surveys
+A data frame with species names as row names and the original survey
+names as column names. The species-name column is omitted. \code{"BrBl"} returns
+character columns; the other methods return numeric columns.
 }
 \description{
-Species cover visually estimated in a phytosociological survey are transformed to:\cr
-\itemize{
-\item Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)
-\item Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)
-\item Dominance percentage (Tasser and Tappeiner, 2005) \cr
-}
-
-see @details
+Convert visually estimated percentage cover using the simplified
+cover classes in the table below.
 }
 \details{
-\strong{Conversion table}\tabular{cccc}{
-   Visually estimated cover (\%) \tab Braun Blanquet \tab Van Der Maarel \tab Tasser and Tappeiner \cr
+\strong{Conversion table}\tabular{llll}{
+   Visually estimated cover (\%) \tab BrBl \tab Maarel \tab TassTapp \cr
    0 \tab 0 \tab 0 \tab 0 \cr
-   <1 \tab + \tab 2 \tab 0.3 \cr
-   1 - 5 \tab 1 \tab 3 \tab 2.8 \cr
-   6 -15 \tab 2a \tab 5 \tab 10 \cr
-   16-25 \tab 2b \tab 5 \tab 20.5 \cr
-   26-50 \tab 3 \tab 7 \tab 38 \cr
-   51-75 \tab 4 \tab 8 \tab 63 \cr
-   76-100 \tab 5 \tab 9 \tab 88 \cr
+   0 < cover < 1, or \code{+} \tab + \tab 2 \tab 0.3 \cr
+   1 <= cover <= 5 \tab 1 \tab 3 \tab 2.8 \cr
+   5 < cover <= 15 \tab 2a \tab 5 \tab 10 \cr
+   15 < cover <= 25 \tab 2b \tab 5 \tab 20.5 \cr
+   25 < cover <= 50 \tab 3 \tab 7 \tab 38 \cr
+   50 < cover <= 75 \tab 4 \tab 8 \tab 63 \cr
+   75 < cover <= 100 \tab 5 \tab 9 \tab 88 \cr
 }
+
+
+These are the package's simplified, cover-based conversions, rather than
+a reconstruction of abundance from percentage cover. The full extended
+Braun-Blanquet scale includes abundance categories not inferred here.
+In particular, \code{"Maarel"} preserves the package convention of assigning 5
+to both 2a and 2b; the full ordinal transformation distinguishes these as
+5 and 6. The \code{"TassTapp"} values are fixed representatives of cover classes,
+not percentages normalized to sum to 100 within a survey.
+
+Missing values are treated as absence for compatibility. Use this convention
+only when missing cells actually represent species absence, not unknown cover.
 }
 \examples{
- Structure of the database to use as input:
+# Rows are species; columns after the first are surveys.
+cover <- data.frame(
+  Species = c("Festuca rubra", "Poa pratensis", "Trifolium repens"),
+  survey1 = c("12.3", "+", NA),
+  survey2 = c("5", "0", "27")
+)
+PhytoCover(cover, "BrBl")
+PhytoCover(cover, "Maarel")
+PhytoCover(cover, "TassTapp")
 
-      Rows: species
-      Columns: vegetation survey
-      Headings and row names must be imported
-
-       	  Species   ril1     ril2
-            spe1      +
-            spe2              3
-            spe3      2      34
-            spe4      10
-            spe5             20
-
-          Note 1: For species without cover leave the cells empty (NA values)
-          Note 2: rare species as '+'\cr
-          
-   see also vignettes
-   @md
 }
 \references{
-\itemize{
-\item Braun-Blanquet J (1932) Plant sociology. The study of plant communi- ties. GD Fuller and HS Conard (Eds.). Authorized English translations of 'Pflanzensoziologie'. 1st ed. Printed in the United States of America. New York and London: McGraw-Hill Book Co. Inc.\cr
-\item Van der Maarel, E. (1979). Transformation of cover-abundance values in phytosociology and its effects on community similarity. Vegetatio, 39(2), 97-114.\cr
-\item Tasser E, Tappeiner U (2005) New model to predict rooting in diverse plant community compositions. Ecological Modelling 185:195-211.\cr
-}
+Braun-Blanquet, J. (1964). Pflanzensoziologie. Springer, Vienna.
+
+van der Maarel, E. (1979). Transformation of cover-abundance values in
+phytosociology and its effects on community similarity. Vegetatio, 39, 97-114.
+
+Tasser, E. and Tappeiner, U. (2005). New model to predict rooting in diverse
+plant community compositions. Ecological Modelling, 185, 195-211.
 }

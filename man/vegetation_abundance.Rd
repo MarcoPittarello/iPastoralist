@@ -34,22 +34,20 @@ Terminology:
 see \href{https://raw.githubusercontent.com/MarcoPittarello/iPastoralist/main/man/figures/Wrkflw_abundance_conversion.png}{MarcoPittarello/iPastoralist} for a full graphical explanation
 }
 \examples{
- Structure of the database to use as input:
+# Structure of the vegetation database:
+# Rows represent species and columns represent vegetation surveys.
+# Column headings and species names (row names) must be provided.
 
-      Rows: species
-      Columns: vegetation survey
-      Headings and row names must be imported
+vegetation_data <- data.frame(
+  ril1 = c(12, NA, 2, 10, NA),
+  ril2 = c(NA, 5, 999, NA, 20),
+  row.names = c("spe1", "spe2", "spe3", "spe4", "spe5")
+)
 
-       	  Species   ril1     ril2
-            spe1      12
-            spe2              5
-            spe3      2      999
-            spe4      10
-            spe5             20
+# NA values represent species absent from a vegetation survey.
+# Use 999 for occasional species (e.g., "+" in the Braun-Blanquet scale).
 
-          Note 1: For species without FO leave the cells empty (NA values)
-          Note 2: occasional species (i.e. "+") as 999\cr
- see also vignettes
+# See also the package vignettes for complete examples.
 }
 \references{
 Pittarello, M., Probo, M., Lonati, M., Lombardi, G., 2016. Restoration of sub-alpine shrub-encroached grasslands through pastoral practices: effects on vegetation structure and botanical composition. Appl. Veg. Sci. 19, 381–390. https://doi.org/10.1111/avsc.12222

@@ -46,6 +46,8 @@ for PNG it is used together with \code{file.res} to compute pixel dimensions.}
 
 \item{file.res}{Integer; resolution in ppi, used only when \code{format = "png"} (default 200).}
 
+\item{labels.cex}{Numeric. Character expansion factor for dendrogram labels (default 0.5).}
+
 \item{aggregate}{Logical; if TRUE, aggregate surveys by cluster and produce an aggregated dendrogram and summary (default TRUE).}
 
 \item{aggr.Nspe}{Integer; number of species to report per cluster in the returned summary (default 5).}
