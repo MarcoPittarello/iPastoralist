@@ -24,4 +24,19 @@ clustGroupAggregate(database)
 dataframe with the average value of abundance for each species (or
 target variable) within each group sorted decreasingly by the abundance
 
+## Details
+
+This function is deprecated. Use
+[`clustGroupAggregate2`](clustGroupAggregate2.md) instead.
+
 ## Examples
+
+``` r
+# Structure of the database to use as input:
+# Rows: Vegetation surveys
+# Columns: species
+# Group  Spe1  Spe2
+# 1      12.3   0.0
+# 1       0.0   5.0
+# See the package vignettes for complete examples.
+```

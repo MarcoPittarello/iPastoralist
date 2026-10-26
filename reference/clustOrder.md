@@ -15,16 +15,16 @@ clustOrder(cluster.hclust, cluster.group, cluster.number)
 
 ## Arguments
 
-- cluster.hclust::
+- cluster.hclust:
 
   output from 'hclust' function of 'stats' package
 
-- cluster.group::
+- cluster.group:
 
   Logical; TRUE if you want to specify the number of groups of the
   dendrogram.
 
-- cluster.number::
+- cluster.number:
 
   Integer; To be specified only if 'cluster.group' is TRUE. Set the
   number of groups the dendrogram will be divided
@@ -37,3 +37,7 @@ dendrogram when 'cluster.group' = FALSE: a dataframe in which for each
 survey its position in the dendrogram
 
 ## Examples
+
+``` r
+# See the package vignettes for complete examples.
+```

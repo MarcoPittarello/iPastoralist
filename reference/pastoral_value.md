@@ -76,3 +76,18 @@ where:
   Indic. 115, 106429. https://doi.org/10.1016/j.ecolind.2020.106429
 
 ## Examples
+
+``` r
+# Structure of the ISQ database:
+# Rows represent species and the column contains ISQ values.
+# Column headings must be provided.
+# The species name column must not be included.
+
+isq_data <- data.frame(
+  ISQ = c(2, 5, 4, 999)
+)
+
+# Use 999 for species with missing ISQ values.
+
+# See also the package vignettes for complete examples.
+```

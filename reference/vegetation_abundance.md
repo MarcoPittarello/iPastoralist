@@ -81,3 +81,20 @@ effects on vegetation structure and botanical composition. Appl. Veg.
 Sci. 19, 381–390. https://doi.org/10.1111/avsc.12222
 
 ## Examples
+
+``` r
+# Structure of the vegetation database:
+# Rows represent species and columns represent vegetation surveys.
+# Column headings and species names (row names) must be provided.
+
+vegetation_data <- data.frame(
+  ril1 = c(12, NA, 2, 10, NA),
+  ril2 = c(NA, 5, 999, NA, 20),
+  row.names = c("spe1", "spe2", "spe3", "spe4", "spe5")
+)
+
+# NA values represent species absent from a vegetation survey.
+# Use 999 for occasional species (e.g., "+" in the Braun-Blanquet scale).
+
+# See also the package vignettes for complete examples.
+```

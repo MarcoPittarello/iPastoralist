@@ -38,3 +38,7 @@ FALSE: a dataframe in which for each survey the species are ordered
 decreasingly by their abundance
 
 ## Examples
+
+``` r
+# See the package vignettes for complete examples.
+```

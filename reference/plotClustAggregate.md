@@ -84,6 +84,11 @@ plotClustAggregate(
   Integer; resolution in ppi, used only when `format = "png"` (default
   200).
 
+- labels.cex:
+
+  Numeric. Character expansion factor for dendrogram labels (default
+  0.5).
+
 - aggregate:
 
   Logical; if TRUE, aggregate surveys by cluster and produce an

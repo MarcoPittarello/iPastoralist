@@ -8,7 +8,7 @@ concatenated with a certain number of species ordered by decreasing
 abundance. Therefore, this database can be used in place of the original
 database (matrix survey by species) for the calculation of the
 dissimilarity matrix and for the creation of the dendrogram (e.g. with
-hclust).
+[hclust](https://rdrr.io/r/stats/hclust.html)).
 
 ## Usage
 
@@ -41,3 +41,7 @@ survey ID concatenated with a certain number of species ordered by
 decreasing abundance.
 
 ## Examples
+
+``` r
+# See the package vignettes for complete examples.
+```

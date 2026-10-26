@@ -28,3 +28,19 @@ a list with weighted and not weighted ecological indicators for each
 survey.
 
 ## Examples
+
+``` r
+# Structure of the ecological indicator database:
+# Rows represent species and columns represent ecological indicators.
+# Column headings must be provided.
+# The species name column must not be included.
+
+ecological_indicators <- data.frame(
+  N_Landolt = c(2, 5, 4),
+  T_Landolt = c(5, 1, 999)
+)
+
+# Use 999 for species with missing ecological indicator values.
+
+# See also the package vignettes for complete examples.
+```

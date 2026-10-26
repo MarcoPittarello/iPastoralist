@@ -27,3 +27,13 @@ columns: species); 2) aggregate in long format
 (group species, abundance)
 
 ## Examples
+
+``` r
+# Structure of the database to use as input:
+# Rows: Vegetation survey
+# Columns: species
+# Group  Spe1  Spe2
+# 1      12.3   0.0
+# 1       0.0   5.0
+# See the package vignettes for complete examples.
+```

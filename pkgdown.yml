@@ -1,9 +1,11 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   Data_input_format: Data_input_format.html
-  Examples: Examples.html
   Installation: Installation.html
   Introduction_to_iPastoralist: Introduction_to_iPastoralist.html
-last_built: 2026-05-15T07:27Z
+  TUTORIAL_1: TUTORIAL_1.html
+  TUTORIAL_2_-_Cluster_metodo_fitopastorale: TUTORIAL_2_-_Cluster_metodo_fitopastorale.html
+  TUTORIAL_3_-_Cluster_metodo_fitosociologico: TUTORIAL_3_-_Cluster_metodo_fitosociologico.html
+last_built: 2026-10-26T20:15Z

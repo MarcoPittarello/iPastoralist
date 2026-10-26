@@ -53,3 +53,7 @@ Magurran, A.E., 1988. Ecological diversity and its measurement.
 Princeton University Press.
 
 ## Examples
+
+``` r
+# See the package vignettes for complete examples.
+```
