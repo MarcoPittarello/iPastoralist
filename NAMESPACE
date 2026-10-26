@@ -9,6 +9,7 @@ export(denspe)
 export(ecological_indexes)
 export(ecological_indexesPHYTO)
 export(first_ten_species)
+export(maxFusionLevel)
 export(nameGroups)
 export(pastoral_value)
 export(plotClustAggregate)
@@ -17,11 +18,13 @@ import(dendextend)
 import(reshape2)
 import(tidyverse)
 import(vegan)
-importFrom(dplyr,arrange)
-importFrom(dplyr,cur_data)
-importFrom(dplyr,desc)
-importFrom(dplyr,join_by)
-importFrom(dplyr,lag)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,summarise)
+importFrom(dplyr,
+  arrange,
+  cur_data,
+  desc,
+  join_by,
+  lag,
+  left_join,
+  mutate,
+  summarise
+)
