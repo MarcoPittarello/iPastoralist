@@ -127,5 +127,5 @@ if (requireNamespace("openxlsx", quietly = TRUE)) {
   )
   unlink(output_file)
 }
-#> Tabella sinottica esportata: /tmp/RtmpqpgzZ5/file1bb255421f84.xlsx
+#> Tabella sinottica esportata: /tmp/RtmpK9zUp3/file1b7c6817c309.xlsx
 ```
