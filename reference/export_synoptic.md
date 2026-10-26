@@ -23,9 +23,10 @@ export_synoptic(
 - synoptic:
 
   A data frame (or object coercible to a data frame), typically
-  `res$synoptic` from [`synoptic_table()`](synoptic_table.md). It must
-  contain the required diagnostic, dominance, and group frequency
-  columns.
+  `res$synoptic` from
+  [`synoptic_table()`](https://marcopittarello.github.io/iPastoralist/reference/synoptic_table.md).
+  It must contain the required diagnostic, dominance, and group
+  frequency columns.
 
 - file:
 
@@ -60,9 +61,9 @@ writes an Excel workbook to the path specified by `file`.
 ## Details
 
 The input should be the `synoptic` component returned by
-[`synoptic_table()`](synoptic_table.md). The function does not calculate
-diagnostic species, frequency, or dominance; it formats and exports
-previously calculated results.
+[`synoptic_table()`](https://marcopittarello.github.io/iPastoralist/reference/synoptic_table.md).
+The function does not calculate diagnostic species, frequency, or
+dominance; it formats and exports previously calculated results.
 
 The input must contain the columns `group`, `species`, `diagnostic`,
 `phi`, `p.value`, and `dominant`, as well as frequency columns named
@@ -98,7 +99,7 @@ margin of their range. *Vegetation Classification and Survey*, 7,
 
 ## See also
 
-[`synoptic_table()`](synoptic_table.md),
+[`synoptic_table()`](https://marcopittarello.github.io/iPastoralist/reference/synoptic_table.md),
 [`openxlsx::createWorkbook()`](https://rdrr.io/pkg/openxlsx/man/createWorkbook.html)
 
 ## Examples
@@ -126,5 +127,5 @@ if (requireNamespace("openxlsx", quietly = TRUE)) {
   )
   unlink(output_file)
 }
-#> Tabella sinottica esportata: /tmp/RtmpU2OCvc/file1c0e4202ce26.xlsx
+#> Tabella sinottica esportata: /tmp/Rtmpt0x2OL/file1b742adf87b9.xlsx
 ```

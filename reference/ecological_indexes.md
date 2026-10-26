@@ -3,7 +3,8 @@
 Computation of Ecological indicators, which can be either weighted or
 not weighted with SRA. Occasional species can be taken into account. If
 occasional species are considered, SRA correspond to "SRA_SC.fo.occ"
-(see [vegetation_abundance](vegetation_abundance.md))
+(see
+[vegetation_abundance](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md))
 
 ## Usage
 
@@ -22,9 +23,10 @@ ecological_indexes(
 - database.vegetation:
 
   database with Frequency of occurrence (FO) and occasional species as
-  999 (see [vegetation_abundance](vegetation_abundance.md)). Rows are
-  species and columns are surveys. The column of species names must be
-  imported. Database class must be *data.frame*
+  999 (see
+  [vegetation_abundance](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md)).
+  Rows are species and columns are surveys. The column of species names
+  must be imported. Database class must be *data.frame*
 
 - database.indexes:
 
@@ -35,7 +37,8 @@ ecological_indexes(
 
   Logical. TRUE if you want to take into account occasional species. If
   occasional species are considered, SRA correspond to "SRA_SC.fo.occ"
-  (see [vegetation_abundance](vegetation_abundance.md))
+  (see
+  [vegetation_abundance](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md))
 
 - species.cover.coefficient:
 

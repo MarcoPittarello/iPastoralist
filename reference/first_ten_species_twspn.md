@@ -79,8 +79,8 @@ classification.
 
 ## See also
 
-[`denspe_twspn()`](denspe_twspn.md),
-[`clustOrder_twspn()`](clustOrder_twspn.md)
+[`denspe_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/denspe_twspn.md),
+[`clustOrder_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/clustOrder_twspn.md)
 
 ## Examples
 

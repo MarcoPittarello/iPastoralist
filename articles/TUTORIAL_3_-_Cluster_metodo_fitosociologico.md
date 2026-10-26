@@ -211,8 +211,8 @@ classification by applying `cutree()` to the displayed dendrogram.
 Recode group labels as `1`, `2`, etc., and store them as a factor with
 the same level order for ISA, phi, PCA, and the synoptic table. This
 ensures that the version of
-[`synoptic_table()`](../reference/synoptic_table.md) that adds a `G`
-prefix to frequency columns produces `G1`, `G2`, etc.
+[`synoptic_table()`](https://marcopittarello.github.io/iPastoralist/reference/synoptic_table.md)
+that adds a `G` prefix to frequency columns produces `G1`, `G2`, etc.
 
 ``` r
 
@@ -837,8 +837,9 @@ saveRDS(
 )
 ```
 
-If [`export_synoptic()`](../reference/export_synoptic.md) is also
-available, export an abbreviated synoptic table to Excel. In the
+If
+[`export_synoptic()`](https://marcopittarello.github.io/iPastoralist/reference/export_synoptic.md)
+is also available, export an abbreviated synoptic table to Excel. In the
 interface used here, `min_frequency = 30` retains all diagnostic species
 and, among the other species in the input synoptic table, those with a
 frequency of at least 30% in one group. It does not restore species

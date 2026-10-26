@@ -40,8 +40,9 @@ plotClustAggregate(
 
 - firt10:
 
-  Object created by [first_ten_species](first_ten_species.md); used to
-  generate labels of top species.
+  Object created by
+  [first_ten_species](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species.md);
+  used to generate labels of top species.
 
 - dbClust:
 
@@ -140,9 +141,10 @@ location before running.
 ## See also
 
 [vegdist](https://vegandevs.github.io/vegan/reference/vegdist.html),
-[hclust](https://rdrr.io/r/stats/hclust.html), [denspe](denspe.md),
-[clustOrder](clustOrder.md),
-[clustGroupAggregate2](clustGroupAggregate2.md)
+[hclust](https://rdrr.io/r/stats/hclust.html),
+[denspe](https://marcopittarello.github.io/iPastoralist/reference/denspe.md),
+[clustOrder](https://marcopittarello.github.io/iPastoralist/reference/clustOrder.md),
+[clustGroupAggregate2](https://marcopittarello.github.io/iPastoralist/reference/clustGroupAggregate2.md)
 
 ## Examples
 

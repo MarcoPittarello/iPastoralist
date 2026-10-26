@@ -1,13 +1,13 @@
 # Name vegetation groups based on dominant species
 
 Assigns a descriptive name to each vegetation group identified by
-[`clustGroupAggregate2`](clustGroupAggregate2.md). The name is built by
-selecting, within each group, the most-abundant species whose
-*cumulated* relative abundance does not exceed a user-defined threshold.
-Species names are retrieved by joining the long-format output with a
-lookup table that maps abbreviated CEP codes to full scientific names.
-Each species is followed by its rounded relative abundance in
-parentheses (e.g. *Trifolium repens* (30\\
+[`clustGroupAggregate2`](https://marcopittarello.github.io/iPastoralist/reference/clustGroupAggregate2.md).
+The name is built by selecting, within each group, the most-abundant
+species whose *cumulated* relative abundance does not exceed a
+user-defined threshold. Species names are retrieved by joining the
+long-format output with a lookup table that maps abbreviated CEP codes
+to full scientific names. Each species is followed by its rounded
+relative abundance in parentheses (e.g. *Trifolium repens* (30\\
 
 ## Usage
 
@@ -20,8 +20,8 @@ nameGroups(df.long, cep, threshold = 50)
 - df.long:
 
   A dataframe in long format as returned by the `$df.long` element of
-  [`clustGroupAggregate2`](clustGroupAggregate2.md). It must contain at
-  least three columns:
+  [`clustGroupAggregate2`](https://marcopittarello.github.io/iPastoralist/reference/clustGroupAggregate2.md).
+  It must contain at least three columns:
 
   `group`
 

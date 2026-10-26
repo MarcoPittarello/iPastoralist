@@ -27,7 +27,8 @@ target variable) within each group sorted decreasingly by the abundance
 ## Details
 
 This function is deprecated. Use
-[`clustGroupAggregate2`](clustGroupAggregate2.md) instead.
+[`clustGroupAggregate2`](https://marcopittarello.github.io/iPastoralist/reference/clustGroupAggregate2.md)
+instead.
 
 ## Examples
 

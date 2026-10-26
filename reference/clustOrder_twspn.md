@@ -38,8 +38,8 @@ path), and `depth` (terminal division depth).
 ## Details
 
 This is the TWINSPAN counterpart of
-[`iPastoralist::clustOrder`](clustOrder.md), the function defined in the
-original file `cluster_survey_order.R`.
+[`iPastoralist::clustOrder`](https://marcopittarello.github.io/iPastoralist/reference/clustOrder.md),
+the function defined in the original file `cluster_survey_order.R`.
 
 The groups are taken from `twin_ecan$classification$group`, matched by
 survey identifier. They are never obtained by cutting a new clustering.
@@ -56,8 +56,8 @@ zero-height graphical merges.
 
 ## See also
 
-[`first_ten_species_twspn()`](first_ten_species_twspn.md),
-[`plotClustAggregate_twspn()`](plotClustAggregate_twspn.md)
+[`first_ten_species_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species_twspn.md),
+[`plotClustAggregate_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/plotClustAggregate_twspn.md)
 
 ## Examples
 

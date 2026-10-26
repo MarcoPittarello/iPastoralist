@@ -30,10 +30,10 @@ denspe_twspn(
 - SpeAbund:
 
   Optional data.frame produced by
-  [`first_ten_species_twspn()`](first_ten_species_twspn.md), containing
-  survey identifiers in the `Survey` column and ranked species in
-  columns `X1`, `X2`, etc. If NULL, species rankings are calculated
-  automatically.
+  [`first_ten_species_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species_twspn.md),
+  containing survey identifiers in the `Survey` column and ranked
+  species in columns `X1`, `X2`, etc. If NULL, species rankings are
+  calculated automatically.
 
 - dbClust:
 
@@ -78,8 +78,8 @@ implemented in the `ecan` package.
 
 Species are ranked according to their abundance within each survey,
 using the results of
-[`first_ten_species_twspn()`](first_ten_species_twspn.md). The user can
-specify how many species should be included in the label.
+[`first_ten_species_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species_twspn.md).
+The user can specify how many species should be included in the label.
 
 For example, a survey originally identified as "R1" may receive the
 label "R1 \| Festuca rubra \| Agrostis capillaris" when `nspe = 2`.
@@ -100,13 +100,14 @@ contain exactly the same surveys, although their order, species columns
 and abundance units may differ.
 
 The resulting labels can be used with TWINSPAN plotting functions, such
-as [`plotClustAggregate_twspn()`](plotClustAggregate_twspn.md), to
-improve the ecological interpretation of vegetation groups.
+as
+[`plotClustAggregate_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/plotClustAggregate_twspn.md),
+to improve the ecological interpretation of vegetation groups.
 
 ## See also
 
-[`first_ten_species_twspn`](first_ten_species_twspn.md),
-[`plotClustAggregate_twspn`](plotClustAggregate_twspn.md),
+[`first_ten_species_twspn`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species_twspn.md),
+[`plotClustAggregate_twspn`](https://marcopittarello.github.io/iPastoralist/reference/plotClustAggregate_twspn.md),
 [`twinspan`](https://matutosi.github.io/ecan/reference/twinspan.html)
 
 ## Examples

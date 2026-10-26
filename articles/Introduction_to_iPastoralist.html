@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Introduction to iPastoralist • iPastoralist</title>
+<title> • iPastoralist</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to iPastoralist">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -35,7 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/Data_input_format.html">Data input format</a></li>
     <li><a class="dropdown-item" href="../articles/Installation.html">Installation</a></li>
-    <li><a class="dropdown-item" href="../articles/Introduction_to_iPastoralist.html">Introduction to iPastoralist</a></li>
+    <li><a class="dropdown-item" href="../articles/Introduction_to_iPastoralist.html">UNKNOWN TITLE</a></li>
     <li><a class="dropdown-item" href="../articles/TUTORIAL_1.html">Examples</a></li>
     <li><a class="dropdown-item" href="../articles/TUTORIAL_2_-_Cluster_metodo_fitopastorale.html">Vegetation classification: a pastoral approach</a></li>
     <li><a class="dropdown-item" href="../articles/TUTORIAL_3_-_Cluster_metodo_fitosociologico.html">Vegetation classification: a phytosociological approach</a></li>
@@ -61,9 +61,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Introduction to iPastoralist</h1>
-                        <h4 data-toc-skip class="author">Marco
-Pittarello</h4>
+      <h1></h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/MarcoPittarello/iPastoralist.git/blob/main/vignettes/Introduction_to_iPastoralist.Rmd" class="external-link"><code>vignettes/Introduction_to_iPastoralist.Rmd</code></a></small>
@@ -73,101 +71,139 @@ Pittarello</h4>
     
     
 <div class="section level2">
-<h2 id="when-to-use-it">
-<strong>When to use it</strong><a class="anchor" aria-label="anchor" href="#when-to-use-it"></a>
+<h2 id="ipastoralist">iPastoralist<a class="anchor" aria-label="anchor" href="#ipastoralist"></a>
 </h2>
-<p>Botanical composition was surveyed either with
-<strong>phytosociological</strong> or <strong>point-quadrat / pinpoint
-(or point‐intercept) method</strong> (plant species are recorded at
-fixed interval along a <em>linear transect</em>, Daget and Poissonet
-1971).</p>
-<p>If botanical composition was surveyed with the <strong>point-quadrat
-/ pinpoint (or point‐intercept) method</strong>, <em>iPastoralist</em>
-works also when the list of all other plant species included within a
-buffer area around the transect line (i.e. <strong>vegetation
-plot</strong>) has been done. Indeed, the point-intercept method often
-miss rare species.</p>
+<p><strong>An R package for vegetation data processing,
+characterization, and classification, with applications in grassland and
+pasture ecology, phytopastoral analysis, and
+phytosociology.</strong></p>
+<p><em>iPastoralist</em> provides tools for managing and analysing
+botanical composition data collected using point-quadrat
+(point-intercept) and phytosociological survey methods.</p>
+<p>The package supports the conversion and standardization of vegetation
+data, the calculation of biodiversity, pastoral, and ecological
+indicators, and the numerical classification and floristic
+characterization of plant communities.</p>
+<p><strong>Website:</strong> <a href="https://marcopittarello.github.io/iPastoralist/" class="uri">https://marcopittarello.github.io/iPastoralist/</a></p>
+<div class="section level3">
+<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h3>
+<p>The main functionalities of <em>iPastoralist</em> are organized into
+three complementary analytical components:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Vegetation data preparation and conversion:</strong>
+processing botanical survey data and converting species frequency or
+cover measurements into suitable quantitative formats.</p></li>
+<li><p><strong>Vegetation characterization:</strong> calculating
+biodiversity indices, Pastoral Value, ecological indicator values, and
+descriptors of floristic composition.</p></li>
+<li><p><strong>Vegetation classification and interpretation:</strong>
+supporting numerical vegetation classification, the identification of
+diagnostic and characteristic species, and the interpretation of
+vegetation groups according to phytopastoral and phytosociological
+approaches.</p></li>
+</ol>
+<p>These components can be used independently or combined into an
+integrated workflow for vegetation analysis.</p>
+</div>
+<div class="section level3">
+<h3 id="when-to-use-it">When to use it<a class="anchor" aria-label="anchor" href="#when-to-use-it"></a>
+</h3>
+<p><em>iPastoralist</em> is designed to work with botanical composition
+data collected using two main survey methods:</p>
+<ul>
+<li>
+<strong>Point-quadrat / pinpoint (point-intercept) method:</strong>
+plant species are recorded at fixed intervals along a linear transect
+(Daget and Poissonet, 1971).</li>
+<li>
+<strong>Phytosociological method:</strong> plant species occurring
+within vegetation plots are recorded, and their cover is visually
+estimated.</li>
+</ul>
+<p>For point-quadrat surveys, the package also supports datasets
+including <strong>occasional species</strong>, i.e., species recorded
+within a surrounding vegetation plot but not intercepted along the
+transect.</p>
+<p>This is particularly relevant because point-intercept sampling may
+fail to detect rare or low-abundance species, which can nevertheless
+contribute to biodiversity and vegetation characterization.</p>
+<p>The package is particularly suited to grassland and pasture studies,
+although several functions can also be applied to other vegetation
+types.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="what-it-does">
-<strong>What it does</strong><a class="anchor" aria-label="anchor" href="#what-it-does"></a>
+<h2 id="main-features">Main features<a class="anchor" aria-label="anchor" href="#main-features"></a>
 </h2>
 <div class="section level3">
-<h3 id="point-quadrat-pinpoint-or-pointintercept-method">
-<strong>Point-quadrat / pinpoint (or point‐intercept)
-method</strong><a class="anchor" aria-label="anchor" href="#point-quadrat-pinpoint-or-pointintercept-method"></a>
+<h3 id="vegetation-data-preparation-and-conversion">1. Vegetation data preparation and conversion<a class="anchor" aria-label="anchor" href="#vegetation-data-preparation-and-conversion"></a>
 </h3>
-<p><em>iPastoralist</em> allows you to:</p>
-<ol style="list-style-type: decimal">
-<li>Transform <strong>Frequency of occurrences (FO)</strong> of species
-identified along a linear transect (either with or without occasional
-species) to:
-<ul>
-<li>
-<strong>Species relative abundance (SRA)</strong> : ratio between
-frequency of occurrence and the sum of frequency of occurrences values
-for all species in the transect, then multiplied by 100;</li>
-<li>
-<strong>Species percentage cover (%SC)</strong>: conversion of
-frequency of occurrence to 100 measurements (e.g. if a species had a FO=
-20 measurements out of 50 total measurements along the transect line,
-the FO will be multiplied by 2). To all occasional species (i.e. species
-found within vegetation plots but not along the linear transects) a %SC
-value = 0.3% is attributed. More details are provided in the
-<strong>vegetation_abundance</strong> function, which process FO data
-with the following workflow:</li>
-</ul>
-</li>
-</ol>
+<p><em>iPastoralist</em> provides functions to process botanical survey
+data and convert species frequency or cover measurements into
+quantitative values suitable for ecological and vegetation analyses.</p>
+<div class="section level4">
+<h4 id="point-quadrat-pinpoint-point-intercept-method">1.1. Point-quadrat / pinpoint (point-intercept) method<a class="anchor" aria-label="anchor" href="#point-quadrat-pinpoint-point-intercept-method"></a>
+</h4>
+<p>The <code><a href="../reference/vegetation_abundance.html">vegetation_abundance()</a></code> function processes the
+<strong>frequency of occurrence (FO)</strong> of species recorded along
+linear transects, either with or without occasional species.</p>
+<p>It allows the conversion of FO into two main quantitative
+measures.</p>
+<p><strong>Species Relative Abundance (SRA)</strong></p>
+<p>SRA is calculated as the ratio between the frequency of occurrence of
+a species and the sum of the frequencies of occurrence of all species
+recorded along the transect, multiplied by 100.</p>
+<p>This measure expresses the proportional contribution of each species
+to the recorded vegetation composition.</p>
+<p><strong>Species Percentage Cover (%SC)</strong></p>
+<p>FO values can also be converted into frequency-based percentage cover
+estimates by standardizing the number of contacts to 100 measurement
+points.</p>
+<p>For example, if a species is recorded at 20 out of 50 measurement
+points, its corresponding %SC is 40%.</p>
+<p>For occasional species recorded within the vegetation plot but not
+intercepted along the transect, a conventional %SC value of 0.3% is
+assigned.</p>
+<p>The processing and conversion procedure implemented in
+<code><a href="../reference/vegetation_abundance.html">vegetation_abundance()</a></code> is summarized in the following
+workflow.</p>
 <div class="float">
-<img src="Wrkflw_abundance_conversion.png" style="width:100.0%" alt="Workflow"><div class="figcaption">Workflow</div>
+<img src="reference/figures/Wrkflw_abundance_conversion.png" alt="Workflow for vegetation abundance conversion"><div class="figcaption">Workflow for vegetation abundance
+conversion</div>
 </div>
-<ol start="2" style="list-style-type: decimal">
-<li>Compute:
+<p>For further information about the available conversion methods and
+their implementation, see <code><a href="../reference/vegetation_abundance.html">vegetation_abundance()</a></code>.</p>
+</div>
+<div class="section level4">
+<h4 id="phytosociological-method">1.2. Phytosociological method<a class="anchor" aria-label="anchor" href="#phytosociological-method"></a>
+</h4>
+<p>The <code><a href="../reference/PhytoCover.html">PhytoCover()</a></code> function converts visually estimated
+species cover values (%) from phytosociological surveys into different
+cover-abundance scales and numerical values:</p>
 <ul>
 <li>
-<strong>Biodiversity indexes</strong>: Species richness, Shannon
-diversity index, Effective Number of Species (ENS), Shannon max,
-Equitability. (see “<strong>biodiversity</strong>” function)</li>
+<strong>Braun-Blanquet cover-abundance scale</strong>
+(Braun-Blanquet, 1932);</li>
 <li>
-<strong>Forage Pastoral Value (PV)</strong> (see
-“<strong>pastoral_value</strong>” function)</li>
+<strong>Van der Maarel cover-abundance scale</strong> (Van der
+Maarel, 1979);</li>
 <li>
-<strong>Ecological indexes</strong>: Landolt, Ellenberg (either
-weighted or not weighted with plant species abundance and either
-considering or not considering occasional species). (see
-“<strong>ecological_indexes</strong>” function)</li>
-</ul>
-</li>
-<li>Extract for each survey the firt ten species, ordered decreasingly
-by their abundance (useful with dendrograms). (see
-“<strong>first_ten_species</strong>” function)</li>
-</ol>
-</div>
-<div class="section level3">
-<h3 id="phytosociological-method">
-<strong>Phytosociological method</strong><a class="anchor" aria-label="anchor" href="#phytosociological-method"></a>
-</h3>
-<p>With the ‘<strong>PhytoCover</strong>’ function,
-<em>iPastoralist</em> allows you to transform species cover visually
-estimated in a phytosociological survey to:</p>
-<ul>
-<li>Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)</li>
-<li>Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)</li>
-<li>Dominance percentage (Tasser and Tappeiner, 2005)</li>
+<strong>Dominance percentage</strong> according to Tasser and
+Tappeiner (2005).</li>
 </ul>
 <p><strong>Conversion table</strong></p>
 <table class="table">
 <colgroup>
-<col width="45%">
-<col width="19%">
-<col width="17%">
-<col width="17%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
 </colgroup>
 <thead><tr class="header">
 <th align="center">Visually estimated cover (%)</th>
-<th align="center">Braun Blanquet</th>
-<th align="center">Van Der Maarel</th>
+<th align="center">Braun-Blanquet</th>
+<th align="center">Van der Maarel</th>
 <th align="center">Tasser and Tappeiner (%)</th>
 </tr></thead>
 <tbody>
@@ -184,64 +220,354 @@ estimated in a phytosociological survey to:</p>
 <td align="center">0.3</td>
 </tr>
 <tr class="odd">
-<td align="center">1 - 5</td>
+<td align="center">1–5</td>
 <td align="center">1</td>
 <td align="center">3</td>
 <td align="center">2.8</td>
 </tr>
 <tr class="even">
-<td align="center">6 -15</td>
+<td align="center">6–15</td>
 <td align="center">2a</td>
 <td align="center">5</td>
 <td align="center">10</td>
 </tr>
 <tr class="odd">
-<td align="center">16-25</td>
+<td align="center">16–25</td>
 <td align="center">2b</td>
 <td align="center">5</td>
 <td align="center">20.5</td>
 </tr>
 <tr class="even">
-<td align="center">26-50</td>
+<td align="center">26–50</td>
 <td align="center">3</td>
 <td align="center">7</td>
 <td align="center">38</td>
 </tr>
 <tr class="odd">
-<td align="center">51-75</td>
+<td align="center">51–75</td>
 <td align="center">4</td>
 <td align="center">8</td>
 <td align="center">63</td>
 </tr>
 <tr class="even">
-<td align="center">76-100</td>
+<td align="center">76–100</td>
 <td align="center">5</td>
 <td align="center">9</td>
 <td align="center">88</td>
 </tr>
 </tbody>
 </table>
+<p>These conversions facilitate the preparation of species cover data
+for subsequent analyses, including vegetation classification and
+comparisons of floristic composition.</p>
+<p>For further details, see <code><a href="../reference/PhytoCover.html">PhytoCover()</a></code>.</p>
+</div>
 </div>
 <div class="section level3">
-<h3 id="references">
-<strong>References</strong><a class="anchor" aria-label="anchor" href="#references"></a>
+<h3 id="vegetation-characterization">2. Vegetation characterization<a class="anchor" aria-label="anchor" href="#vegetation-characterization"></a>
 </h3>
+<p><em>iPastoralist</em> provides functions to characterize plant
+communities in terms of species diversity, pastoral characteristics,
+ecological indicator values, and floristic composition.</p>
+<div class="section level4">
+<h4 id="biodiversity-indices">2.1. Biodiversity indices<a class="anchor" aria-label="anchor" href="#biodiversity-indices"></a>
+</h4>
+<p>The <code><a href="../reference/biodiversity.html">biodiversity()</a></code> function calculates several
+biodiversity metrics, including:</p>
 <ul>
-<li><p>Braun-Blanquet J (1932) Plant sociology. The study of plant
-communities. GD Fuller and HS Conard (Eds.). Authorized English
-translations of ‘Pflanzensoziologie’. 1st ed. Printed in the United
-States of America. New York and London: McGraw-Hill Book
-Co. Inc.</p></li>
-<li><p>Daget, P., Poissonet, J., (1971). A method of plant analysis of
-pastures. Ann. Agron. 22, 5–41.</p></li>
-<li><p>Tasser E, Tappeiner U (2005) New model to predict rooting in
-diverse plant community compositions. Ecological Modelling
-185:195-211.</p></li>
-<li><p>Van der Maarel, E. (1979). Transformation of cover-abundance
-values in phytosociology and its effects on community similarity.
-Vegetatio, 39(2), 97-114.</p></li>
+<li>
+<strong>Species richness:</strong> number of plant species recorded
+within each vegetation survey;</li>
+<li>
+<strong>Shannon diversity index:</strong> measure combining species
+richness and the distribution of relative abundances;</li>
+<li>
+<strong>Effective Number of Species (ENS):</strong> transformation
+of diversity into an effective number of equally abundant species;</li>
+<li>
+<strong>Maximum Shannon diversity:</strong> theoretical maximum
+Shannon diversity for a given species richness;</li>
+<li>
+<strong>Equitability (evenness):</strong> measure describing how
+evenly species abundances are distributed.</li>
+</ul>
+<p>These complementary metrics provide information about both the number
+of species and their relative contributions to the community.</p>
+<p>For further details, see <code><a href="../reference/biodiversity.html">biodiversity()</a></code>.</p>
+</div>
+<div class="section level4">
+<h4 id="pastoral-value">2.2. Pastoral Value<a class="anchor" aria-label="anchor" href="#pastoral-value"></a>
+</h4>
+<p>The <code><a href="../reference/pastoral_value.html">pastoral_value()</a></code> function calculates the
+<strong>Pastoral Value (PV)</strong> of vegetation based on the relative
+abundance of plant species and their specific forage quality.</p>
+<p>PV is a synthetic index commonly used in phytopastoral studies to
+assess the forage potential of grassland and pasture vegetation.</p>
+<p>It integrates:</p>
+<ul>
+<li>
+<strong>Species Relative Abundance (SRA)</strong>, expressing the
+proportional contribution of each species to the vegetation;</li>
+<li>
+<strong>Index of Specific Quality (ISQ)</strong>, reflecting the
+forage characteristics of individual plant species.</li>
+</ul>
+<p>The resulting index supports the assessment and comparison of pasture
+vegetation types in relation to their potential forage value.</p>
+<p>For further details, see <code><a href="../reference/pastoral_value.html">pastoral_value()</a></code>.</p>
+</div>
+<div class="section level4">
+<h4 id="ecological-indicator-values">2.3. Ecological indicator values<a class="anchor" aria-label="anchor" href="#ecological-indicator-values"></a>
+</h4>
+<p>The <code><a href="../reference/ecological_indexes.html">ecological_indexes()</a></code> function calculates
+community-level ecological indicator values based on:</p>
+<ul>
+<li>
+<strong>Landolt ecological indicator values</strong>;</li>
+<li>
+<strong>Ellenberg ecological indicator values</strong>.</li>
+</ul>
+<p>Calculations can be performed:</p>
+<ul>
+<li>With or without weighting by species abundance;</li>
+<li>Including or excluding occasional species.</li>
+</ul>
+<p>These indicators provide information about the ecological
+characteristics of vegetation based on the environmental preferences of
+the species composing the plant community.</p>
+<p>They can be used to characterize vegetation along environmental
+gradients and to support comparisons among vegetation surveys or
+groups.</p>
+<p>For further details, see <code><a href="../reference/ecological_indexes.html">ecological_indexes()</a></code>.</p>
+</div>
+<div class="section level4">
+<h4 id="floristic-composition">2.4. Floristic composition<a class="anchor" aria-label="anchor" href="#floristic-composition"></a>
+</h4>
+<p>The <code><a href="../reference/first_ten_species.html">first_ten_species()</a></code> function extracts the ten most
+abundant species for each vegetation survey, ranked in decreasing order
+of abundance.</p>
+<p>This function provides a concise description of the main species
+contributing to vegetation composition.</p>
+<p>The output is particularly useful for:</p>
+<ul>
+<li>Summarizing the floristic composition of individual vegetation
+surveys;</li>
+<li>Identifying the most abundant species;</li>
+<li>Supporting the interpretation of numerical classifications;</li>
+<li>Annotating dendrograms with species information.</li>
+</ul>
+<p>For further details, see <code><a href="../reference/first_ten_species.html">first_ten_species()</a></code>.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="vegetation-classification-and-interpretation">3. Vegetation classification and interpretation<a class="anchor" aria-label="anchor" href="#vegetation-classification-and-interpretation"></a>
+</h3>
+<p><em>iPastoralist</em> also provides functions supporting the
+<strong>numerical classification of vegetation surveys</strong> and the
+floristic characterization and ecological interpretation of the
+resulting vegetation groups.</p>
+<p>These tools can be applied to datasets derived from point-quadrat or
+phytosociological surveys, using appropriate species abundance, cover,
+or presence-absence data.</p>
+<p>The classification workflow aims to identify relatively homogeneous
+vegetation groups based on their floristic composition and to support
+their interpretation according to <strong>phytopastoral</strong> and
+<strong>phytosociological</strong> approaches.</p>
+<div class="section level4">
+<h4 id="numerical-vegetation-classification">3.1. Numerical vegetation classification<a class="anchor" aria-label="anchor" href="#numerical-vegetation-classification"></a>
+</h4>
+<p>The package provides tools supporting the identification of
+vegetation groups based on floristic similarity.</p>
+<p>The main objectives include:</p>
+<ul>
+<li>
+<strong>Classification of vegetation surveys:</strong> grouping
+relevés according to their floristic composition through numerical
+classification methods.</li>
+<li>
+<strong>Evaluation of alternative classifications:</strong>
+comparing alternative partitions of the vegetation dataset using
+statistical criteria.</li>
+<li>
+<strong>Selection of the number of vegetation groups:</strong>
+supporting the identification of an appropriate classification level by
+considering numerical criteria and the interpretability of the resulting
+groups.</li>
+</ul>
+<p>These analyses provide a reproducible basis for identifying
+vegetation units that can subsequently be characterized in terms of
+floristic composition and ecological properties.</p>
+<p>Numerical classification is intended to support, rather than replace,
+the ecological interpretation of vegetation communities.</p>
+</div>
+<div class="section level4">
+<h4 id="floristic-characterization-of-vegetation-groups">3.2. Floristic characterization of vegetation groups<a class="anchor" aria-label="anchor" href="#floristic-characterization-of-vegetation-groups"></a>
+</h4>
+<p>Once vegetation groups have been identified, <em>iPastoralist</em>
+supports their floristic characterization by distinguishing different
+roles of plant species within each group.</p>
+<p>The main categories include:</p>
+<p><strong>Diagnostic species</strong></p>
+<p>Species showing a particular affinity or fidelity to one or more
+vegetation groups, identified using statistical measures of association
+or fidelity and appropriate significance tests.</p>
+<p>Diagnostic species are particularly important for distinguishing
+vegetation units based on their floristic composition.</p>
+<p><strong>Constant species</strong></p>
+<p>Species occurring frequently within a particular vegetation group,
+independently of whether they are exclusive or diagnostic of that
+group.</p>
+<p>Their frequency contributes to the description of the typical
+floristic composition of vegetation units.</p>
+<p><strong>Dominant species</strong></p>
+<p>Species characterized by relatively high abundance or cover within
+vegetation groups.</p>
+<p>Dominant species are particularly important for describing vegetation
+structure and physiognomy.</p>
+<p><strong>Companion species</strong></p>
+<p>Additional species contributing to the floristic composition of
+vegetation groups without necessarily showing high fidelity, frequency,
+or dominance.</p>
+<p>Together, these categories provide complementary information for
+describing and comparing vegetation communities.</p>
+</div>
+<div class="section level4">
+<h4 id="synoptic-vegetation-tables">3.3. Synoptic vegetation tables<a class="anchor" aria-label="anchor" href="#synoptic-vegetation-tables"></a>
+</h4>
+<p><em>iPastoralist</em> supports the preparation of <strong>synoptic
+vegetation tables</strong>, summarizing species frequencies and
+floristic characteristics across vegetation groups.</p>
+<p>These tables facilitate:</p>
+<ul>
+<li>Comparison of species occurrence frequencies among vegetation
+groups;</li>
+<li>Identification of diagnostic and constant species;</li>
+<li>Identification of dominant species based on abundance or cover;</li>
+<li>Description of the characteristic floristic composition of each
+vegetation group;</li>
+<li>Comparison of vegetation units for phytopastoral and
+phytosociological interpretation.</li>
+</ul>
+<p>Synoptic tables provide a structured summary of the main floristic
+differences and similarities among vegetation groups.</p>
+</div>
+<div class="section level4">
+<h4 id="phytopastoral-interpretation">3.4. Phytopastoral interpretation<a class="anchor" aria-label="anchor" href="#phytopastoral-interpretation"></a>
+</h4>
+<p>The <strong>phytopastoral approach</strong> focuses on the
+identification and characterization of grassland and pasture vegetation
+types based on their botanical composition, ecological characteristics,
+and pastoral significance.</p>
+<p>Vegetation groups obtained through numerical classification can be
+interpreted by considering:</p>
+<ul>
+<li>Floristic composition and dominant species;</li>
+<li>Species abundance and relative contribution to vegetation
+composition;</li>
+<li>Pastoral Value and forage characteristics;</li>
+<li>Biodiversity and ecological indicator values;</li>
+<li>Ecological and management-related characteristics of pasture
+vegetation.</li>
+</ul>
+<p>This approach supports the identification and description of
+<strong>phytopastoral vegetation types</strong>, which can provide
+useful information for pasture assessment, vegetation monitoring, and
+management planning.</p>
+<p>The characterization of phytopastoral types combines numerical
+results with the ecological and pastoral interpretation of vegetation
+composition.</p>
+</div>
+<div class="section level4">
+<h4 id="phytosociological-interpretation">3.5. Phytosociological interpretation<a class="anchor" aria-label="anchor" href="#phytosociological-interpretation"></a>
+</h4>
+<p>The <strong>phytosociological approach</strong> focuses on the
+identification and description of plant communities based on their
+floristic composition and the occurrence of diagnostic species.</p>
+<p>Numerically derived vegetation groups can be characterized
+through:</p>
+<ul>
+<li>Diagnostic species and their fidelity to vegetation groups;</li>
+<li>Constant, dominant, and companion species;</li>
+<li>Synoptic tables summarizing the composition of vegetation
+units;</li>
+<li>Comparisons of floristic similarities and differences among
+vegetation groups;</li>
+<li>Ecological characteristics associated with vegetation units.</li>
+</ul>
+<p>These outputs support comparisons with previously described
+vegetation communities and their possible attribution to
+<strong>phytosociological syntaxa</strong>, including associations,
+alliances, orders, and classes.</p>
+<p>The final syntaxonomic attribution requires expert interpretation,
+taking into account the ecological and biogeographical context,
+floristic composition, diagnostic species, and relevant
+phytosociological literature.</p>
+</div>
+<div class="section level4">
+<h4 id="integrated-vegetation-classification-workflow">3.6. Integrated vegetation classification workflow<a class="anchor" aria-label="anchor" href="#integrated-vegetation-classification-workflow"></a>
+</h4>
+<p>Overall, <em>iPastoralist</em> supports an integrated analytical
+workflow that can be summarized as follows:</p>
+<p><strong>Vegetation data preparation → Numerical classification →
+Floristic characterization → Synoptic vegetation tables → Ecological and
+phytopastoral or phytosociological interpretation</strong></p>
+<p>The individual steps can be adapted to the objectives of each study
+and to the characteristics of the available vegetation data.</p>
+<p>Numerical methods provide a reproducible basis for identifying
+vegetation groups, while their final interpretation depends on the
+ecological characteristics of the communities, the study objectives, and
+existing scientific knowledge.</p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p><em>iPastoralist</em> can be installed directly from GitHub using the
+<code>pak</code> package.</p>
+<p>First, install <code>pak</code> if it is not already available:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span></code></pre></div>
+<p>Then install the latest version of <em>iPastoralist</em> from
+GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"MarcoPittarello/iPastoralist"</span><span class="op">)</span></span></code></pre></div>
+<p>Once installed, load the package:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist">iPastoralist</a></span><span class="op">)</span></span></code></pre></div>
+<p>For detailed function documentation, examples, and tutorials, visit
+the <a href="https://marcopittarello.github.io/iPastoralist/">iPastoralist
+website</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<ul>
+<li><p>Braun-Blanquet J (1932). <em>Plant sociology. The study of plant
+communities</em>. GD Fuller and HS Conard (Eds.). Authorized English
+translation of “Pflanzensoziologie”. 1st ed. New York and London:
+McGraw-Hill Book Co. Inc.</p></li>
+<li><p>Daget P, Poissonet J (1971). A method of plant analysis of
+pastures. <em>Annales Agronomiques</em>, 22, 5–41.</p></li>
+<li><p>Tasser E, Tappeiner U (2005). New model to predict rooting in
+diverse plant community compositions. <em>Ecological Modelling</em>,
+185, 195–211.</p></li>
+<li><p>Van der Maarel E (1979). Transformation of cover-abundance values
+in phytosociology and its effects on community similarity.
+<em>Vegetatio</em>, 39(2), 97–114.</p></li>
 </ul>
 </div>
+<div class="section level2">
+<h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
+</h2>
+<p><strong>Marco Pittarello</strong></p>
+<p>For more information, visit the <a href="https://github.com/MarcoPittarello/iPastoralist" class="external-link">iPastoralist
+GitHub repository</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p><em>iPastoralist</em> is distributed under the GPL-3 license.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

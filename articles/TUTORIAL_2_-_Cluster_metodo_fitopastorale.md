@@ -40,7 +40,7 @@ stopifnot(
 Select species codes and survey columns, excluding ecological indicator
 values and other ancillary information. The first column contains the
 species codes, as required by
-[`vegetation_abundance()`](../reference/vegetation_abundance.md).
+[`vegetation_abundance()`](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md).
 
 ``` r
 
@@ -130,9 +130,9 @@ plot(clst, cex = 0.6, hang = -1, main = "Chord distance - UPGMA")
 
 To interpret the branches, extract the species of each survey ordered by
 decreasing SRA, using
-[`first_ten_species()`](../reference/first_ten_species.md). Setting
-`join.dendrogram = TRUE` associates each survey with its position in the
-dendrogram.
+[`first_ten_species()`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species.md).
+Setting `join.dendrogram = TRUE` associates each survey with its
+position in the dendrogram.
 
 ``` r
 
@@ -187,10 +187,10 @@ already helps identify changes in the dominant species along the
 dendrogram.
 
 We can also display these species directly beside the survey labels. The
-[`denspe()`](../reference/denspe.md) function creates labels containing
-the survey identifier and the selected number of ranked species. Here we
-show all ten; set `n_species_labels` to 4 or 5 for a more compact
-figure.
+[`denspe()`](https://marcopittarello.github.io/iPastoralist/reference/denspe.md)
+function creates labels containing the survey identifier and the
+selected number of ranked species. Here we show all ten; set
+`n_species_labels` to 4 or 5 for a more compact figure.
 
 ``` r
 
@@ -330,9 +330,10 @@ abline(v = best_k, lty = 2, col = "blue")
 
 ![](TUTORIAL_2_-_Cluster_metodo_fitopastorale_files/figure-html/silhouette-1.png)
 
-If [`maxFusionLevel()`](../reference/maxFusionLevel.md) is available, we
-can also inspect its suggested number of groups. This optional chunk is
-not evaluated during rendering.
+If
+[`maxFusionLevel()`](https://marcopittarello.github.io/iPastoralist/reference/maxFusionLevel.md)
+is available, we can also inspect its suggested number of groups. This
+optional chunk is not evaluated during rendering.
 
 ``` r
 
@@ -343,8 +344,9 @@ fusion$n.clust
 
 Suppose we decide to examine four groups after reading the labelled
 dendrogram. We can set a custom cut, use `best_k`, or select the number
-suggested by [`maxFusionLevel()`](../reference/maxFusionLevel.md). A
-custom cut is an illustrative choice, not a claim that four groups are
+suggested by
+[`maxFusionLevel()`](https://marcopittarello.github.io/iPastoralist/reference/maxFusionLevel.md).
+A custom cut is an illustrative choice, not a claim that four groups are
 optimal for this dataset.
 
 ``` r
@@ -490,8 +492,8 @@ Always inspect group sizes, especially after a custom cut. The
 silhouette.
 
 To describe the groups, calculate the mean SRA of each species using
-[`clustGroupAggregate2()`](../reference/clustGroupAggregate2.md). The
-group identifier must be the first column. Zeros are included when
+[`clustGroupAggregate2()`](https://marcopittarello.github.io/iPastoralist/reference/clustGroupAggregate2.md).
+The group identifier must be the first column. Zeros are included when
 averaging surveys where a species is absent.
 
 The simplified table lists species in decreasing order of mean SRA
@@ -560,7 +562,8 @@ Hellinger-transformed SRA values. Groups are overlaid on the ordination;
 they do not determine the PCA axes.
 
 To keep the species plot readable, use `species = "ordiselect"` in
-[`tb_pca_plot()`](../reference/tb_pca_plot.md). This calls
+[`tb_pca_plot()`](https://marcopittarello.github.io/iPastoralist/reference/tb_pca_plot.md).
+This calls
 [`goeveg::ordiselect()`](https://rdrr.io/pkg/goeveg/man/ordiselect.html)
 to select species according to abundance and fit to the displayed axes:
 
@@ -570,9 +573,10 @@ to select species according to abundance and fit to the displayed axes:
 - `freq = FALSE` uses abundance rather than occurrence frequency.
 
 Species must meet both selection criteria. In
-[`tb_pca_plot()`](../reference/tb_pca_plot.md), `ordiselect()` receives
-the transformed matrix used for the PCA. The abundance threshold is a
-proportion of species, not a cumulative percentage of total SRA.
+[`tb_pca_plot()`](https://marcopittarello.github.io/iPastoralist/reference/tb_pca_plot.md),
+`ordiselect()` receives the transformed matrix used for the PCA. The
+abundance threshold is a proportion of species, not a cumulative
+percentage of total SRA.
 
 ``` r
 

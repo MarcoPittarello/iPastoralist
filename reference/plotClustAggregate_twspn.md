@@ -7,7 +7,7 @@ fitting parameters. Label surveys with their most abundant species. With
 `aggregate = TRUE`, retain every survey, prefix each label with its
 terminal TWINSPAN group, draw rectangles around groups, and return their
 dominant species based on mean abundance. This follows the layout of
-[`iPastoralist::plotClustAggregate`](plotClustAggregate.md).
+[`iPastoralist::plotClustAggregate`](https://marcopittarello.github.io/iPastoralist/reference/plotClustAggregate.md).
 
 ## Usage
 
@@ -54,10 +54,10 @@ plotClustAggregate_twspn(
 - firt10:
 
   Optional data.frame returned by
-  [`first_ten_species_twspn()`](first_ten_species_twspn.md). If `NULL`,
-  compute the ranked species from `dbClust`. Existing group and order
-  columns are ignored: the new fit determines membership and order. The
-  spelling retains the original argument name.
+  [`first_ten_species_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species_twspn.md).
+  If `NULL`, compute the ranked species from `dbClust`. Existing group
+  and order columns are ignored: the new fit determines membership and
+  order. The spelling retains the original argument name.
 
 - dbClust:
 
@@ -224,9 +224,9 @@ in `dbClust` for the `%` suffix to describe their units correctly.
 
 ## See also
 
-[`first_ten_species_twspn()`](first_ten_species_twspn.md),
-[`denspe_twspn()`](denspe_twspn.md),
-[`clustOrder_twspn()`](clustOrder_twspn.md)
+[`first_ten_species_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species_twspn.md),
+[`denspe_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/denspe_twspn.md),
+[`clustOrder_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/clustOrder_twspn.md)
 
 ## Examples
 

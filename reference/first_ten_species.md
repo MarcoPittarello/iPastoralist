@@ -15,9 +15,10 @@ first_ten_species(data_SRA_SC, join.dendrogram, cluster.hclust)
 - data_SRA_SC:
 
   database with abundance data expressed as SRA or SC, calculated with
-  [vegetation_abundance](vegetation_abundance.md). Database class must
-  be *data.frame*. Rows are species and Columns are surveys. Species
-  names must be included as row names and not in the data.
+  [vegetation_abundance](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md).
+  Database class must be *data.frame*. Rows are species and Columns are
+  surveys. Species names must be included as row names and not in the
+  data.
 
 - join.dendrogram:
 

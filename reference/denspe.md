@@ -24,7 +24,8 @@ denspe(nspe = 5, SpeAbund, dbClust)
 
 - SpeAbund:
 
-  object generated from [first_ten_species](first_ten_species.md).
+  object generated from
+  [first_ten_species](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species.md).
 
 - dbClust:
 

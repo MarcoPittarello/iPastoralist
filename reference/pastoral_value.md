@@ -1,8 +1,9 @@
 # Computation of Pastoral Value (PV)
 
 Computation of PV from a database with SRA, either SRA_fo or
-SRA_SC.fo.occ (see [vegetation_abundance](vegetation_abundance.md)). See
-@details for theoretical information
+SRA_SC.fo.occ (see
+[vegetation_abundance](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md)).
+See @details for theoretical information
 
 ## Usage
 
@@ -15,8 +16,8 @@ pastoral_value(SRA_data, isq_data)
 - SRA_data:
 
   database with SRA values, either 'SRA_fo' or 'SRA_SC.fo.occ' (see
-  [vegetation_abundance](vegetation_abundance.md)). Database class must
-  be *data.frame*
+  [vegetation_abundance](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md)).
+  Database class must be *data.frame*
 
 - isq_data:
 
@@ -49,8 +50,8 @@ where:
 
 - SRA: Species Relative Abundance for each species within a survey
   computed as either 'SRA_fo' or 'SRA_SC.fo.occ' (see
-  [vegetation_abundance](vegetation_abundance.md)) attributed each
-  species an Index of specific quality (ISQ)
+  [vegetation_abundance](https://marcopittarello.github.io/iPastoralist/reference/vegetation_abundance.md))
+  attributed each species an Index of specific quality (ISQ)
 
 ## References
 
