@@ -1,0 +1,489 @@
+---
+title: "Vegetation classification: a phytosociological approach"
+author: Marco Pittarello
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vegetation classification: a phytosociological approach}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = TRUE,
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+This vignette illustrates classification using modified TWINSPAN and
+selection of the number of groups using OptimClass. The resulting groups
+are then described using Indicator Species Analysis (ISA), the phi
+coefficient, tb-PCA, and a synoptic table.
+
+The example uses only `iPastoralist::data`. **For this example, survey
+values are assumed to represent percentage cover**, although the
+demonstration dataset was originally organised as frequencies of
+occurrence. This assumption illustrates the workflow; it is not a
+methodological conversion from FO to cover. Real applications require
+observed cover values and careful consideration of the measurement scale.
+
+# 1. Required packages and functions
+
+TWINSPAN requires a version of `ecan` that exports `twinspan()`.
+
+```{r setup}
+library(iPastoralist)
+library(vegan)
+library(indicspecies)
+library(permute)
+```
+
+# 2. Preparing cover data
+
+```{r dati-copertura}
+data_example <- as.data.frame(iPastoralist::data)
+data_example <- data_example[, c(2, 7:30)]
+
+cover <- iPastoralist::vegetation_abundance(
+  database = data_example,
+  species.cover.coefficient = 4,
+  method = "SC_fo_occ"
+)
+
+# Rows = surveys; columns = species.
+veg <- t(cover)
+
+dim(veg)
+knitr::kable(veg[seq_len(min(6L, nrow(veg))), seq_len(min(6L, ncol(veg)))])
+```
+
+# 3. Modified TWINSPAN and OptimClass
+
+TWINSPAN uses pseudospecies cut levels to represent abundances. Here,
+the cover thresholds are `0`, `2`, `5`, `10`, and `20`.
+Modified TWINSPAN prioritises splitting the most heterogeneous group.
+OptimClass compares partitions based on faithful species:
+OptimClass 1 considers the total number of faithful species, whereas
+OptimClass 2 considers the number of groups containing a sufficient
+number of faithful species
+([Tichý et al., 2010](https://doi.org/10.1111/j.1654-1103.2009.01143.x)).
+
+The significance threshold and minimum number of faithful species are
+analysis parameters that should be reported and assessed for your
+dataset. The range of group numbers examined here is also limited by
+the small size of the demonstration dataset.
+
+```{r parametri-twinspan}
+min_size <- 2L
+k_values <- 2:8
+cut_levels <- c(0, 2, 5, 10, 20)
+p_threshold <- 1e-3
+min_faithful <- 3L
+select_by <- "optimclass2" # alternative: "optimclass1"
+```
+
+In the `ecan` backend, `min_size` controls which groups can be split
+further; on its own, it does not guarantee that every final group
+contains at least that many surveys. Always check final group sizes
+after classification.
+
+```{r twinspan-optimclass, fig.width=7, fig.height=5}
+twinspan_res <- twinspan_optimclass_ecan(
+  veg = veg,
+  cut_levels = cut_levels,
+  min_size = min_size,
+  k_values = k_values,
+  p_threshold = p_threshold,
+  min_faithful = min_faithful,
+  version = "fast",
+  select_by = select_by,
+  show_plots = TRUE
+)
+
+knitr::kable(twinspan_res$results)
+twinspan_res$best_k
+twinspan_res$selected_k
+```
+
+Also examine the faithful species of the selected solution.
+Species used by OptimClass to select a partition may differ from those
+subsequently selected using IndVal or phi: the criteria and thresholds
+are not interchangeable.
+
+```{r specie-fedeli}
+twinspan_res$faithful_by_group
+head(twinspan_res$faithful_species)
+```
+
+# 4. Selecting the partition and aligning groups
+
+The default solution is the one returned by OptimClass. If no single
+valid `selected_k` is returned, examine `results` and `best_k` and choose
+a solution explicitly. For example, a maximum OptimClass 2 score of zero
+does not demonstrate that the groups meet the desired faithful-species
+requirement.
+
+```{r partizione-selezionata}
+n.cluster <- twinspan_res$selected_k
+groups_raw <- as.data.frame(twinspan_res$classification)
+```
+
+To assess an alternative solution, run the following chunk instead of
+the previous one. It is excluded from normal rendering with `eval = FALSE`
+to avoid automatically overwriting the OptimClass selection. After
+running it manually, rerun all subsequent chunks, starting with group
+alignment.
+
+```{r partizione-personalizzata, eval=FALSE}
+k_custom <- 4L
+
+twin_ecan <- ecan::twinspan(
+  x = veg,
+  modified = TRUE,
+  n_clusters = k_custom,
+  cut_levels = cut_levels,
+  min_size = min_size,
+  max_depth = 6,
+  polish = "hill",
+  species = FALSE
+)
+
+groups_raw <- as.data.frame(twin_ecan$classification[, c("stand", "group")])
+n.cluster <- length(unique(groups_raw$group))
+if (n.cluster != k_custom) {
+  stop("TWINSPAN did not reach the requested number of groups.")
+}
+
+# Convert using the ecan S3 method, without calling internal functions.
+hc_ecan <- stats::as.hclust(twin_ecan)
+plot(hc_ecan, hang = -1, sub = "", main = "TWINSPAN - alternative solution")
+```
+
+Retain the partition in `classification`: do not derive a new
+classification by applying `cutree()` to the displayed dendrogram.
+Recode group labels as `1`, `2`, etc., and store them as a factor with
+the same level order for ISA, phi, PCA, and the synoptic table.
+This ensures that the version of `synoptic_table()` that adds a `G`
+prefix to frequency columns produces `G1`, `G2`, etc.
+
+```{r allineamento-gruppi}
+groups <- groups_raw[
+  match(rownames(veg), as.character(groups_raw$stand)),
+  c("stand", "group"),
+  drop = FALSE
+]
+rownames(groups) <- NULL
+
+# Retain the mapping to the original group labels.
+original_group_levels <- levels(factor(groups$group))
+group_key <- data.frame(
+  original_group = original_group_levels,
+  group = seq_along(original_group_levels)
+)
+groups$group <- factor(
+  match(as.character(groups$group), original_group_levels),
+  levels = seq_along(original_group_levels)
+)
+
+stopifnot(
+  identical(rownames(veg), as.character(groups$stand)),
+  !anyNA(groups$group),
+  nlevels(droplevels(groups$group)) == n.cluster
+)
+
+knitr::kable(group_key)
+knitr::kable(groups)
+table(groups$group)
+```
+
+# 5. Indicator Species Analysis
+
+Calculate IndVal from cover data, using `func = "IndVal.g"` to account
+for unequal group sizes. Setting `duleg = TRUE` searches for species
+associated with individual groups, excluding combinations of groups.
+
+The 9999 permutations are shared with the phi analysis. They are
+unrestricted in this example; a blocked design or repeated surveys
+require constraints consistent with the sampling design.
+
+```{r indval}
+set.seed(123)
+nperm <- 499L #to be fast here (better 9999)
+indval <- indicspecies::multipatt(
+  x = veg,
+  cluster = groups$group,
+  func = "IndVal.g",
+  duleg = TRUE,
+  permutations = nperm
+)
+
+summary(indval, alpha = 0.05, indvalcomp = TRUE)
+```
+
+The `A.g` component describes indicator specificity, whereas `B`
+describes the frequency of the species within the group. The `stat`
+value returned by `multipatt()` is the square root of IndVal.
+
+# 6. Phi coefficient
+
+For phi, convert cover values to presence/absence. With `func = "r.g"`,
+the association is adjusted for unequal group sizes. Occasional species
+with a cover value of 0.3 are therefore considered present.
+
+```{r phi}
+veg_pa <- 1L * (veg > 0)
+
+set.seed(123)
+phi <- indicspecies::multipatt(
+  x = veg_pa,
+  cluster = groups$group,
+  func = "r.g",
+  duleg = TRUE,
+  permutations = nperm
+)
+
+summary(phi, alpha = 0.05)
+```
+
+Ubiquitous species may have undefined phi values. Keep the `phi` object
+with the species names and order of the original matrix, without manually
+reordering or filtering `phi$sign` before building the synoptic table.
+
+```{r tabelle-isa}
+indval_table <- data.frame(
+  species = rownames(indval$sign),
+  indval$sign,
+  row.names = NULL,
+  check.names = FALSE
+)
+indval_table$group <- levels(groups$group)[indval_table$index]
+indval_table$IndVal <- indval_table$stat^2
+indval_table$q_BH <- p.adjust(indval_table$p.value, method = "BH")
+
+phi_table <- data.frame(
+  species = rownames(phi$sign),
+  phi$sign,
+  row.names = NULL,
+  check.names = FALSE
+)
+phi_table$group <- levels(groups$group)[phi_table$index]
+phi_table$q_BH <- p.adjust(phi_table$p.value, method = "BH")
+
+knitr::kable(head(indval_table[order(indval_table$p.value), ], 10), digits = 3)
+knitr::kable(head(phi_table[order(phi_table$p.value), ], 10), digits = 3)
+```
+
+The `q_BH` columns provide a separate Benjamini-Hochberg adjustment
+for each index. The summaries, tb-PCA, and synoptic table in this example
+follow the interfaces of the functions illustrated and use unadjusted
+p-values with `alpha = 0.05`. Keep this distinction explicit when
+describing the method.
+
+Because groups are derived from the same data, ISA and phi provide an
+exploratory characterisation of the classification, rather than
+independent validation or automatic assignment to phytosociological
+associations.
+
+# 7. tb-PCA
+
+Compute PCA on Hellinger-transformed cover data. The transformation
+applies only to the ordination: `veg` retains the original cover values
+for classification, ISA, and the synoptic table. Display species
+selected using phi at `alpha = 0.05`.
+
+```{r tb-pca, fig.width=9, fig.height=5}
+pca <- tb_pca_plot(
+  veg = veg,
+  groups = groups,
+  transformation = "hellinger", # alternative: "chord"
+  axes = c(1, 2),
+  area = "hull", # "hull", "ellipse", or "none"
+  indval = indval,
+  phi = phi,
+  alpha = 0.05,
+  species = "phi", # "indval" or "ordiselect"
+  ablim = 0.3,
+  fitlim = 0.8,
+  freq = FALSE,
+  label_groups = TRUE,
+  segment.alpha_labelSpe = 0.3,
+  segment.size_labelSpe = 0.3
+)
+
+pca$plot_sites
+pca$plot_species
+```
+
+Convex hulls describe the distribution of surveys in the ordination
+plane and are not confidence intervals. Interpret the plots alongside
+the variance explained by the axes and the composition of the groups.
+
+```{r risultati-pca}
+pca$variance
+head(pca$sites)
+head(pca$species)
+pca$selected_species
+```
+
+# 8. Synoptic table
+
+Build the synoptic table from the **original cover values** and the
+partition already used for ISA, phi, and PCA. The operational definitions
+in this example are:
+
+- diagnostic: phi of at least 0.25 and an unadjusted p-value no greater than 0.05;
+- constant: present in at least 40% of surveys within the group;
+- dominant: cover of at least 25% in at least 50% of surveys within the group.
+
+The last definition corresponds to
+`dominance_rule = "high_cover_frequency"`. It does not simply mean a
+mean cover of at least 25% within the group. The three categories may
+overlap.
+
+```{r tabella-sinottica}
+stopifnot(
+  identical(rownames(phi$sign), colnames(veg)),
+  identical(as.character(phi$cluster), as.character(groups$group))
+)
+
+tab_sinottica <- synoptic_table(
+  veg = veg,
+  groups = groups$group,
+  phi = phi,
+  alpha = 0.05,
+  phi_min = 0.25,
+  constancy_min = 40,
+  dominant_freq_min = 50,
+  dominant_cover_min = 25,
+  include = c("diagnostic", "constant", "dominant"),
+  dominance_rule = "high_cover_frequency"
+)
+
+knitr::kable(head(tab_sinottica$synoptic, 20))
+```
+
+With `duleg = TRUE`, `multipatt()` returns the single group with the
+strongest association for each species. The synoptic table uses that
+selection for diagnostic species; it does not list all possible
+species-by-group comparisons. A species may nevertheless be constant
+or dominant in several groups.
+
+The main table is in long format: a species may appear in multiple rows,
+one for each group in which it meets the requested category criteria.
+The `frequency` matrix includes all species and reports their percentage
+frequencies within groups.
+
+```{r lettura-sinottica}
+# Diagnostic species only.
+diagnostic_species <- subset(tab_sinottica$synoptic, diagnostic)
+knitr::kable(head(diagnostic_species, 20))
+
+# Diagnostic or constant species in group 2.
+group2_species <- subset(
+  tab_sinottica$synoptic,
+  (diagnostic | constant) & as.character(group) == "2"
+)
+knitr::kable(head(group2_species, 20))
+
+# Percentage frequencies of all species.
+head(tab_sinottica$frequency)
+
+# Diagnostic species and their associations.
+head(tab_sinottica$diagnostic)
+```
+
+# 9. Optional export
+
+The first chunk saves results and frequencies using base R functions.
+Both export chunks are excluded from normal rendering.
+
+```{r esportazione-csv, eval=FALSE}
+output_dir <- "risultati_fitosociologia"
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+
+write.csv2(groups, file.path(output_dir, "gruppi.csv"), row.names = FALSE)
+write.csv2(
+  group_key,
+  file.path(output_dir, "corrispondenza_gruppi.csv"),
+  row.names = FALSE
+)
+write.csv2(
+  twinspan_res$results,
+  file.path(output_dir, "optimclass.csv"),
+  row.names = FALSE
+)
+write.csv2(indval_table, file.path(output_dir, "indval.csv"), row.names = FALSE)
+write.csv2(phi_table, file.path(output_dir, "phi.csv"), row.names = FALSE)
+write.csv2(
+  tab_sinottica$synoptic,
+  file.path(output_dir, "sinottica_lunga.csv"),
+  row.names = FALSE
+)
+
+frequency_table <- data.frame(
+  species = rownames(tab_sinottica$frequency),
+  tab_sinottica$frequency,
+  row.names = NULL,
+  check.names = FALSE
+)
+write.csv2(
+  frequency_table,
+  file.path(output_dir, "frequenze.csv"),
+  row.names = FALSE
+)
+
+saveRDS(
+  list(
+    veg = veg,
+    optimclass = twinspan_res,
+    n.cluster = n.cluster,
+    groups = groups,
+    group_key = group_key,
+    indval = indval,
+    phi = phi,
+    pca = pca,
+    synoptic = tab_sinottica,
+    permutations = permutation_matrix,
+    parameters = list(
+      cut_levels = cut_levels,
+      min_size = min_size,
+      k_values = k_values,
+      p_threshold = p_threshold,
+      min_faithful = min_faithful,
+      select_by = select_by,
+      occasional_cover = occasional_cover
+    ),
+    session = sessionInfo()
+  ),
+  file.path(output_dir, "analisi_fitosociologica.rds")
+)
+```
+
+If `export_synoptic()` is also available, export an abbreviated synoptic
+table to Excel. In the interface used here, `min_frequency = 30` retains
+all diagnostic species and, among the other species in the input synoptic
+table, those with a frequency of at least 30% in one group. It does not
+restore species already excluded by `include` when building the table.
+
+```{r esportazione-excel, eval=FALSE}
+stopifnot(exists("export_synoptic", mode = "function"))
+
+export_synoptic(
+  tab_sinottica$synoptic,
+  file = "Sinottica_short.xlsx",
+  min_frequency = 30,
+  digits = 1,
+  group_sizes = table(groups$group)
+)
+```
+
+# Function references
+
+- [iPastoralist documentation and source code](https://github.com/MarcoPittarello/iPastoralist).
+- [TWINSPAN in the ecan package](https://matutosi.github.io/ecan/reference/twinspan.html).
+- [OptimClass: Tichý et al. (2010)](https://doi.org/10.1111/j.1654-1103.2009.01143.x).
+- [multipatt documentation](https://search.r-project.org/CRAN/refmans/indicspecies/html/multipatt.html).

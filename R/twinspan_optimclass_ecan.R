@@ -51,7 +51,7 @@
 #
 #   version       Method for calculating species fidelity:
 #                 "fast"     = hypergeometric distribution (phyper).
-#                 "original" = fisher.test, following Monteiro-Henriques.
+#                 "original" = fisher.test, following Monteiro-Henriques (2025).
 #                 Both perform a one-sided exact test.
 #
 #   select_by     Criterion used to select the final partition:
@@ -209,7 +209,7 @@
 #'   tail of the hypergeometric distribution with [stats::phyper()];
 #'   `"original"` uses [stats::fisher.test()]. Both implement an equivalent
 #'   one-sided Fisher exact test (`alternative = "greater"`).
-#'   Default is `"fast"`.
+#'   Default is `"fast"`. Code from Monteiro-Henrique. (2025)
 #' @param select_by Selection criterion for the final partition:
 #'   `"optimclass1"` (default) or `"optimclass2"`.
 #' @param show_plots Logical; whether to print both OptimClass plots.
@@ -314,6 +314,7 @@
 #' }
 #'
 #' @export
+
 twinspan_optimclass_ecan <- function(
   veg,
   cut_levels = c(0, 2, 5, 10, 20),
@@ -333,17 +334,17 @@ twinspan_optimclass_ecan <- function(
   # ===
 
   if (!requireNamespace("ecan", quietly = TRUE)) {
-    stop("Installare il pacchetto 'ecan'.")
+    stop("Install the 'ecan' package.")
   }
 
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("Installare il pacchetto 'ggplot2'.")
+    stop("Install the 'ggplot2' package.")
   }
 
   veg <- as.matrix(veg)
 
   if (!is.numeric(veg) || anyNA(veg) || any(!is.finite(veg)) || any(veg < 0)) {
-    stop("veg deve essere una matrice numerica, senza NA e con valori >= 0.")
+    stop("veg must be a numeric matrix with no NA values and all values >= 0.")
   }
 
   if (
@@ -356,15 +357,15 @@ twinspan_optimclass_ecan <- function(
       anyDuplicated(rownames(veg)) ||
       anyDuplicated(colnames(veg))
   ) {
-    stop("Servono nomi univoci per rilievi (righe) e specie (colonne).")
+    stop("Unique names are required for relevés (rows) and species (columns).")
   }
 
   if (nrow(veg) < 2 || ncol(veg) < 1) {
-    stop("La matrice deve contenere almeno 2 rilievi e 1 specie.")
+    stop("The matrix must contain at least 2 relevés and 1 species.")
   }
 
   if (any(rowSums(veg > 0) == 0)) {
-    stop("Sono presenti rilievi privi di specie.")
+    stop("Some relevés contain no species.")
   }
 
   if (
@@ -373,7 +374,7 @@ twinspan_optimclass_ecan <- function(
       min_size < 1 ||
       min_size != as.integer(min_size)
   ) {
-    stop("min_size deve essere un intero positivo.")
+    stop("min_size must be a positive integer.")
   }
 
   if (
@@ -382,7 +383,7 @@ twinspan_optimclass_ecan <- function(
       min_faithful < 1 ||
       min_faithful != as.integer(min_faithful)
   ) {
-    stop("min_faithful deve essere un intero positivo.")
+    stop("min_faithful must be a positive integer.")
   }
 
   if (
@@ -391,7 +392,7 @@ twinspan_optimclass_ecan <- function(
       p_threshold <= 0 ||
       p_threshold >= 1
   ) {
-    stop("p_threshold deve essere compreso tra 0 e 1.")
+    stop("p_threshold must be between 0 and 1.")
   }
 
   if (
@@ -402,7 +403,7 @@ twinspan_optimclass_ecan <- function(
       any(k_values < 2) ||
       any(k_values != floor(k_values))
   ) {
-    stop("k_values deve contenere numeri interi >= 2.")
+    stop("k_values must contain integers >= 2.")
   }
 
   if (
@@ -412,7 +413,7 @@ twinspan_optimclass_ecan <- function(
       any(!is.finite(cut_levels)) ||
       any(cut_levels < 0)
   ) {
-    stop("cut_levels deve contenere valori numerici non negativi.")
+    stop("cut_levels must contain non-negative numeric values.")
   }
 
   k_values <- sort(unique(as.integer(k_values)))
@@ -591,7 +592,7 @@ twinspan_optimclass_ecan <- function(
   # ===
 
   if (length(summary_list) == 0) {
-    stop("Nessuna partizione TWINSPAN valida.")
+    stop("No valid TWINSPAN partitions found.")
   }
 
   results <- do.call(
@@ -731,7 +732,7 @@ twinspan_optimclass_ecan <- function(
           "Fisher exact test, p <= ",
           p_threshold
         ),
-        x = "Numero di gruppi (k)",
+        x = "Number of groups (k)",
         y = ylabel
       ) +
       ggplot2::theme_classic()
@@ -758,7 +759,7 @@ twinspan_optimclass_ecan <- function(
       ggplot2::labs(
         title = title,
         subtitle = paste0("Fisher: p <= ", p_threshold),
-        x = "Numero di gruppi (k)",
+        x = "Number of groups (k)",
         y = ylabel
       ) +
       ggplot2::theme_classic()
@@ -768,16 +769,16 @@ twinspan_optimclass_ecan <- function(
     optimclass1 = make_plot(
       "optimclass1",
       "OptimClass 1",
-      "Numero di specie fedeli uniche",
+      "Number of unique faithful species",
       "best_optim1"
     ),
     optimclass2 = make_plot(
       "optimclass2",
       "OptimClass 2",
       paste0(
-        "Gruppi con almeno ",
+        "Groups with at least ",
         min_faithful,
-        " specie fedeli"
+        " faithful species"
       ),
       "best_optim2"
     )
@@ -818,33 +819,33 @@ twinspan_optimclass_ecan <- function(
   )
 
   cat("\n--- TWINSPAN + OPTIMCLASS ---\n")
-  cat("Versione:", version, "\n")
+  cat("Version:", version, "\n")
   cat(
-    "OptimClass 1, k ottimali:",
+    "OptimClass 1, optimal k values:",
     paste(best_k$optimclass1, collapse = ", "),
     "\n"
   )
   cat(
-    "OptimClass 2, k ottimali:",
+    "OptimClass 2, optimal k values:",
     paste(best_k$optimclass2, collapse = ", "),
     "\n"
   )
   cat(
-    "Partizione selezionata:",
+    "Selected partition:",
     selected_k,
-    "gruppi (",
+    "groups (",
     select_by,
     ")\n",
     sep = ""
   )
   cat(
-    "Specie fedeli uniche:",
+    "Unique faithful species:",
     results$optimclass1[results$k == selected_k],
     "\n"
   )
 
   if (length(failed_k) > 0) {
-    cat("Partizioni non disponibili:", paste(failed_k, collapse = ", "), "\n")
+    cat("Unavailable partitions:", paste(failed_k, collapse = ", "), "\n")
   }
 
   return(output)

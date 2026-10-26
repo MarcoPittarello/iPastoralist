@@ -43,7 +43,7 @@ Default is \code{3}.}
 tail of the hypergeometric distribution with \code{\link[stats:phyper]{stats::phyper()}};
 \code{"original"} uses \code{\link[stats:fisher.test]{stats::fisher.test()}}. Both implement an equivalent
 one-sided Fisher exact test (\code{alternative = "greater"}).
-Default is \code{"fast"}.}
+Default is \code{"fast"}. Code from Monteiro-Henrique. (2025)}
 
 \item{select_by}{Selection criterion for the final partition:
 \code{"optimclass1"} (default) or \code{"optimclass2"}.}
