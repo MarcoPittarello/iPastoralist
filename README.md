@@ -1,125 +1,99 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+# iPastoralist
 
-# **iPastoralist**
+**An R package for vegetation data analysis, phytopastoral assessment,
+and phytosociological classification.**
 
-<font size="4"> *Management, conversion, and analyses of vegetation data
-derived from phytosociological and point-quadrat method surveys* </font>
+*iPastoralist* provides tools for processing, analyzing, and classifying
+plant communities, with particular emphasis on grassland and pasture
+vegetation.
 
-<!-- badges: start -->
+The package supports botanical data collected using both **point-quadrat
+(point-intercept)** and **phytosociological** survey methods,
+integrating biodiversity assessment, ecological indicators, pastoral
+evaluation, and numerical vegetation classification.
 
-<!-- badges: end -->
+## Main features
 
-Web site: <https://marcopittarello.github.io/iPastoralist/>
+### 1. Vegetation data preparation and conversion
 
-<!-- badges: start -->
+- **Point-quadrat data processing:** convert species frequency of
+  occurrence into relative abundance and estimated percentage cover,
+  including optional treatment of occasional species
+  (`vegetation_abundance()`).
+- **Phytosociological data conversion:** transform visually estimated
+  species cover into Braun-Blanquet, Van der Maarel, and numerical
+  cover-abundance scales (`PhytoCover()`).
 
-<!-- badges: end -->
+### 2. Vegetation characterization
 
-## **When to use it**
+- **Biodiversity assessment:** calculate species richness, Shannon
+  diversity, Effective Number of Species, and evenness
+  (`biodiversity()`).
+- **Pastoral Value:** assess the forage potential of grassland and
+  pasture vegetation (`pastoral_value()`).
+- **Ecological indicator values:** calculate Ellenberg and Landolt
+  community-level indices, with optional abundance weighting
+  (`ecological_indexes()`).
+- **Floristic composition:** extract the most abundant species for
+  individual vegetation surveys (`first_ten_species()`).
 
-Botanical composition was surveyed either with **phytosociological** or
-**point-quadrat / pinpoint (or point‐intercept) method** (plant species
-are recorded at fixed interval along a *linear transect*, Daget and
-Poissonet 1971).
+### 3. Vegetation classification and interpretation
 
-If botanical composition was surveyed with the **point-quadrat /
-pinpoint (or point‐intercept) method**, *iPastoralist* works also when
-the list of all other plant species included within a buffer area around
-the transect line (i.e. **vegetation plot**) has been done. Indeed, the
-point-intercept method often miss rare species.
+*iPastoralist* provides tools supporting numerical vegetation
+classification and the characterization of resulting vegetation groups.
 
-## **What it does**
+Main functionalities include:
 
-### **Point-quadrat / pinpoint (or point‐intercept) method**
+- **Numerical classification:** identify vegetation groups based on
+  floristic similarity.
+- **Classification evaluation:** compare alternative partitions and
+  support the selection of the number of vegetation groups.
+- **Species characterization:** identify diagnostic, constant, dominant,
+  and companion species.
+- **Synoptic vegetation tables:** summarize species frequencies and
+  floristic differences among vegetation groups.
+- **Phytopastoral interpretation:** characterize grassland and pasture
+  types according to their botanical composition, ecological properties,
+  and pastoral characteristics.
+- **Phytosociological interpretation:** support the identification and
+  comparison of vegetation units and their possible attribution to
+  established syntaxonomic schemes.
 
-*iPastoralist* allows you to:
+These tools facilitate **reproducible vegetation classification
+workflows**, combining numerical analyses with ecological and
+expert-based interpretation.
 
-1.  Transform **Frequency of occurrences (FO)** of species identified
-    along a linear transect (either with or without occasional species)
-    to:
-    - **Species relative abundance (SRA)** : ratio between frequency of
-      occurrence and the sum of frequency of occurrences values for all
-      species in the transect, then multiplied by 100;
-    - **Species percentage cover (%SC)**: conversion of frequency of
-      occurrence to 100 measurements (e.g. if a species had a FO= 20
-      measurements out of 50 total measurements along the transect line,
-      the FO will be multiplied by 2). To all occasional species
-      (i.e. species found within vegetation plots but not along the
-      linear transects) a %SC value = 0.3% is attributed. More details
-      are provided in the **vegetation_abundance** function, which
-      process FO data with the following workflow:
+## Installation
 
-<figure>
-<img src="man/figures/Wrkflw_abundance_conversion.png" alt="esempio" />
-<figcaption aria-hidden="true">esempio</figcaption>
-</figure>
+Install *iPastoralist* directly from GitHub using the `pak` package:
 
-2.  Compute:
-    - **Biodiversity indexes**: Species richness, Shannon diversity
-      index (log2), Effective Number of Species,Shannon max,
-      Equitability. (see “**biodiversity**” function)
-    - **Forage Pastoral Value (PV)** (see “**pastoral_value**” function)
-    - **Ecological indexes**: Landolt, Ellenberg (either weighted or not
-      weighted with plant species abundance and either considering or
-      not considering occasional species). (see “**ecological_indexes**”
-      function)
-3.  Extract for each survey the firt ten species, ordered decreasingly
-    by their abundance (useful with dendrograms). (see
-    “**first_ten_species**” function)
+\`\`\`r id=“m0vzq8” \# Install pak (if needed) install.packages(“pak”)
 
-### **Phytosociological method**
+# Install iPastoralist
 
-With the ‘**PhytoCover**’ function, *iPastoralist* allows you to
-transform species cover visually estimated in a phytosociological survey
-to:
+pak::pak(“MarcoPittarello/iPastoralist”)
 
-- Braun-Blanquet cover-abundance scale (Braun-Blanquet,1932)
-- Van Der Maarel cover-abundance scale (Van Der Maarel, 1978)
-- Dominance percentage (Tasser and Tappeiner, 2005)
+# Load the package
 
-**Conversion table**
+library(iPastoralist) \`\`\`
 
-| Visually estimated cover (%) | Braun Blanquet | Van Der Maarel | Tasser and Tappeiner (%) |
-|:--:|:--:|:--:|:--:|
-| 0 | 0 | 0 | 0 |
-| \<1 | \+ | 2 | 0.3 |
-| 1 - 5 | 1 | 3 | 2.8 |
-| 6 -15 | 2a | 5 | 10 |
-| 16-25 | 2b | 5 | 20.5 |
-| 26-50 | 3 | 7 | 38 |
-| 51-75 | 4 | 8 | 63 |
-| 76-100 | 5 | 9 | 88 |
+## Documentation
 
-## **Installation**
+Detailed descriptions of the functions, methodological explanations, and
+examples are available in the package documentation.
 
-You can install the development version of *iPastoralist* by running the
-following code:
+- **Website and function reference:** [iPastoralist
+  website](https://marcopittarello.github.io/iPastoralist/)
+- **Introduction and tutorials:** available in the website’s Articles
+  section.
+- **Source code:** [GitHub
+  repository](https://github.com/MarcoPittarello/iPastoralist)
 
-    install.packages("devtools")
-    library(devtools)
-    install_github("MarcoPittarello/iPastoralist",build_vignettes = TRUE)
+## Author
 
-If through the following code
+**Marco Pittarello**
 
-    install_github("MarcoPittarello/iPastoralist",build_vignettes = TRUE)
+## License
 
-the installation does not complete, run this other code (the vignettes
-will not be installed, but you can still view the tutorials on the
-package site <https://marcopittarello.github.io/iPastoralist/>):
-
-    install_github("MarcoPittarello/iPastoralist")
-
-## **References**
-
-- Braun-Blanquet J (1932) Plant sociology. The study of plant communi-
-  ties. GD Fuller and HS Conard (Eds.). Authorized English translations
-  of ‘Pflanzensoziologie’. 1st ed. Printed in the United States of
-  America. New York and London: McGraw-Hill Book Co. Inc.
-- Daget, P., Poissonet, J., 1971. A method of plant analysis of
-  pastures. Ann. Agron. 22, 5–41.
-- Van der Maarel, E. (1979). Transformation of cover-abundance values in
-  phytosociology and its effects on community similarity. Vegetatio,
-  39(2), 97-114.
-- Tasser E, Tappeiner U (2005) New model to predict rooting in diverse
-  plant community compositions. Ecological Modelling 185:195-211.
+GPL-3
