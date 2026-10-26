@@ -107,7 +107,7 @@ The processing and conversion procedure implemented in
 is summarized in the following workflow.
 
 ![Workflow for vegetation abundance
-conversion](reference/figures/Wrkflw_abundance_conversion.png)
+conversion](Wrkflw_abundance_conversion.png)
 
 Workflow for vegetation abundance conversion
 
