@@ -26,15 +26,6 @@ library(iPastoralist)
 library(vegan)
 library(dendextend)
 library(tidyverse)
-
-# If tb_pca_plot() is stored in a separate script, load it here with source().
-if (!exists("tb_pca_plot", mode = "function")) {
-  stop("Load tb_pca_plot() before rendering this vignette.")
-}
-stopifnot(
-  requireNamespace("cluster", quietly = TRUE),
-  requireNamespace("goeveg", quietly = TRUE)
-)
 ```
 
 Select species codes and survey columns, excluding ecological indicator
@@ -45,13 +36,7 @@ species codes, as required by
 ``` r
 
 data_example <- as.data.frame(iPastoralist::data)
-survey_columns <- grep("^R[0-9]+$", names(data_example), value = TRUE)
-
-vegetation <- data_example[,
-  c("species.name.code", survey_columns),
-  drop = FALSE
-]
-
+vegetation <- data_example[, c(2, 7:ncol(data_example))]
 knitr::kable(head(vegetation[, seq_len(min(7L, ncol(vegetation)))]))
 ```
 
@@ -76,31 +61,18 @@ sra <- vegetation_abundance(
   database = vegetation,
   method = "SRA_fo"
 )
-
 # For subsequent analyses: rows = surveys; columns = species.
 veg <- t(as.matrix(sra))
-
-# Remove only species that are completely absent after calculating SRA.
-veg <- veg[, colSums(veg) > 0, drop = FALSE]
-sra <- as.data.frame(t(veg), check.names = FALSE)
-
-rowSums(veg)
-#>  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 
-#> 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 
-#> R21 R22 R23 R24 
-#> 100 100 100 100
-dim(veg)
-#> [1] 24 91
 ```
 
-|         |  R1 |  R2 |  R3 |  R4 |  R5 |   R6 |
-|:--------|----:|----:|----:|----:|----:|-----:|
-| Achmacr | 0.0 |   0 | 0.0 | 0.0 |   0 |  0.0 |
-| Achmill | 0.0 |   0 | 0.0 | 0.0 |   0 |  0.0 |
-| Acialpi | 0.0 |   0 | 0.0 | 0.0 |   0 |  0.0 |
-| Acolama | 0.0 |   0 | 0.0 | 0.0 |   0 |  0.0 |
-| Adealli | 0.0 |   0 | 0.0 | 0.0 |   0 |  0.0 |
-| Agrcapi | 6.7 |   0 | 1.7 | 1.5 |   0 | 14.1 |
+|         |  R1 |  R2 |  R3 |  R4 |  R5 |  R6 |  R7 |  R8 |  R9 | R10 | R11 |  R12 |
+|:--------|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|-----:|
+| Achmacr |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 | 0.0 |   0 | 0.0 |  0.0 |
+| Achmill |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 | 6.2 |   0 | 0.0 | 11.5 |
+| Achmosc |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 | 0.0 |   0 | 0.0 |  0.0 |
+| Acialpi |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 | 0.0 |   0 | 2.5 |  2.3 |
+| Acolama |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 | 0.0 |   0 | 0.0 |  0.0 |
+| Adealli |   0 |   0 |   0 |   0 |   0 |   0 |   0 |   0 | 0.0 |   0 | 0.0 |  0.0 |
 
 If occasional species should be included, replace the abundance call
 above with `method = "SRA_SC.fo.occ"` and
@@ -142,45 +114,16 @@ first10 <- first_ten_species(
   cluster.hclust = clst
 )
 
-# Retain the ten highest ranks and order surveys as in the dendrogram.
-first10 <- first10[order(first10$Survey.order), , drop = FALSE]
-rank_columns <- setdiff(names(first10), c("Survey", "Survey.order"))
-rank_columns <- head(rank_columns, 10L)
-first10_table <- first10[,
-  c("Survey", "Survey.order", rank_columns),
-  drop = FALSE
-]
-rownames(first10_table) <- NULL
-
-knitr::kable(first10_table)
+knitr::kable(first10[1:5, ])
 ```
 
-| Survey | Survey.order | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 | V9 | V10 |
-|:---|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| R23 | 1 | Rhoferr 63.9 | Junnana 30.6 | Oxaacet 2.8 | Vacmyrt 2.8 | Achmacr 0 | Achmill 0 | Acialpi 0 | Acolama 0 | Adealli 0 | Agrcapi 0 |
-| R24 | 2 | Rhoferr 63.6 | Fesscab 18.2 | Aveflex 9.1 | Agrcapi 3 | Arnmont 3 | Vacmyrt 3 | Achmacr 0 | Achmill 0 | Acialpi 0 | Acolama 0 |
-| R13 | 3 | Calvill 39.6 | Alnviri 18.9 | Rubidae 18.9 | Rhoferr 17 | Gymdryo 3.8 | Galtetr 1.9 | Achmacr 0 | Achmill 0 | Acialpi 0 | Acolama 0 |
-| R16 | 4 | Vacmyrt 28.8 | Calvill 27.3 | Rhoferr 22.7 | Aveflex 7.6 | Gymdryo 3 | Rubidae 3 | Vacviti 3 | Antalpi 1.5 | Arnmont 1.5 | Junnana 1.5 |
-| R14 | 5 | Adealli 21.6 | Rubidae 16.2 | Urtdioi 16.2 | Rumalpe 13.5 | Alnviri 8.1 | Galtetr 8.1 | Viobifl 5.4 | Achmacr 2.7 | Acolama 2.7 | Fesnigr 2.7 |
-| R17 | 6 | Alnviri 48.9 | Agrcapi 14.9 | Viobifl 10.6 | Adealli 6.4 | Alcvulg 4.3 | Peuostr 4.3 | Verlobe 4.3 | Luzalpi 2.1 | Rubidae 2.1 | Vacmyrt 2.1 |
-| R19 | 7 | Alnviri 45.2 | Calvill 11.9 | Rhoferr 9.5 | Agrcapi 7.1 | Vacmyrt 7.1 | Antalpi 2.4 | Genpurp 2.4 | Gersylv 2.4 | Geumont 2.4 | Luzalpi 2.4 |
-| R2 | 8 | Descesp 51.1 | Carclav 22.2 | Poaalpi 8.9 | Fesnigr 4.4 | Carechi 2.2 | Luzcamp 2.2 | Narstri 2.2 | Peuostr 2.2 | Phlrhae 2.2 | Viobifl 2.2 |
-| R4 | 9 | Descesp 34.3 | Phlrhae 16.4 | Fesnigr 11.9 | Alcvulg 9 | Verlobe 7.5 | Peuostr 6 | Rumalpe 4.5 | Caramar 3 | Carcarv 3 | Poaalpi 3 |
-| R3 | 10 | Rumalpe 27.1 | Triflav 22 | Peuostr 20.3 | Phlrhae 13.6 | Alcvulg 6.8 | Poaalpi 3.4 | Agrcapi 1.7 | Ranmont 1.7 | Silvulg 1.7 | Triprat 1.7 |
-| R8 | 11 | Rumalpi 36.7 | Triflav 11.7 | Chahirs 10 | Alcvulg 8.3 | Phlrhae 8.3 | Poaalpi 6.7 | Rumalpe 6.7 | Myoalpe 5 | Agrcapi 1.7 | Fesnigr 1.7 |
-| R18 | 12 | Fesscab 28.3 | Narstri 18.9 | Fesnigr 15.1 | Leohelv 7.5 | Antalpi 5.7 | Phlrhae 5.7 | Agrcapi 3.8 | Poaalpi 3.8 | Potgran 3.8 | Vacmyrt 3.8 |
-| R6 | 13 | Agrcapi 14.1 | Fesnigr 10.6 | Rumalpe 10.6 | Rhoferr 8.2 | Silvulg 8.2 | Chahirs 7.1 | Triflav 5.9 | Alcvulg 4.7 | Phlrhae 4.7 | Rubidae 4.7 |
-| R15 | 14 | Vacmyrt 20.9 | Rhoferr 13.4 | Fesnigr 10.4 | Agrcapi 9 | Chahirs 7.5 | Antalpi 6 | Phlrhae 6 | Poachai 4.5 | Rubidae 4.5 | Gersylv 3 |
-| R10 | 15 | Fesnigr 14.3 | Ranmont 12.9 | Agrcapi 8.6 | Phlrhae 8.6 | Chahirs 7.1 | Fesscab 5.7 | Lashall 5.7 | Bislaev 4.3 | Thyserp 4.3 | Triprat 4.3 |
-| R21 | 16 | Fesnigr 25 | Ranmont 12.5 | Triniva 10.9 | Thyserp 9.4 | Antalpi 6.2 | Poaalpi 6.2 | Pulapii 6.2 | Leohelv 4.7 | Galpusi 3.1 | Geumont 3.1 |
-| R1 | 17 | Fesnigr 21.3 | Phlrhae 14.7 | Vacmyrt 14.7 | Antalpi 8 | Agrcapi 6.7 | Rhoferr 6.7 | Geumont 5.3 | Leohelv 5.3 | Chahirs 4 | Narstri 2.7 |
-| R22 | 18 | Fesnigr 27.8 | Phlrhae 12.7 | Agrcapi 10.1 | Antalpi 10.1 | Geumont 7.6 | Silvulg 5.1 | Vacmyrt 5.1 | Chahirs 3.8 | Rumalpe 3.8 | Leohelv 2.5 |
-| R5 | 19 | Fesnigr 19.7 | Chahirs 9.2 | Phlrhae 9.2 | Triflav 9.2 | Pulapii 7.9 | Triprat 7.9 | Antalpi 6.6 | Alcvulg 5.3 | Geumont 3.9 | Poaalpi 3.9 |
-| R7 | 20 | Fesnigr 25 | Triflav 11.2 | Alcvulg 7.5 | Antalpi 7.5 | Phlrhae 7.5 | Poaalpi 7.5 | Ranmont 6.2 | Geumont 5 | Camsche 2.5 | Leohelv 2.5 |
-| R9 | 21 | Alcvulg 22.5 | Phlrhae 12.5 | Poaalpi 12.5 | Triflav 11.2 | Fesnigr 10 | Achmill 6.2 | Agrcapi 6.2 | Triprat 3.8 | Chahirs 2.5 | Antalpi 1.2 |
-| R12 | 22 | Fesnigr 13.8 | Phlrhae 12.6 | Achmill 11.5 | Fesmela 11.5 | Agrcapi 6.9 | Chahirs 5.7 | Triprat 5.7 | Alcvulg 3.4 | Triflav 3.4 | Acialpi 2.3 |
-| R11 | 23 | Fesmela 20.3 | Thaminu 12.7 | Rubidae 8.9 | Chahirs 6.3 | Rhoferr 6.3 | Vacmyrt 6.3 | Agrcapi 5.1 | Fesovin 3.8 | Acialpi 2.5 | Antalpi 2.5 |
-| R20 | 24 | Rubidae 20.5 | Agrcapi 18.1 | Poanemo 15.7 | Myoalpe 12 | Silvulg 6 | Rhoferr 3.6 | Rumalpe 3.6 | Triflav 3.6 | Alcvulg 2.4 | Gersylv 2.4 |
+|  | Survey | Survey.order | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 | V9 | V10 | V11 | V12 | V13 | V14 | V15 | V16 | V17 | V18 | V19 | V20 | V21 | V22 | V23 | V24 | V25 | V26 | V27 | V28 | V29 | V30 | V31 | V32 | V33 | V34 | V35 | V36 | V37 | V38 | V39 | V40 | V41 | V42 | V43 | V44 | V45 | V46 | V47 | V48 | V49 | V50 | V51 | V52 | V53 | V54 | V55 | V56 | V57 | V58 | V59 | V60 | V61 | V62 | V63 | V64 | V65 | V66 | V67 | V68 | V69 | V70 | V71 | V72 | V73 | V74 | V75 | V76 | V77 | V78 | V79 | V80 | V81 | V82 | V83 | V84 | V85 | V86 | V87 | V88 | V89 | V90 | V91 | V92 | V93 | V94 | V95 | V96 | V97 | V98 | V99 | V100 | V101 | V102 | V103 | V104 | V105 | V106 | V107 | V108 | V109 | V110 | V111 | V112 | V113 | V114 | V115 | V116 | V117 | V118 | V119 | V120 | V121 | V122 | V123 | V124 | V125 | V126 | V127 | V128 | V129 | V130 | V131 | V132 | V133 | V134 | V135 | V136 | V137 | V138 | V139 | V140 | V141 | V142 | V143 | V144 | V145 | V146 | V147 | V148 | V149 | V150 | V151 | V152 |
+|:---|:---|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| 16 | R23 | 1 | Rhoferr 63.9 | Junnana 30.6 | Oxaacet 2.8 | Vacmyrt 2.8 | Achmacr 0 | Achmill 0 | Achmosc 0 | Acialpi 0 | Acolama 0 | Adealli 0 | Agrcapi 0 | Ajupyra 0 | Alcalpi 0 | Alcpent 0 | Alcvulg 0 | Alnviri 0 | Angsylv 0 | Antdioi 0 | Antvuln 0 | Antalpi 0 | Araalpi 0 | Aracili 0 | Arnmont 0 | Astmino 0 | Aveflex 0 | Bislaev 0 | Botluna 0 | Calvill 0 | Camsche 0 | Capburs 0 | Caramar 0 | Carrese 0 | Cardefl 0 | Carclav 0 | Carechi 0 | Carorni 0 | Carpall 0 | Carsemp 0 | Carcarv 0 | Cennerv 0 | Cerarve 0 | Cervulg 0 | Chahirs 0 | Chebonu 0 | Coeviri 0 | Croalbi 0 | Crycris 0 | Cusepit 0 | Dapmeze 0 | Descesp 0 | Dryaffi 0 | Epialpe 0 | Epiangu 0 | Epicoll 0 | Erialpi 0 | Eupcypa 0 | Eupmini 0 | Fesovin 0 | Fesmela 0 | Fesnigr 0 | Fesscab 0 | Foualpi 0 | Gallada 0 | Galtetr 0 | Galpusi 0 | Genacau 0 | Genpurp 0 | Genramo 0 | Gersylv 0 | Geumont 0 | Geuriva 0 | Gymdryo 0 | Hielact 0 | Hievill 0 | Hiemuro 0 | Hipcomo 0 | Homalpi 0 | Junmona 0 | Lardeci 0 | Lashall 0 | Leohelv 0 | Leuvulg 0 | Lilmart 0 | Lotalpi 0 | Luzalpi 0 | Luzcamp 0 | Luzsylv 0 | Molarun 0 | Myoalpe 0 | Narstri 0 | Parlili 0 | Pedtube 0 | Peuostr 0 | Pheconn 0 | Phlrhae 0 | Phybeto 0 | Phyhemi 0 | Poaalpi 0 | Poachai 0 | Poanemo 0 | Poaprat 0 | Pollonc 0 | Potaure 0 | Potgran 0 | Prihirs 0 | Psealbi 0 | Pulapii 0 | Ranmont 0 | Rhialec 0 | Rhorose 0 | Rospend 0 | Rubidae 0 | Rumalpe 0 | Rumalpi 0 | Rumscut 0 | Saxaspe 0 | Saxrotu 0 | Saxstel 0 | Scacolu 0 | Sedanac 0 | Semarac 0 | Semgran 0 | Semmont 0 | Sendoro 0 | Senovat 0 | Sesliba 0 | Silnuta 0 | Silrupe 0 | Silvulg 0 | Solalpi 0 | Solminu 0 | Soraucu 0 | Taroffi 0 | Thafoet 0 | Thaminu 0 | Thealpi 0 | Thyserp 0 | Trialpi 0 | Tribadi 0 | Triniva 0 | Tripall 0 | Triprat 0 | Trirepe 0 | Triflav 0 | Troeuro 0 | Urtdioi 0 | Vacgaul 0 | Vacviti 0 | Verlobe 0 | Vercham 0 | Verserp 0 | Viobifl 0 |
+| 17 | R24 | 2 | Rhoferr 63.6 | Fesscab 18.2 | Aveflex 9.1 | Agrcapi 3 | Arnmont 3 | Vacmyrt 3 | Achmacr 0 | Achmill 0 | Achmosc 0 | Acialpi 0 | Acolama 0 | Adealli 0 | Ajupyra 0 | Alcalpi 0 | Alcpent 0 | Alcvulg 0 | Alnviri 0 | Angsylv 0 | Antdioi 0 | Antvuln 0 | Antalpi 0 | Araalpi 0 | Aracili 0 | Astmino 0 | Bislaev 0 | Botluna 0 | Calvill 0 | Camsche 0 | Capburs 0 | Caramar 0 | Carrese 0 | Cardefl 0 | Carclav 0 | Carechi 0 | Carorni 0 | Carpall 0 | Carsemp 0 | Carcarv 0 | Cennerv 0 | Cerarve 0 | Cervulg 0 | Chahirs 0 | Chebonu 0 | Coeviri 0 | Croalbi 0 | Crycris 0 | Cusepit 0 | Dapmeze 0 | Descesp 0 | Dryaffi 0 | Epialpe 0 | Epiangu 0 | Epicoll 0 | Erialpi 0 | Eupcypa 0 | Eupmini 0 | Fesovin 0 | Fesmela 0 | Fesnigr 0 | Foualpi 0 | Gallada 0 | Galtetr 0 | Galpusi 0 | Genacau 0 | Genpurp 0 | Genramo 0 | Gersylv 0 | Geumont 0 | Geuriva 0 | Gymdryo 0 | Hielact 0 | Hievill 0 | Hiemuro 0 | Hipcomo 0 | Homalpi 0 | Junmona 0 | Junnana 0 | Lardeci 0 | Lashall 0 | Leohelv 0 | Leuvulg 0 | Lilmart 0 | Lotalpi 0 | Luzalpi 0 | Luzcamp 0 | Luzsylv 0 | Molarun 0 | Myoalpe 0 | Narstri 0 | Oxaacet 0 | Parlili 0 | Pedtube 0 | Peuostr 0 | Pheconn 0 | Phlrhae 0 | Phybeto 0 | Phyhemi 0 | Poaalpi 0 | Poachai 0 | Poanemo 0 | Poaprat 0 | Pollonc 0 | Potaure 0 | Potgran 0 | Prihirs 0 | Psealbi 0 | Pulapii 0 | Ranmont 0 | Rhialec 0 | Rhorose 0 | Rospend 0 | Rubidae 0 | Rumalpe 0 | Rumalpi 0 | Rumscut 0 | Saxaspe 0 | Saxrotu 0 | Saxstel 0 | Scacolu 0 | Sedanac 0 | Semarac 0 | Semgran 0 | Semmont 0 | Sendoro 0 | Senovat 0 | Sesliba 0 | Silnuta 0 | Silrupe 0 | Silvulg 0 | Solalpi 0 | Solminu 0 | Soraucu 0 | Taroffi 0 | Thafoet 0 | Thaminu 0 | Thealpi 0 | Thyserp 0 | Trialpi 0 | Tribadi 0 | Triniva 0 | Tripall 0 | Triprat 0 | Trirepe 0 | Triflav 0 | Troeuro 0 | Urtdioi 0 | Vacgaul 0 | Vacviti 0 | Verlobe 0 | Vercham 0 | Verserp 0 | Viobifl 0 |
+| 5 | R13 | 3 | Calvill 39.6 | Alnviri 18.9 | Rubidae 18.9 | Rhoferr 17 | Gymdryo 3.8 | Galtetr 1.9 | Achmacr 0 | Achmill 0 | Achmosc 0 | Acialpi 0 | Acolama 0 | Adealli 0 | Agrcapi 0 | Ajupyra 0 | Alcalpi 0 | Alcpent 0 | Alcvulg 0 | Angsylv 0 | Antdioi 0 | Antvuln 0 | Antalpi 0 | Araalpi 0 | Aracili 0 | Arnmont 0 | Astmino 0 | Aveflex 0 | Bislaev 0 | Botluna 0 | Camsche 0 | Capburs 0 | Caramar 0 | Carrese 0 | Cardefl 0 | Carclav 0 | Carechi 0 | Carorni 0 | Carpall 0 | Carsemp 0 | Carcarv 0 | Cennerv 0 | Cerarve 0 | Cervulg 0 | Chahirs 0 | Chebonu 0 | Coeviri 0 | Croalbi 0 | Crycris 0 | Cusepit 0 | Dapmeze 0 | Descesp 0 | Dryaffi 0 | Epialpe 0 | Epiangu 0 | Epicoll 0 | Erialpi 0 | Eupcypa 0 | Eupmini 0 | Fesovin 0 | Fesmela 0 | Fesnigr 0 | Fesscab 0 | Foualpi 0 | Gallada 0 | Galpusi 0 | Genacau 0 | Genpurp 0 | Genramo 0 | Gersylv 0 | Geumont 0 | Geuriva 0 | Hielact 0 | Hievill 0 | Hiemuro 0 | Hipcomo 0 | Homalpi 0 | Junmona 0 | Junnana 0 | Lardeci 0 | Lashall 0 | Leohelv 0 | Leuvulg 0 | Lilmart 0 | Lotalpi 0 | Luzalpi 0 | Luzcamp 0 | Luzsylv 0 | Molarun 0 | Myoalpe 0 | Narstri 0 | Oxaacet 0 | Parlili 0 | Pedtube 0 | Peuostr 0 | Pheconn 0 | Phlrhae 0 | Phybeto 0 | Phyhemi 0 | Poaalpi 0 | Poachai 0 | Poanemo 0 | Poaprat 0 | Pollonc 0 | Potaure 0 | Potgran 0 | Prihirs 0 | Psealbi 0 | Pulapii 0 | Ranmont 0 | Rhialec 0 | Rhorose 0 | Rospend 0 | Rumalpe 0 | Rumalpi 0 | Rumscut 0 | Saxaspe 0 | Saxrotu 0 | Saxstel 0 | Scacolu 0 | Sedanac 0 | Semarac 0 | Semgran 0 | Semmont 0 | Sendoro 0 | Senovat 0 | Sesliba 0 | Silnuta 0 | Silrupe 0 | Silvulg 0 | Solalpi 0 | Solminu 0 | Soraucu 0 | Taroffi 0 | Thafoet 0 | Thaminu 0 | Thealpi 0 | Thyserp 0 | Trialpi 0 | Tribadi 0 | Triniva 0 | Tripall 0 | Triprat 0 | Trirepe 0 | Triflav 0 | Troeuro 0 | Urtdioi 0 | Vacgaul 0 | Vacmyrt 0 | Vacviti 0 | Verlobe 0 | Vercham 0 | Verserp 0 | Viobifl 0 |
+| 8 | R16 | 4 | Vacmyrt 28.8 | Calvill 27.3 | Rhoferr 22.7 | Aveflex 7.6 | Gymdryo 3 | Rubidae 3 | Vacviti 3 | Antalpi 1.5 | Arnmont 1.5 | Junnana 1.5 | Achmacr 0 | Achmill 0 | Achmosc 0 | Acialpi 0 | Acolama 0 | Adealli 0 | Agrcapi 0 | Ajupyra 0 | Alcalpi 0 | Alcpent 0 | Alcvulg 0 | Alnviri 0 | Angsylv 0 | Antdioi 0 | Antvuln 0 | Araalpi 0 | Aracili 0 | Astmino 0 | Bislaev 0 | Botluna 0 | Camsche 0 | Capburs 0 | Caramar 0 | Carrese 0 | Cardefl 0 | Carclav 0 | Carechi 0 | Carorni 0 | Carpall 0 | Carsemp 0 | Carcarv 0 | Cennerv 0 | Cerarve 0 | Cervulg 0 | Chahirs 0 | Chebonu 0 | Coeviri 0 | Croalbi 0 | Crycris 0 | Cusepit 0 | Dapmeze 0 | Descesp 0 | Dryaffi 0 | Epialpe 0 | Epiangu 0 | Epicoll 0 | Erialpi 0 | Eupcypa 0 | Eupmini 0 | Fesovin 0 | Fesmela 0 | Fesnigr 0 | Fesscab 0 | Foualpi 0 | Gallada 0 | Galtetr 0 | Galpusi 0 | Genacau 0 | Genpurp 0 | Genramo 0 | Gersylv 0 | Geumont 0 | Geuriva 0 | Hielact 0 | Hievill 0 | Hiemuro 0 | Hipcomo 0 | Homalpi 0 | Junmona 0 | Lardeci 0 | Lashall 0 | Leohelv 0 | Leuvulg 0 | Lilmart 0 | Lotalpi 0 | Luzalpi 0 | Luzcamp 0 | Luzsylv 0 | Molarun 0 | Myoalpe 0 | Narstri 0 | Oxaacet 0 | Parlili 0 | Pedtube 0 | Peuostr 0 | Pheconn 0 | Phlrhae 0 | Phybeto 0 | Phyhemi 0 | Poaalpi 0 | Poachai 0 | Poanemo 0 | Poaprat 0 | Pollonc 0 | Potaure 0 | Potgran 0 | Prihirs 0 | Psealbi 0 | Pulapii 0 | Ranmont 0 | Rhialec 0 | Rhorose 0 | Rospend 0 | Rumalpe 0 | Rumalpi 0 | Rumscut 0 | Saxaspe 0 | Saxrotu 0 | Saxstel 0 | Scacolu 0 | Sedanac 0 | Semarac 0 | Semgran 0 | Semmont 0 | Sendoro 0 | Senovat 0 | Sesliba 0 | Silnuta 0 | Silrupe 0 | Silvulg 0 | Solalpi 0 | Solminu 0 | Soraucu 0 | Taroffi 0 | Thafoet 0 | Thaminu 0 | Thealpi 0 | Thyserp 0 | Trialpi 0 | Tribadi 0 | Triniva 0 | Tripall 0 | Triprat 0 | Trirepe 0 | Triflav 0 | Troeuro 0 | Urtdioi 0 | Vacgaul 0 | Verlobe 0 | Vercham 0 | Verserp 0 | Viobifl 0 |
+| 6 | R14 | 5 | Adealli 21.6 | Rubidae 16.2 | Urtdioi 16.2 | Rumalpe 13.5 | Alnviri 8.1 | Galtetr 8.1 | Viobifl 5.4 | Achmacr 2.7 | Acolama 2.7 | Fesnigr 2.7 | Saxrotu 2.7 | Achmill 0 | Achmosc 0 | Acialpi 0 | Agrcapi 0 | Ajupyra 0 | Alcalpi 0 | Alcpent 0 | Alcvulg 0 | Angsylv 0 | Antdioi 0 | Antvuln 0 | Antalpi 0 | Araalpi 0 | Aracili 0 | Arnmont 0 | Astmino 0 | Aveflex 0 | Bislaev 0 | Botluna 0 | Calvill 0 | Camsche 0 | Capburs 0 | Caramar 0 | Carrese 0 | Cardefl 0 | Carclav 0 | Carechi 0 | Carorni 0 | Carpall 0 | Carsemp 0 | Carcarv 0 | Cennerv 0 | Cerarve 0 | Cervulg 0 | Chahirs 0 | Chebonu 0 | Coeviri 0 | Croalbi 0 | Crycris 0 | Cusepit 0 | Dapmeze 0 | Descesp 0 | Dryaffi 0 | Epialpe 0 | Epiangu 0 | Epicoll 0 | Erialpi 0 | Eupcypa 0 | Eupmini 0 | Fesovin 0 | Fesmela 0 | Fesscab 0 | Foualpi 0 | Gallada 0 | Galpusi 0 | Genacau 0 | Genpurp 0 | Genramo 0 | Gersylv 0 | Geumont 0 | Geuriva 0 | Gymdryo 0 | Hielact 0 | Hievill 0 | Hiemuro 0 | Hipcomo 0 | Homalpi 0 | Junmona 0 | Junnana 0 | Lardeci 0 | Lashall 0 | Leohelv 0 | Leuvulg 0 | Lilmart 0 | Lotalpi 0 | Luzalpi 0 | Luzcamp 0 | Luzsylv 0 | Molarun 0 | Myoalpe 0 | Narstri 0 | Oxaacet 0 | Parlili 0 | Pedtube 0 | Peuostr 0 | Pheconn 0 | Phlrhae 0 | Phybeto 0 | Phyhemi 0 | Poaalpi 0 | Poachai 0 | Poanemo 0 | Poaprat 0 | Pollonc 0 | Potaure 0 | Potgran 0 | Prihirs 0 | Psealbi 0 | Pulapii 0 | Ranmont 0 | Rhialec 0 | Rhorose 0 | Rhoferr 0 | Rospend 0 | Rumalpi 0 | Rumscut 0 | Saxaspe 0 | Saxstel 0 | Scacolu 0 | Sedanac 0 | Semarac 0 | Semgran 0 | Semmont 0 | Sendoro 0 | Senovat 0 | Sesliba 0 | Silnuta 0 | Silrupe 0 | Silvulg 0 | Solalpi 0 | Solminu 0 | Soraucu 0 | Taroffi 0 | Thafoet 0 | Thaminu 0 | Thealpi 0 | Thyserp 0 | Trialpi 0 | Tribadi 0 | Triniva 0 | Tripall 0 | Triprat 0 | Trirepe 0 | Triflav 0 | Troeuro 0 | Vacgaul 0 | Vacmyrt 0 | Vacviti 0 | Verlobe 0 | Vercham 0 | Verserp 0 |
 
 Each species entry reports its code followed by its SRA. The table
 already helps identify changes in the dominant species along the
@@ -194,7 +137,7 @@ selected number of ranked species. Here we show all ten; set
 
 ``` r
 
-n_species_labels <- 10L
+n_species_labels <- 10
 
 db_labels <- denspe(
   nspe = n_species_labels,
@@ -217,15 +160,7 @@ dend_labels <- dendextend::set(dend_labels, "labels_cex", label_cex)
 ``` r
 
 # Reserve enough space on the right for the species labels.
-right_margin <- max(strwidth(
-  clst_labels$labels,
-  units = "inches",
-  cex = label_cex
-)) /
-  par("csi") +
-  2
-
-par(mfrow = c(1, 1), mar = c(4, 2, 3, right_margin))
+par(mfrow = c(1, 1), mar = c(4, 2, 3, 30))
 plot(
   dend_labels,
   horiz = TRUE,
@@ -262,82 +197,48 @@ any group.
 
 ``` r
 
-k_values <- seq.int(2L, min(10L, nrow(veg) - 1L))
-min_group_size <- 2L
+k_values <- 2:10
 
-silhouette_results <- do.call(
-  rbind,
-  lapply(k_values, function(k) {
-    membership <- stats::cutree(clst, k = k)
-    sil <- cluster::silhouette(membership, d)
-    sizes <- table(membership)
+silhouette_results <- sapply(k_values, function(k) {
+  gruppi <- cutree(clst, k = k)
 
-    data.frame(
-      k = k,
-      mean_silhouette = mean(sil[, "sil_width"]),
-      smallest_group = min(sizes),
-      admissible = all(sizes >= min_group_size)
-    )
-  })
-)
+  sil <- cluster::silhouette(
+    gruppi,
+    d
+  )
 
-admissible_results <- subset(silhouette_results, admissible)
-if (nrow(admissible_results) == 0L) {
-  stop("No partition meets min_group_size: review k_values or the constraint.")
-}
+  mean(sil[, "sil_width"])
+})
 
-# In the event of a tie, select the smallest k among those examined.
-best_k <- admissible_results$k[
-  which.max(admissible_results$mean_silhouette)
-]
-
-knitr::kable(silhouette_results, digits = 3)
-```
-
-|   k | mean_silhouette | smallest_group | admissible |
-|----:|----------------:|---------------:|:-----------|
-|   2 |           0.160 |              7 | TRUE       |
-|   3 |           0.171 |              2 | TRUE       |
-|   4 |           0.191 |              2 | TRUE       |
-|   5 |           0.196 |              2 | TRUE       |
-|   6 |           0.207 |              2 | TRUE       |
-|   7 |           0.224 |              1 | FALSE      |
-|   8 |           0.215 |              1 | FALSE      |
-|   9 |           0.196 |              1 | FALSE      |
-|  10 |           0.179 |              1 | FALSE      |
-
-``` r
-
+best_k <- k_values[which.max(silhouette_results)]
 best_k
-#> [1] 6
+#> [1] 7
 
+par(mfrow = c(1, 1), mar = c(4, 2, 3, 1))
 plot(
-  mean_silhouette ~ k,
-  data = silhouette_results,
+  k_values,
+  silhouette_results,
   type = "b",
-  xlab = "Number of groups",
-  ylab = "Mean silhouette width"
+  pch = 19,
+  xlab = "Numero di gruppi (k)",
+  ylab = "Average silhouette width"
 )
-points(
-  mean_silhouette ~ k,
-  data = subset(silhouette_results, !admissible),
-  pch = 4,
-  col = "red",
-  cex = 1.4
+
+abline(
+  v = best_k,
+  lty = 2
 )
-abline(v = best_k, lty = 2, col = "blue")
 ```
 
 ![](TUTORIAL_2_-_Cluster_metodo_fitopastorale_files/figure-html/silhouette-1.png)
 
-If
+Another method is the so called
 [`maxFusionLevel()`](https://marcopittarello.github.io/iPastoralist/reference/maxFusionLevel.md)
-is available, we can also inspect its suggested number of groups. This
-optional chunk is not evaluated during rendering.
+(see Borcard et al., 2018):
 
 ``` r
 
-fusion <- maxFusionLevel(clst)
+fusion <- iPastoralist::maxFusionLevel(clst)
 fusion
 fusion$n.clust
 ```
@@ -351,31 +252,7 @@ optimal for this dataset.
 
 ``` r
 
-selection_method <- "custom" # "custom", "silhouette", or "fusion"
-k_custom <- 4L
-
-n.cluster <- switch(
-  selection_method,
-  custom = k_custom,
-  silhouette = best_k,
-  fusion = {
-    if (!exists("maxFusionLevel", mode = "function")) {
-      stop("Load maxFusionLevel() to use the fusion criterion.")
-    }
-    maxFusionLevel(clst)$n.clust
-  },
-  stop("Unrecognised selection_method.")
-)
-
-stopifnot(
-  length(n.cluster) == 1L,
-  is.numeric(n.cluster),
-  is.finite(n.cluster),
-  n.cluster == as.integer(n.cluster),
-  n.cluster >= 2L,
-  n.cluster < nrow(veg)
-)
-n.cluster <- as.integer(n.cluster)
+n.cluster <- 4
 ```
 
 Highlight the selected groups on the same dendrogram with species
@@ -396,7 +273,7 @@ dend_selected <- dendextend::color_branches(
   col = branch_colours
 )
 
-par(mfrow = c(1, 1), mar = c(4, 2, 3, right_margin))
+par(mfrow = c(1, 1), mar = c(4, 2, 3, 30))
 plot(
   dend_selected,
   horiz = TRUE,
@@ -442,12 +319,6 @@ groups <- groups[
 ]
 rownames(groups) <- NULL
 groups$group <- factor(groups$group, levels = paste0("G", seq_len(n.cluster)))
-
-stopifnot(
-  identical(rownames(veg), as.character(groups$stand)),
-  !anyNA(groups$group),
-  nlevels(droplevels(groups$group)) == n.cluster
-)
 
 knitr::kable(groups)
 ```
@@ -539,20 +410,20 @@ head(aggregate_groups$df.long)
 #> 5 G1    Chahirs      4.38
 #> 6 G1    Antalpi      4.07
 aggregate_groups$df.wide
-#> # A tibble: 4 × 92
-#>   group Achmacr Achmill Acialpi Acolama Adealli Agrcapi Alcpent Alcvulg Alnviri
+#> # A tibble: 4 × 153
+#>   group Achmacr Achmill Achmosc Acialpi Acolama Adealli Agrcapi Ajupyra Alcalpi
 #>   <chr>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
-#> 1 G1      0        1.18   0.322   0        0      6.31   0.0833    4.06    0   
-#> 2 G2      0        0      0       0        0      0.746  0         4.48    0   
-#> 3 G3      0        0      0       0        0      0.758  0         0       4.72
-#> 4 G4      0.901    0      0       0.901    9.33   7.35   0         1.42   34.1 
-#> # ℹ 82 more variables: Antalpi <dbl>, Arnmont <dbl>, Aveflex <dbl>,
-#> #   Bislaev <dbl>, Calvill <dbl>, Camsche <dbl>, Caramar <dbl>, Cardefl <dbl>,
-#> #   Carclav <dbl>, Carechi <dbl>, Carsemp <dbl>, Carcarv <dbl>, Cerarve <dbl>,
-#> #   Cervulg <dbl>, Chahirs <dbl>, Cusepit <dbl>, Dapmeze <dbl>, Descesp <dbl>,
-#> #   Eupcypa <dbl>, Fesovin <dbl>, Fesmela <dbl>, Fesnigr <dbl>, Fesscab <dbl>,
-#> #   Galtetr <dbl>, Galpusi <dbl>, Genpurp <dbl>, Gersylv <dbl>, Geumont <dbl>,
-#> #   Geuriva <dbl>, Gymdryo <dbl>, Hiemuro <dbl>, Junnana <dbl>, …
+#> 1 G1      0        1.18       0   0.322   0        0      6.31        0       0
+#> 2 G2      0        0          0   0       0        0      0.746       0       0
+#> 3 G3      0        0          0   0       0        0      0.758       0       0
+#> 4 G4      0.901    0          0   0       0.901    9.33   7.35        0       0
+#> # ℹ 143 more variables: Alcpent <dbl>, Alcvulg <dbl>, Alnviri <dbl>,
+#> #   Angsylv <dbl>, Antdioi <dbl>, Antvuln <dbl>, Antalpi <dbl>, Araalpi <dbl>,
+#> #   Aracili <dbl>, Arnmont <dbl>, Astmino <dbl>, Aveflex <dbl>, Bislaev <dbl>,
+#> #   Botluna <dbl>, Calvill <dbl>, Camsche <dbl>, Capburs <dbl>, Caramar <dbl>,
+#> #   Carrese <dbl>, Cardefl <dbl>, Carclav <dbl>, Carechi <dbl>, Carorni <dbl>,
+#> #   Carpall <dbl>, Carsemp <dbl>, Carcarv <dbl>, Cennerv <dbl>, Cerarve <dbl>,
+#> #   Cervulg <dbl>, Chahirs <dbl>, Chebonu <dbl>, Coeviri <dbl>, …
 ```
 
 ## 7. Exploring the groups with tb-PCA and ordiselect

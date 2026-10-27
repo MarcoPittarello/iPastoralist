@@ -1,4 +1,4 @@
-# Tutorial 1
+# Converting Frequency of Occurrence and computation of Ecological Indexes
 
 ``` r
 

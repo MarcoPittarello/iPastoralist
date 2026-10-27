@@ -36,9 +36,10 @@
 <li><a class="dropdown-item" href="../articles/Data_input_format.html">Data input format</a></li>
     <li><a class="dropdown-item" href="../articles/Installation.html">Installation</a></li>
     <li><a class="dropdown-item" href="../articles/Introduction_to_iPastoralist.html">Introduction to iPastoralist</a></li>
-    <li><a class="dropdown-item" href="../articles/TUTORIAL_1.html">Tutorial 1</a></li>
+    <li><a class="dropdown-item" href="../articles/TUTORIAL_1.html">Converting Frequency of Occurrence and computation of Ecological Indexes</a></li>
     <li><a class="dropdown-item" href="../articles/TUTORIAL_2_-_Cluster_metodo_fitopastorale.html">Vegetation classification: a pastoral approach</a></li>
     <li><a class="dropdown-item" href="../articles/TUTORIAL_3_-_Cluster_metodo_fitosociologico.html">Vegetation classification: a phytosociological approach</a></li>
+    <li><a class="dropdown-item" href="../articles/TUTORIAL_4_Quick_classification_and_interpretation.html">TUTORIAL_4_Quick_classification_and_interpretation</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -93,29 +94,14 @@ dendrogram labels compact.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marcopittarello.github.io/iPastoralist">iPastoralist</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vegandevs.github.io/vegan/" class="external-link">vegan</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://talgalili.github.io/dendextend/" class="external-link">dendextend</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># If tb_pca_plot() is stored in a separate script, load it here with source().</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"tb_pca_plot"</span>, mode <span class="op">=</span> <span class="st">"function"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Load tb_pca_plot() before rendering this vignette."</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"cluster"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"goeveg"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
 <p>Select species codes and survey columns, excluding ecological
 indicator values and other ancillary information. The first column
 contains the species codes, as required by
 <code><a href="../reference/vegetation_abundance.html">vegetation_abundance()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu">iPastoralist</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">)</span></span>
-<span><span class="va">survey_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"^R[0-9]+$"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data_example</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">vegetation</span> <span class="op">&lt;-</span> <span class="va">data_example</span><span class="op">[</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species.name.code"</span>, <span class="va">survey_columns</span><span class="op">)</span>,</span>
-<span>  drop <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">]</span></span>
-<span></span>
+<span><span class="va">vegetation</span> <span class="op">&lt;-</span> <span class="va">data_example</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">data_example</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">vegetation</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">7L</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">vegetation</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -196,21 +182,8 @@ each survey.</p>
 <span>  database <span class="op">=</span> <span class="va">vegetation</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"SRA_fo"</span></span>
 <span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># For subsequent analyses: rows = surveys; columns = species.</span></span>
-<span><span class="va">veg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Remove only species that are completely absent after calculating SRA.</span></span>
-<span><span class="va">veg</span> <span class="op">&lt;-</span> <span class="va">veg</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">veg</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
-<span><span class="va">sra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">veg</span><span class="op">)</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">veg</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 </span></span>
-<span><span class="co">#&gt; 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 </span></span>
-<span><span class="co">#&gt; R21 R22 R23 R24 </span></span>
-<span><span class="co">#&gt; 100 100 100 100</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">veg</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 24 91</span></span></code></pre></div>
+<span><span class="va">veg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">sra</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -220,61 +193,103 @@ each survey.</p>
 <th align="right">R4</th>
 <th align="right">R5</th>
 <th align="right">R6</th>
+<th align="right">R7</th>
+<th align="right">R8</th>
+<th align="right">R9</th>
+<th align="right">R10</th>
+<th align="right">R11</th>
+<th align="right">R12</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">Achmacr</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">0.0</td>
 <td align="right">0</td>
 <td align="right">0.0</td>
-<td align="right">0.0</td>
-<td align="right">0</td>
 <td align="right">0.0</td>
 </tr>
 <tr class="even">
 <td align="left">Achmill</td>
-<td align="right">0.0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">6.2</td>
 <td align="right">0</td>
 <td align="right">0.0</td>
-<td align="right">0.0</td>
-<td align="right">0</td>
-<td align="right">0.0</td>
+<td align="right">11.5</td>
 </tr>
 <tr class="odd">
+<td align="left">Achmosc</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
 <td align="left">Acialpi</td>
-<td align="right">0.0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0.0</td>
-<td align="right">0.0</td>
 <td align="right">0</td>
-<td align="right">0.0</td>
-</tr>
-<tr class="even">
-<td align="left">Acolama</td>
-<td align="right">0.0</td>
-<td align="right">0</td>
-<td align="right">0.0</td>
-<td align="right">0.0</td>
-<td align="right">0</td>
-<td align="right">0.0</td>
+<td align="right">2.5</td>
+<td align="right">2.3</td>
 </tr>
 <tr class="odd">
-<td align="left">Adealli</td>
+<td align="left">Acolama</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">0.0</td>
 <td align="right">0</td>
 <td align="right">0.0</td>
-<td align="right">0.0</td>
-<td align="right">0</td>
 <td align="right">0.0</td>
 </tr>
 <tr class="even">
-<td align="left">Agrcapi</td>
-<td align="right">6.7</td>
+<td align="left">Adealli</td>
 <td align="right">0</td>
-<td align="right">1.7</td>
-<td align="right">1.5</td>
 <td align="right">0</td>
-<td align="right">14.1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
 </tr>
 </tbody>
 </table>
@@ -313,33 +328,167 @@ position in the dendrogram.</p>
 <span>  cluster.hclust <span class="op">=</span> <span class="va">clst</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Retain the ten highest ranks and order surveys as in the dendrogram.</span></span>
-<span><span class="va">first10</span> <span class="op">&lt;-</span> <span class="va">first10</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">first10</span><span class="op">$</span><span class="va">Survey.order</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
-<span><span class="va">rank_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">first10</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Survey"</span>, <span class="st">"Survey.order"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">rank_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rank_columns</span>, <span class="fl">10L</span><span class="op">)</span></span>
-<span><span class="va">first10_table</span> <span class="op">&lt;-</span> <span class="va">first10</span><span class="op">[</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Survey"</span>, <span class="st">"Survey.order"</span>, <span class="va">rank_columns</span><span class="op">)</span>,</span>
-<span>  drop <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">first10_table</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">first10_table</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">first10</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
-<col width="4%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
 </colgroup>
 <thead><tr class="header">
+<th align="left"></th>
 <th align="left">Survey</th>
 <th align="right">Survey.order</th>
 <th align="left">V1</th>
@@ -352,9 +501,152 @@ position in the dendrogram.</p>
 <th align="left">V8</th>
 <th align="left">V9</th>
 <th align="left">V10</th>
+<th align="left">V11</th>
+<th align="left">V12</th>
+<th align="left">V13</th>
+<th align="left">V14</th>
+<th align="left">V15</th>
+<th align="left">V16</th>
+<th align="left">V17</th>
+<th align="left">V18</th>
+<th align="left">V19</th>
+<th align="left">V20</th>
+<th align="left">V21</th>
+<th align="left">V22</th>
+<th align="left">V23</th>
+<th align="left">V24</th>
+<th align="left">V25</th>
+<th align="left">V26</th>
+<th align="left">V27</th>
+<th align="left">V28</th>
+<th align="left">V29</th>
+<th align="left">V30</th>
+<th align="left">V31</th>
+<th align="left">V32</th>
+<th align="left">V33</th>
+<th align="left">V34</th>
+<th align="left">V35</th>
+<th align="left">V36</th>
+<th align="left">V37</th>
+<th align="left">V38</th>
+<th align="left">V39</th>
+<th align="left">V40</th>
+<th align="left">V41</th>
+<th align="left">V42</th>
+<th align="left">V43</th>
+<th align="left">V44</th>
+<th align="left">V45</th>
+<th align="left">V46</th>
+<th align="left">V47</th>
+<th align="left">V48</th>
+<th align="left">V49</th>
+<th align="left">V50</th>
+<th align="left">V51</th>
+<th align="left">V52</th>
+<th align="left">V53</th>
+<th align="left">V54</th>
+<th align="left">V55</th>
+<th align="left">V56</th>
+<th align="left">V57</th>
+<th align="left">V58</th>
+<th align="left">V59</th>
+<th align="left">V60</th>
+<th align="left">V61</th>
+<th align="left">V62</th>
+<th align="left">V63</th>
+<th align="left">V64</th>
+<th align="left">V65</th>
+<th align="left">V66</th>
+<th align="left">V67</th>
+<th align="left">V68</th>
+<th align="left">V69</th>
+<th align="left">V70</th>
+<th align="left">V71</th>
+<th align="left">V72</th>
+<th align="left">V73</th>
+<th align="left">V74</th>
+<th align="left">V75</th>
+<th align="left">V76</th>
+<th align="left">V77</th>
+<th align="left">V78</th>
+<th align="left">V79</th>
+<th align="left">V80</th>
+<th align="left">V81</th>
+<th align="left">V82</th>
+<th align="left">V83</th>
+<th align="left">V84</th>
+<th align="left">V85</th>
+<th align="left">V86</th>
+<th align="left">V87</th>
+<th align="left">V88</th>
+<th align="left">V89</th>
+<th align="left">V90</th>
+<th align="left">V91</th>
+<th align="left">V92</th>
+<th align="left">V93</th>
+<th align="left">V94</th>
+<th align="left">V95</th>
+<th align="left">V96</th>
+<th align="left">V97</th>
+<th align="left">V98</th>
+<th align="left">V99</th>
+<th align="left">V100</th>
+<th align="left">V101</th>
+<th align="left">V102</th>
+<th align="left">V103</th>
+<th align="left">V104</th>
+<th align="left">V105</th>
+<th align="left">V106</th>
+<th align="left">V107</th>
+<th align="left">V108</th>
+<th align="left">V109</th>
+<th align="left">V110</th>
+<th align="left">V111</th>
+<th align="left">V112</th>
+<th align="left">V113</th>
+<th align="left">V114</th>
+<th align="left">V115</th>
+<th align="left">V116</th>
+<th align="left">V117</th>
+<th align="left">V118</th>
+<th align="left">V119</th>
+<th align="left">V120</th>
+<th align="left">V121</th>
+<th align="left">V122</th>
+<th align="left">V123</th>
+<th align="left">V124</th>
+<th align="left">V125</th>
+<th align="left">V126</th>
+<th align="left">V127</th>
+<th align="left">V128</th>
+<th align="left">V129</th>
+<th align="left">V130</th>
+<th align="left">V131</th>
+<th align="left">V132</th>
+<th align="left">V133</th>
+<th align="left">V134</th>
+<th align="left">V135</th>
+<th align="left">V136</th>
+<th align="left">V137</th>
+<th align="left">V138</th>
+<th align="left">V139</th>
+<th align="left">V140</th>
+<th align="left">V141</th>
+<th align="left">V142</th>
+<th align="left">V143</th>
+<th align="left">V144</th>
+<th align="left">V145</th>
+<th align="left">V146</th>
+<th align="left">V147</th>
+<th align="left">V148</th>
+<th align="left">V149</th>
+<th align="left">V150</th>
+<th align="left">V151</th>
+<th align="left">V152</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left">16</td>
 <td align="left">R23</td>
 <td align="right">1</td>
 <td align="left">Rhoferr 63.9</td>
@@ -363,12 +655,155 @@ position in the dendrogram.</p>
 <td align="left">Vacmyrt 2.8</td>
 <td align="left">Achmacr 0</td>
 <td align="left">Achmill 0</td>
+<td align="left">Achmosc 0</td>
 <td align="left">Acialpi 0</td>
 <td align="left">Acolama 0</td>
 <td align="left">Adealli 0</td>
 <td align="left">Agrcapi 0</td>
+<td align="left">Ajupyra 0</td>
+<td align="left">Alcalpi 0</td>
+<td align="left">Alcpent 0</td>
+<td align="left">Alcvulg 0</td>
+<td align="left">Alnviri 0</td>
+<td align="left">Angsylv 0</td>
+<td align="left">Antdioi 0</td>
+<td align="left">Antvuln 0</td>
+<td align="left">Antalpi 0</td>
+<td align="left">Araalpi 0</td>
+<td align="left">Aracili 0</td>
+<td align="left">Arnmont 0</td>
+<td align="left">Astmino 0</td>
+<td align="left">Aveflex 0</td>
+<td align="left">Bislaev 0</td>
+<td align="left">Botluna 0</td>
+<td align="left">Calvill 0</td>
+<td align="left">Camsche 0</td>
+<td align="left">Capburs 0</td>
+<td align="left">Caramar 0</td>
+<td align="left">Carrese 0</td>
+<td align="left">Cardefl 0</td>
+<td align="left">Carclav 0</td>
+<td align="left">Carechi 0</td>
+<td align="left">Carorni 0</td>
+<td align="left">Carpall 0</td>
+<td align="left">Carsemp 0</td>
+<td align="left">Carcarv 0</td>
+<td align="left">Cennerv 0</td>
+<td align="left">Cerarve 0</td>
+<td align="left">Cervulg 0</td>
+<td align="left">Chahirs 0</td>
+<td align="left">Chebonu 0</td>
+<td align="left">Coeviri 0</td>
+<td align="left">Croalbi 0</td>
+<td align="left">Crycris 0</td>
+<td align="left">Cusepit 0</td>
+<td align="left">Dapmeze 0</td>
+<td align="left">Descesp 0</td>
+<td align="left">Dryaffi 0</td>
+<td align="left">Epialpe 0</td>
+<td align="left">Epiangu 0</td>
+<td align="left">Epicoll 0</td>
+<td align="left">Erialpi 0</td>
+<td align="left">Eupcypa 0</td>
+<td align="left">Eupmini 0</td>
+<td align="left">Fesovin 0</td>
+<td align="left">Fesmela 0</td>
+<td align="left">Fesnigr 0</td>
+<td align="left">Fesscab 0</td>
+<td align="left">Foualpi 0</td>
+<td align="left">Gallada 0</td>
+<td align="left">Galtetr 0</td>
+<td align="left">Galpusi 0</td>
+<td align="left">Genacau 0</td>
+<td align="left">Genpurp 0</td>
+<td align="left">Genramo 0</td>
+<td align="left">Gersylv 0</td>
+<td align="left">Geumont 0</td>
+<td align="left">Geuriva 0</td>
+<td align="left">Gymdryo 0</td>
+<td align="left">Hielact 0</td>
+<td align="left">Hievill 0</td>
+<td align="left">Hiemuro 0</td>
+<td align="left">Hipcomo 0</td>
+<td align="left">Homalpi 0</td>
+<td align="left">Junmona 0</td>
+<td align="left">Lardeci 0</td>
+<td align="left">Lashall 0</td>
+<td align="left">Leohelv 0</td>
+<td align="left">Leuvulg 0</td>
+<td align="left">Lilmart 0</td>
+<td align="left">Lotalpi 0</td>
+<td align="left">Luzalpi 0</td>
+<td align="left">Luzcamp 0</td>
+<td align="left">Luzsylv 0</td>
+<td align="left">Molarun 0</td>
+<td align="left">Myoalpe 0</td>
+<td align="left">Narstri 0</td>
+<td align="left">Parlili 0</td>
+<td align="left">Pedtube 0</td>
+<td align="left">Peuostr 0</td>
+<td align="left">Pheconn 0</td>
+<td align="left">Phlrhae 0</td>
+<td align="left">Phybeto 0</td>
+<td align="left">Phyhemi 0</td>
+<td align="left">Poaalpi 0</td>
+<td align="left">Poachai 0</td>
+<td align="left">Poanemo 0</td>
+<td align="left">Poaprat 0</td>
+<td align="left">Pollonc 0</td>
+<td align="left">Potaure 0</td>
+<td align="left">Potgran 0</td>
+<td align="left">Prihirs 0</td>
+<td align="left">Psealbi 0</td>
+<td align="left">Pulapii 0</td>
+<td align="left">Ranmont 0</td>
+<td align="left">Rhialec 0</td>
+<td align="left">Rhorose 0</td>
+<td align="left">Rospend 0</td>
+<td align="left">Rubidae 0</td>
+<td align="left">Rumalpe 0</td>
+<td align="left">Rumalpi 0</td>
+<td align="left">Rumscut 0</td>
+<td align="left">Saxaspe 0</td>
+<td align="left">Saxrotu 0</td>
+<td align="left">Saxstel 0</td>
+<td align="left">Scacolu 0</td>
+<td align="left">Sedanac 0</td>
+<td align="left">Semarac 0</td>
+<td align="left">Semgran 0</td>
+<td align="left">Semmont 0</td>
+<td align="left">Sendoro 0</td>
+<td align="left">Senovat 0</td>
+<td align="left">Sesliba 0</td>
+<td align="left">Silnuta 0</td>
+<td align="left">Silrupe 0</td>
+<td align="left">Silvulg 0</td>
+<td align="left">Solalpi 0</td>
+<td align="left">Solminu 0</td>
+<td align="left">Soraucu 0</td>
+<td align="left">Taroffi 0</td>
+<td align="left">Thafoet 0</td>
+<td align="left">Thaminu 0</td>
+<td align="left">Thealpi 0</td>
+<td align="left">Thyserp 0</td>
+<td align="left">Trialpi 0</td>
+<td align="left">Tribadi 0</td>
+<td align="left">Triniva 0</td>
+<td align="left">Tripall 0</td>
+<td align="left">Triprat 0</td>
+<td align="left">Trirepe 0</td>
+<td align="left">Triflav 0</td>
+<td align="left">Troeuro 0</td>
+<td align="left">Urtdioi 0</td>
+<td align="left">Vacgaul 0</td>
+<td align="left">Vacviti 0</td>
+<td align="left">Verlobe 0</td>
+<td align="left">Vercham 0</td>
+<td align="left">Verserp 0</td>
+<td align="left">Viobifl 0</td>
 </tr>
 <tr class="even">
+<td align="left">17</td>
 <td align="left">R24</td>
 <td align="right">2</td>
 <td align="left">Rhoferr 63.6</td>
@@ -379,10 +814,153 @@ position in the dendrogram.</p>
 <td align="left">Vacmyrt 3</td>
 <td align="left">Achmacr 0</td>
 <td align="left">Achmill 0</td>
+<td align="left">Achmosc 0</td>
 <td align="left">Acialpi 0</td>
 <td align="left">Acolama 0</td>
+<td align="left">Adealli 0</td>
+<td align="left">Ajupyra 0</td>
+<td align="left">Alcalpi 0</td>
+<td align="left">Alcpent 0</td>
+<td align="left">Alcvulg 0</td>
+<td align="left">Alnviri 0</td>
+<td align="left">Angsylv 0</td>
+<td align="left">Antdioi 0</td>
+<td align="left">Antvuln 0</td>
+<td align="left">Antalpi 0</td>
+<td align="left">Araalpi 0</td>
+<td align="left">Aracili 0</td>
+<td align="left">Astmino 0</td>
+<td align="left">Bislaev 0</td>
+<td align="left">Botluna 0</td>
+<td align="left">Calvill 0</td>
+<td align="left">Camsche 0</td>
+<td align="left">Capburs 0</td>
+<td align="left">Caramar 0</td>
+<td align="left">Carrese 0</td>
+<td align="left">Cardefl 0</td>
+<td align="left">Carclav 0</td>
+<td align="left">Carechi 0</td>
+<td align="left">Carorni 0</td>
+<td align="left">Carpall 0</td>
+<td align="left">Carsemp 0</td>
+<td align="left">Carcarv 0</td>
+<td align="left">Cennerv 0</td>
+<td align="left">Cerarve 0</td>
+<td align="left">Cervulg 0</td>
+<td align="left">Chahirs 0</td>
+<td align="left">Chebonu 0</td>
+<td align="left">Coeviri 0</td>
+<td align="left">Croalbi 0</td>
+<td align="left">Crycris 0</td>
+<td align="left">Cusepit 0</td>
+<td align="left">Dapmeze 0</td>
+<td align="left">Descesp 0</td>
+<td align="left">Dryaffi 0</td>
+<td align="left">Epialpe 0</td>
+<td align="left">Epiangu 0</td>
+<td align="left">Epicoll 0</td>
+<td align="left">Erialpi 0</td>
+<td align="left">Eupcypa 0</td>
+<td align="left">Eupmini 0</td>
+<td align="left">Fesovin 0</td>
+<td align="left">Fesmela 0</td>
+<td align="left">Fesnigr 0</td>
+<td align="left">Foualpi 0</td>
+<td align="left">Gallada 0</td>
+<td align="left">Galtetr 0</td>
+<td align="left">Galpusi 0</td>
+<td align="left">Genacau 0</td>
+<td align="left">Genpurp 0</td>
+<td align="left">Genramo 0</td>
+<td align="left">Gersylv 0</td>
+<td align="left">Geumont 0</td>
+<td align="left">Geuriva 0</td>
+<td align="left">Gymdryo 0</td>
+<td align="left">Hielact 0</td>
+<td align="left">Hievill 0</td>
+<td align="left">Hiemuro 0</td>
+<td align="left">Hipcomo 0</td>
+<td align="left">Homalpi 0</td>
+<td align="left">Junmona 0</td>
+<td align="left">Junnana 0</td>
+<td align="left">Lardeci 0</td>
+<td align="left">Lashall 0</td>
+<td align="left">Leohelv 0</td>
+<td align="left">Leuvulg 0</td>
+<td align="left">Lilmart 0</td>
+<td align="left">Lotalpi 0</td>
+<td align="left">Luzalpi 0</td>
+<td align="left">Luzcamp 0</td>
+<td align="left">Luzsylv 0</td>
+<td align="left">Molarun 0</td>
+<td align="left">Myoalpe 0</td>
+<td align="left">Narstri 0</td>
+<td align="left">Oxaacet 0</td>
+<td align="left">Parlili 0</td>
+<td align="left">Pedtube 0</td>
+<td align="left">Peuostr 0</td>
+<td align="left">Pheconn 0</td>
+<td align="left">Phlrhae 0</td>
+<td align="left">Phybeto 0</td>
+<td align="left">Phyhemi 0</td>
+<td align="left">Poaalpi 0</td>
+<td align="left">Poachai 0</td>
+<td align="left">Poanemo 0</td>
+<td align="left">Poaprat 0</td>
+<td align="left">Pollonc 0</td>
+<td align="left">Potaure 0</td>
+<td align="left">Potgran 0</td>
+<td align="left">Prihirs 0</td>
+<td align="left">Psealbi 0</td>
+<td align="left">Pulapii 0</td>
+<td align="left">Ranmont 0</td>
+<td align="left">Rhialec 0</td>
+<td align="left">Rhorose 0</td>
+<td align="left">Rospend 0</td>
+<td align="left">Rubidae 0</td>
+<td align="left">Rumalpe 0</td>
+<td align="left">Rumalpi 0</td>
+<td align="left">Rumscut 0</td>
+<td align="left">Saxaspe 0</td>
+<td align="left">Saxrotu 0</td>
+<td align="left">Saxstel 0</td>
+<td align="left">Scacolu 0</td>
+<td align="left">Sedanac 0</td>
+<td align="left">Semarac 0</td>
+<td align="left">Semgran 0</td>
+<td align="left">Semmont 0</td>
+<td align="left">Sendoro 0</td>
+<td align="left">Senovat 0</td>
+<td align="left">Sesliba 0</td>
+<td align="left">Silnuta 0</td>
+<td align="left">Silrupe 0</td>
+<td align="left">Silvulg 0</td>
+<td align="left">Solalpi 0</td>
+<td align="left">Solminu 0</td>
+<td align="left">Soraucu 0</td>
+<td align="left">Taroffi 0</td>
+<td align="left">Thafoet 0</td>
+<td align="left">Thaminu 0</td>
+<td align="left">Thealpi 0</td>
+<td align="left">Thyserp 0</td>
+<td align="left">Trialpi 0</td>
+<td align="left">Tribadi 0</td>
+<td align="left">Triniva 0</td>
+<td align="left">Tripall 0</td>
+<td align="left">Triprat 0</td>
+<td align="left">Trirepe 0</td>
+<td align="left">Triflav 0</td>
+<td align="left">Troeuro 0</td>
+<td align="left">Urtdioi 0</td>
+<td align="left">Vacgaul 0</td>
+<td align="left">Vacviti 0</td>
+<td align="left">Verlobe 0</td>
+<td align="left">Vercham 0</td>
+<td align="left">Verserp 0</td>
+<td align="left">Viobifl 0</td>
 </tr>
 <tr class="odd">
+<td align="left">5</td>
 <td align="left">R13</td>
 <td align="right">3</td>
 <td align="left">Calvill 39.6</td>
@@ -393,10 +971,153 @@ position in the dendrogram.</p>
 <td align="left">Galtetr 1.9</td>
 <td align="left">Achmacr 0</td>
 <td align="left">Achmill 0</td>
+<td align="left">Achmosc 0</td>
 <td align="left">Acialpi 0</td>
 <td align="left">Acolama 0</td>
+<td align="left">Adealli 0</td>
+<td align="left">Agrcapi 0</td>
+<td align="left">Ajupyra 0</td>
+<td align="left">Alcalpi 0</td>
+<td align="left">Alcpent 0</td>
+<td align="left">Alcvulg 0</td>
+<td align="left">Angsylv 0</td>
+<td align="left">Antdioi 0</td>
+<td align="left">Antvuln 0</td>
+<td align="left">Antalpi 0</td>
+<td align="left">Araalpi 0</td>
+<td align="left">Aracili 0</td>
+<td align="left">Arnmont 0</td>
+<td align="left">Astmino 0</td>
+<td align="left">Aveflex 0</td>
+<td align="left">Bislaev 0</td>
+<td align="left">Botluna 0</td>
+<td align="left">Camsche 0</td>
+<td align="left">Capburs 0</td>
+<td align="left">Caramar 0</td>
+<td align="left">Carrese 0</td>
+<td align="left">Cardefl 0</td>
+<td align="left">Carclav 0</td>
+<td align="left">Carechi 0</td>
+<td align="left">Carorni 0</td>
+<td align="left">Carpall 0</td>
+<td align="left">Carsemp 0</td>
+<td align="left">Carcarv 0</td>
+<td align="left">Cennerv 0</td>
+<td align="left">Cerarve 0</td>
+<td align="left">Cervulg 0</td>
+<td align="left">Chahirs 0</td>
+<td align="left">Chebonu 0</td>
+<td align="left">Coeviri 0</td>
+<td align="left">Croalbi 0</td>
+<td align="left">Crycris 0</td>
+<td align="left">Cusepit 0</td>
+<td align="left">Dapmeze 0</td>
+<td align="left">Descesp 0</td>
+<td align="left">Dryaffi 0</td>
+<td align="left">Epialpe 0</td>
+<td align="left">Epiangu 0</td>
+<td align="left">Epicoll 0</td>
+<td align="left">Erialpi 0</td>
+<td align="left">Eupcypa 0</td>
+<td align="left">Eupmini 0</td>
+<td align="left">Fesovin 0</td>
+<td align="left">Fesmela 0</td>
+<td align="left">Fesnigr 0</td>
+<td align="left">Fesscab 0</td>
+<td align="left">Foualpi 0</td>
+<td align="left">Gallada 0</td>
+<td align="left">Galpusi 0</td>
+<td align="left">Genacau 0</td>
+<td align="left">Genpurp 0</td>
+<td align="left">Genramo 0</td>
+<td align="left">Gersylv 0</td>
+<td align="left">Geumont 0</td>
+<td align="left">Geuriva 0</td>
+<td align="left">Hielact 0</td>
+<td align="left">Hievill 0</td>
+<td align="left">Hiemuro 0</td>
+<td align="left">Hipcomo 0</td>
+<td align="left">Homalpi 0</td>
+<td align="left">Junmona 0</td>
+<td align="left">Junnana 0</td>
+<td align="left">Lardeci 0</td>
+<td align="left">Lashall 0</td>
+<td align="left">Leohelv 0</td>
+<td align="left">Leuvulg 0</td>
+<td align="left">Lilmart 0</td>
+<td align="left">Lotalpi 0</td>
+<td align="left">Luzalpi 0</td>
+<td align="left">Luzcamp 0</td>
+<td align="left">Luzsylv 0</td>
+<td align="left">Molarun 0</td>
+<td align="left">Myoalpe 0</td>
+<td align="left">Narstri 0</td>
+<td align="left">Oxaacet 0</td>
+<td align="left">Parlili 0</td>
+<td align="left">Pedtube 0</td>
+<td align="left">Peuostr 0</td>
+<td align="left">Pheconn 0</td>
+<td align="left">Phlrhae 0</td>
+<td align="left">Phybeto 0</td>
+<td align="left">Phyhemi 0</td>
+<td align="left">Poaalpi 0</td>
+<td align="left">Poachai 0</td>
+<td align="left">Poanemo 0</td>
+<td align="left">Poaprat 0</td>
+<td align="left">Pollonc 0</td>
+<td align="left">Potaure 0</td>
+<td align="left">Potgran 0</td>
+<td align="left">Prihirs 0</td>
+<td align="left">Psealbi 0</td>
+<td align="left">Pulapii 0</td>
+<td align="left">Ranmont 0</td>
+<td align="left">Rhialec 0</td>
+<td align="left">Rhorose 0</td>
+<td align="left">Rospend 0</td>
+<td align="left">Rumalpe 0</td>
+<td align="left">Rumalpi 0</td>
+<td align="left">Rumscut 0</td>
+<td align="left">Saxaspe 0</td>
+<td align="left">Saxrotu 0</td>
+<td align="left">Saxstel 0</td>
+<td align="left">Scacolu 0</td>
+<td align="left">Sedanac 0</td>
+<td align="left">Semarac 0</td>
+<td align="left">Semgran 0</td>
+<td align="left">Semmont 0</td>
+<td align="left">Sendoro 0</td>
+<td align="left">Senovat 0</td>
+<td align="left">Sesliba 0</td>
+<td align="left">Silnuta 0</td>
+<td align="left">Silrupe 0</td>
+<td align="left">Silvulg 0</td>
+<td align="left">Solalpi 0</td>
+<td align="left">Solminu 0</td>
+<td align="left">Soraucu 0</td>
+<td align="left">Taroffi 0</td>
+<td align="left">Thafoet 0</td>
+<td align="left">Thaminu 0</td>
+<td align="left">Thealpi 0</td>
+<td align="left">Thyserp 0</td>
+<td align="left">Trialpi 0</td>
+<td align="left">Tribadi 0</td>
+<td align="left">Triniva 0</td>
+<td align="left">Tripall 0</td>
+<td align="left">Triprat 0</td>
+<td align="left">Trirepe 0</td>
+<td align="left">Triflav 0</td>
+<td align="left">Troeuro 0</td>
+<td align="left">Urtdioi 0</td>
+<td align="left">Vacgaul 0</td>
+<td align="left">Vacmyrt 0</td>
+<td align="left">Vacviti 0</td>
+<td align="left">Verlobe 0</td>
+<td align="left">Vercham 0</td>
+<td align="left">Verserp 0</td>
+<td align="left">Viobifl 0</td>
 </tr>
 <tr class="even">
+<td align="left">8</td>
 <td align="left">R16</td>
 <td align="right">4</td>
 <td align="left">Vacmyrt 28.8</td>
@@ -409,8 +1130,151 @@ position in the dendrogram.</p>
 <td align="left">Antalpi 1.5</td>
 <td align="left">Arnmont 1.5</td>
 <td align="left">Junnana 1.5</td>
+<td align="left">Achmacr 0</td>
+<td align="left">Achmill 0</td>
+<td align="left">Achmosc 0</td>
+<td align="left">Acialpi 0</td>
+<td align="left">Acolama 0</td>
+<td align="left">Adealli 0</td>
+<td align="left">Agrcapi 0</td>
+<td align="left">Ajupyra 0</td>
+<td align="left">Alcalpi 0</td>
+<td align="left">Alcpent 0</td>
+<td align="left">Alcvulg 0</td>
+<td align="left">Alnviri 0</td>
+<td align="left">Angsylv 0</td>
+<td align="left">Antdioi 0</td>
+<td align="left">Antvuln 0</td>
+<td align="left">Araalpi 0</td>
+<td align="left">Aracili 0</td>
+<td align="left">Astmino 0</td>
+<td align="left">Bislaev 0</td>
+<td align="left">Botluna 0</td>
+<td align="left">Camsche 0</td>
+<td align="left">Capburs 0</td>
+<td align="left">Caramar 0</td>
+<td align="left">Carrese 0</td>
+<td align="left">Cardefl 0</td>
+<td align="left">Carclav 0</td>
+<td align="left">Carechi 0</td>
+<td align="left">Carorni 0</td>
+<td align="left">Carpall 0</td>
+<td align="left">Carsemp 0</td>
+<td align="left">Carcarv 0</td>
+<td align="left">Cennerv 0</td>
+<td align="left">Cerarve 0</td>
+<td align="left">Cervulg 0</td>
+<td align="left">Chahirs 0</td>
+<td align="left">Chebonu 0</td>
+<td align="left">Coeviri 0</td>
+<td align="left">Croalbi 0</td>
+<td align="left">Crycris 0</td>
+<td align="left">Cusepit 0</td>
+<td align="left">Dapmeze 0</td>
+<td align="left">Descesp 0</td>
+<td align="left">Dryaffi 0</td>
+<td align="left">Epialpe 0</td>
+<td align="left">Epiangu 0</td>
+<td align="left">Epicoll 0</td>
+<td align="left">Erialpi 0</td>
+<td align="left">Eupcypa 0</td>
+<td align="left">Eupmini 0</td>
+<td align="left">Fesovin 0</td>
+<td align="left">Fesmela 0</td>
+<td align="left">Fesnigr 0</td>
+<td align="left">Fesscab 0</td>
+<td align="left">Foualpi 0</td>
+<td align="left">Gallada 0</td>
+<td align="left">Galtetr 0</td>
+<td align="left">Galpusi 0</td>
+<td align="left">Genacau 0</td>
+<td align="left">Genpurp 0</td>
+<td align="left">Genramo 0</td>
+<td align="left">Gersylv 0</td>
+<td align="left">Geumont 0</td>
+<td align="left">Geuriva 0</td>
+<td align="left">Hielact 0</td>
+<td align="left">Hievill 0</td>
+<td align="left">Hiemuro 0</td>
+<td align="left">Hipcomo 0</td>
+<td align="left">Homalpi 0</td>
+<td align="left">Junmona 0</td>
+<td align="left">Lardeci 0</td>
+<td align="left">Lashall 0</td>
+<td align="left">Leohelv 0</td>
+<td align="left">Leuvulg 0</td>
+<td align="left">Lilmart 0</td>
+<td align="left">Lotalpi 0</td>
+<td align="left">Luzalpi 0</td>
+<td align="left">Luzcamp 0</td>
+<td align="left">Luzsylv 0</td>
+<td align="left">Molarun 0</td>
+<td align="left">Myoalpe 0</td>
+<td align="left">Narstri 0</td>
+<td align="left">Oxaacet 0</td>
+<td align="left">Parlili 0</td>
+<td align="left">Pedtube 0</td>
+<td align="left">Peuostr 0</td>
+<td align="left">Pheconn 0</td>
+<td align="left">Phlrhae 0</td>
+<td align="left">Phybeto 0</td>
+<td align="left">Phyhemi 0</td>
+<td align="left">Poaalpi 0</td>
+<td align="left">Poachai 0</td>
+<td align="left">Poanemo 0</td>
+<td align="left">Poaprat 0</td>
+<td align="left">Pollonc 0</td>
+<td align="left">Potaure 0</td>
+<td align="left">Potgran 0</td>
+<td align="left">Prihirs 0</td>
+<td align="left">Psealbi 0</td>
+<td align="left">Pulapii 0</td>
+<td align="left">Ranmont 0</td>
+<td align="left">Rhialec 0</td>
+<td align="left">Rhorose 0</td>
+<td align="left">Rospend 0</td>
+<td align="left">Rumalpe 0</td>
+<td align="left">Rumalpi 0</td>
+<td align="left">Rumscut 0</td>
+<td align="left">Saxaspe 0</td>
+<td align="left">Saxrotu 0</td>
+<td align="left">Saxstel 0</td>
+<td align="left">Scacolu 0</td>
+<td align="left">Sedanac 0</td>
+<td align="left">Semarac 0</td>
+<td align="left">Semgran 0</td>
+<td align="left">Semmont 0</td>
+<td align="left">Sendoro 0</td>
+<td align="left">Senovat 0</td>
+<td align="left">Sesliba 0</td>
+<td align="left">Silnuta 0</td>
+<td align="left">Silrupe 0</td>
+<td align="left">Silvulg 0</td>
+<td align="left">Solalpi 0</td>
+<td align="left">Solminu 0</td>
+<td align="left">Soraucu 0</td>
+<td align="left">Taroffi 0</td>
+<td align="left">Thafoet 0</td>
+<td align="left">Thaminu 0</td>
+<td align="left">Thealpi 0</td>
+<td align="left">Thyserp 0</td>
+<td align="left">Trialpi 0</td>
+<td align="left">Tribadi 0</td>
+<td align="left">Triniva 0</td>
+<td align="left">Tripall 0</td>
+<td align="left">Triprat 0</td>
+<td align="left">Trirepe 0</td>
+<td align="left">Triflav 0</td>
+<td align="left">Troeuro 0</td>
+<td align="left">Urtdioi 0</td>
+<td align="left">Vacgaul 0</td>
+<td align="left">Verlobe 0</td>
+<td align="left">Vercham 0</td>
+<td align="left">Verserp 0</td>
+<td align="left">Viobifl 0</td>
 </tr>
 <tr class="odd">
+<td align="left">6</td>
 <td align="left">R14</td>
 <td align="right">5</td>
 <td align="left">Adealli 21.6</td>
@@ -423,272 +1287,148 @@ position in the dendrogram.</p>
 <td align="left">Achmacr 2.7</td>
 <td align="left">Acolama 2.7</td>
 <td align="left">Fesnigr 2.7</td>
-</tr>
-<tr class="even">
-<td align="left">R17</td>
-<td align="right">6</td>
-<td align="left">Alnviri 48.9</td>
-<td align="left">Agrcapi 14.9</td>
-<td align="left">Viobifl 10.6</td>
-<td align="left">Adealli 6.4</td>
-<td align="left">Alcvulg 4.3</td>
-<td align="left">Peuostr 4.3</td>
-<td align="left">Verlobe 4.3</td>
-<td align="left">Luzalpi 2.1</td>
-<td align="left">Rubidae 2.1</td>
-<td align="left">Vacmyrt 2.1</td>
-</tr>
-<tr class="odd">
-<td align="left">R19</td>
-<td align="right">7</td>
-<td align="left">Alnviri 45.2</td>
-<td align="left">Calvill 11.9</td>
-<td align="left">Rhoferr 9.5</td>
-<td align="left">Agrcapi 7.1</td>
-<td align="left">Vacmyrt 7.1</td>
-<td align="left">Antalpi 2.4</td>
-<td align="left">Genpurp 2.4</td>
-<td align="left">Gersylv 2.4</td>
-<td align="left">Geumont 2.4</td>
-<td align="left">Luzalpi 2.4</td>
-</tr>
-<tr class="even">
-<td align="left">R2</td>
-<td align="right">8</td>
-<td align="left">Descesp 51.1</td>
-<td align="left">Carclav 22.2</td>
-<td align="left">Poaalpi 8.9</td>
-<td align="left">Fesnigr 4.4</td>
-<td align="left">Carechi 2.2</td>
-<td align="left">Luzcamp 2.2</td>
-<td align="left">Narstri 2.2</td>
-<td align="left">Peuostr 2.2</td>
-<td align="left">Phlrhae 2.2</td>
-<td align="left">Viobifl 2.2</td>
-</tr>
-<tr class="odd">
-<td align="left">R4</td>
-<td align="right">9</td>
-<td align="left">Descesp 34.3</td>
-<td align="left">Phlrhae 16.4</td>
-<td align="left">Fesnigr 11.9</td>
-<td align="left">Alcvulg 9</td>
-<td align="left">Verlobe 7.5</td>
-<td align="left">Peuostr 6</td>
-<td align="left">Rumalpe 4.5</td>
-<td align="left">Caramar 3</td>
-<td align="left">Carcarv 3</td>
-<td align="left">Poaalpi 3</td>
-</tr>
-<tr class="even">
-<td align="left">R3</td>
-<td align="right">10</td>
-<td align="left">Rumalpe 27.1</td>
-<td align="left">Triflav 22</td>
-<td align="left">Peuostr 20.3</td>
-<td align="left">Phlrhae 13.6</td>
-<td align="left">Alcvulg 6.8</td>
-<td align="left">Poaalpi 3.4</td>
-<td align="left">Agrcapi 1.7</td>
-<td align="left">Ranmont 1.7</td>
-<td align="left">Silvulg 1.7</td>
-<td align="left">Triprat 1.7</td>
-</tr>
-<tr class="odd">
-<td align="left">R8</td>
-<td align="right">11</td>
-<td align="left">Rumalpi 36.7</td>
-<td align="left">Triflav 11.7</td>
-<td align="left">Chahirs 10</td>
-<td align="left">Alcvulg 8.3</td>
-<td align="left">Phlrhae 8.3</td>
-<td align="left">Poaalpi 6.7</td>
-<td align="left">Rumalpe 6.7</td>
-<td align="left">Myoalpe 5</td>
-<td align="left">Agrcapi 1.7</td>
-<td align="left">Fesnigr 1.7</td>
-</tr>
-<tr class="even">
-<td align="left">R18</td>
-<td align="right">12</td>
-<td align="left">Fesscab 28.3</td>
-<td align="left">Narstri 18.9</td>
-<td align="left">Fesnigr 15.1</td>
-<td align="left">Leohelv 7.5</td>
-<td align="left">Antalpi 5.7</td>
-<td align="left">Phlrhae 5.7</td>
-<td align="left">Agrcapi 3.8</td>
-<td align="left">Poaalpi 3.8</td>
-<td align="left">Potgran 3.8</td>
-<td align="left">Vacmyrt 3.8</td>
-</tr>
-<tr class="odd">
-<td align="left">R6</td>
-<td align="right">13</td>
-<td align="left">Agrcapi 14.1</td>
-<td align="left">Fesnigr 10.6</td>
-<td align="left">Rumalpe 10.6</td>
-<td align="left">Rhoferr 8.2</td>
-<td align="left">Silvulg 8.2</td>
-<td align="left">Chahirs 7.1</td>
-<td align="left">Triflav 5.9</td>
-<td align="left">Alcvulg 4.7</td>
-<td align="left">Phlrhae 4.7</td>
-<td align="left">Rubidae 4.7</td>
-</tr>
-<tr class="even">
-<td align="left">R15</td>
-<td align="right">14</td>
-<td align="left">Vacmyrt 20.9</td>
-<td align="left">Rhoferr 13.4</td>
-<td align="left">Fesnigr 10.4</td>
-<td align="left">Agrcapi 9</td>
-<td align="left">Chahirs 7.5</td>
-<td align="left">Antalpi 6</td>
-<td align="left">Phlrhae 6</td>
-<td align="left">Poachai 4.5</td>
-<td align="left">Rubidae 4.5</td>
-<td align="left">Gersylv 3</td>
-</tr>
-<tr class="odd">
-<td align="left">R10</td>
-<td align="right">15</td>
-<td align="left">Fesnigr 14.3</td>
-<td align="left">Ranmont 12.9</td>
-<td align="left">Agrcapi 8.6</td>
-<td align="left">Phlrhae 8.6</td>
-<td align="left">Chahirs 7.1</td>
-<td align="left">Fesscab 5.7</td>
-<td align="left">Lashall 5.7</td>
-<td align="left">Bislaev 4.3</td>
-<td align="left">Thyserp 4.3</td>
-<td align="left">Triprat 4.3</td>
-</tr>
-<tr class="even">
-<td align="left">R21</td>
-<td align="right">16</td>
-<td align="left">Fesnigr 25</td>
-<td align="left">Ranmont 12.5</td>
-<td align="left">Triniva 10.9</td>
-<td align="left">Thyserp 9.4</td>
-<td align="left">Antalpi 6.2</td>
-<td align="left">Poaalpi 6.2</td>
-<td align="left">Pulapii 6.2</td>
-<td align="left">Leohelv 4.7</td>
-<td align="left">Galpusi 3.1</td>
-<td align="left">Geumont 3.1</td>
-</tr>
-<tr class="odd">
-<td align="left">R1</td>
-<td align="right">17</td>
-<td align="left">Fesnigr 21.3</td>
-<td align="left">Phlrhae 14.7</td>
-<td align="left">Vacmyrt 14.7</td>
-<td align="left">Antalpi 8</td>
-<td align="left">Agrcapi 6.7</td>
-<td align="left">Rhoferr 6.7</td>
-<td align="left">Geumont 5.3</td>
-<td align="left">Leohelv 5.3</td>
-<td align="left">Chahirs 4</td>
-<td align="left">Narstri 2.7</td>
-</tr>
-<tr class="even">
-<td align="left">R22</td>
-<td align="right">18</td>
-<td align="left">Fesnigr 27.8</td>
-<td align="left">Phlrhae 12.7</td>
-<td align="left">Agrcapi 10.1</td>
-<td align="left">Antalpi 10.1</td>
-<td align="left">Geumont 7.6</td>
-<td align="left">Silvulg 5.1</td>
-<td align="left">Vacmyrt 5.1</td>
-<td align="left">Chahirs 3.8</td>
-<td align="left">Rumalpe 3.8</td>
-<td align="left">Leohelv 2.5</td>
-</tr>
-<tr class="odd">
-<td align="left">R5</td>
-<td align="right">19</td>
-<td align="left">Fesnigr 19.7</td>
-<td align="left">Chahirs 9.2</td>
-<td align="left">Phlrhae 9.2</td>
-<td align="left">Triflav 9.2</td>
-<td align="left">Pulapii 7.9</td>
-<td align="left">Triprat 7.9</td>
-<td align="left">Antalpi 6.6</td>
-<td align="left">Alcvulg 5.3</td>
-<td align="left">Geumont 3.9</td>
-<td align="left">Poaalpi 3.9</td>
-</tr>
-<tr class="even">
-<td align="left">R7</td>
-<td align="right">20</td>
-<td align="left">Fesnigr 25</td>
-<td align="left">Triflav 11.2</td>
-<td align="left">Alcvulg 7.5</td>
-<td align="left">Antalpi 7.5</td>
-<td align="left">Phlrhae 7.5</td>
-<td align="left">Poaalpi 7.5</td>
-<td align="left">Ranmont 6.2</td>
-<td align="left">Geumont 5</td>
-<td align="left">Camsche 2.5</td>
-<td align="left">Leohelv 2.5</td>
-</tr>
-<tr class="odd">
-<td align="left">R9</td>
-<td align="right">21</td>
-<td align="left">Alcvulg 22.5</td>
-<td align="left">Phlrhae 12.5</td>
-<td align="left">Poaalpi 12.5</td>
-<td align="left">Triflav 11.2</td>
-<td align="left">Fesnigr 10</td>
-<td align="left">Achmill 6.2</td>
-<td align="left">Agrcapi 6.2</td>
-<td align="left">Triprat 3.8</td>
-<td align="left">Chahirs 2.5</td>
-<td align="left">Antalpi 1.2</td>
-</tr>
-<tr class="even">
-<td align="left">R12</td>
-<td align="right">22</td>
-<td align="left">Fesnigr 13.8</td>
-<td align="left">Phlrhae 12.6</td>
-<td align="left">Achmill 11.5</td>
-<td align="left">Fesmela 11.5</td>
-<td align="left">Agrcapi 6.9</td>
-<td align="left">Chahirs 5.7</td>
-<td align="left">Triprat 5.7</td>
-<td align="left">Alcvulg 3.4</td>
-<td align="left">Triflav 3.4</td>
-<td align="left">Acialpi 2.3</td>
-</tr>
-<tr class="odd">
-<td align="left">R11</td>
-<td align="right">23</td>
-<td align="left">Fesmela 20.3</td>
-<td align="left">Thaminu 12.7</td>
-<td align="left">Rubidae 8.9</td>
-<td align="left">Chahirs 6.3</td>
-<td align="left">Rhoferr 6.3</td>
-<td align="left">Vacmyrt 6.3</td>
-<td align="left">Agrcapi 5.1</td>
-<td align="left">Fesovin 3.8</td>
-<td align="left">Acialpi 2.5</td>
-<td align="left">Antalpi 2.5</td>
-</tr>
-<tr class="even">
-<td align="left">R20</td>
-<td align="right">24</td>
-<td align="left">Rubidae 20.5</td>
-<td align="left">Agrcapi 18.1</td>
-<td align="left">Poanemo 15.7</td>
-<td align="left">Myoalpe 12</td>
-<td align="left">Silvulg 6</td>
-<td align="left">Rhoferr 3.6</td>
-<td align="left">Rumalpe 3.6</td>
-<td align="left">Triflav 3.6</td>
-<td align="left">Alcvulg 2.4</td>
-<td align="left">Gersylv 2.4</td>
+<td align="left">Saxrotu 2.7</td>
+<td align="left">Achmill 0</td>
+<td align="left">Achmosc 0</td>
+<td align="left">Acialpi 0</td>
+<td align="left">Agrcapi 0</td>
+<td align="left">Ajupyra 0</td>
+<td align="left">Alcalpi 0</td>
+<td align="left">Alcpent 0</td>
+<td align="left">Alcvulg 0</td>
+<td align="left">Angsylv 0</td>
+<td align="left">Antdioi 0</td>
+<td align="left">Antvuln 0</td>
+<td align="left">Antalpi 0</td>
+<td align="left">Araalpi 0</td>
+<td align="left">Aracili 0</td>
+<td align="left">Arnmont 0</td>
+<td align="left">Astmino 0</td>
+<td align="left">Aveflex 0</td>
+<td align="left">Bislaev 0</td>
+<td align="left">Botluna 0</td>
+<td align="left">Calvill 0</td>
+<td align="left">Camsche 0</td>
+<td align="left">Capburs 0</td>
+<td align="left">Caramar 0</td>
+<td align="left">Carrese 0</td>
+<td align="left">Cardefl 0</td>
+<td align="left">Carclav 0</td>
+<td align="left">Carechi 0</td>
+<td align="left">Carorni 0</td>
+<td align="left">Carpall 0</td>
+<td align="left">Carsemp 0</td>
+<td align="left">Carcarv 0</td>
+<td align="left">Cennerv 0</td>
+<td align="left">Cerarve 0</td>
+<td align="left">Cervulg 0</td>
+<td align="left">Chahirs 0</td>
+<td align="left">Chebonu 0</td>
+<td align="left">Coeviri 0</td>
+<td align="left">Croalbi 0</td>
+<td align="left">Crycris 0</td>
+<td align="left">Cusepit 0</td>
+<td align="left">Dapmeze 0</td>
+<td align="left">Descesp 0</td>
+<td align="left">Dryaffi 0</td>
+<td align="left">Epialpe 0</td>
+<td align="left">Epiangu 0</td>
+<td align="left">Epicoll 0</td>
+<td align="left">Erialpi 0</td>
+<td align="left">Eupcypa 0</td>
+<td align="left">Eupmini 0</td>
+<td align="left">Fesovin 0</td>
+<td align="left">Fesmela 0</td>
+<td align="left">Fesscab 0</td>
+<td align="left">Foualpi 0</td>
+<td align="left">Gallada 0</td>
+<td align="left">Galpusi 0</td>
+<td align="left">Genacau 0</td>
+<td align="left">Genpurp 0</td>
+<td align="left">Genramo 0</td>
+<td align="left">Gersylv 0</td>
+<td align="left">Geumont 0</td>
+<td align="left">Geuriva 0</td>
+<td align="left">Gymdryo 0</td>
+<td align="left">Hielact 0</td>
+<td align="left">Hievill 0</td>
+<td align="left">Hiemuro 0</td>
+<td align="left">Hipcomo 0</td>
+<td align="left">Homalpi 0</td>
+<td align="left">Junmona 0</td>
+<td align="left">Junnana 0</td>
+<td align="left">Lardeci 0</td>
+<td align="left">Lashall 0</td>
+<td align="left">Leohelv 0</td>
+<td align="left">Leuvulg 0</td>
+<td align="left">Lilmart 0</td>
+<td align="left">Lotalpi 0</td>
+<td align="left">Luzalpi 0</td>
+<td align="left">Luzcamp 0</td>
+<td align="left">Luzsylv 0</td>
+<td align="left">Molarun 0</td>
+<td align="left">Myoalpe 0</td>
+<td align="left">Narstri 0</td>
+<td align="left">Oxaacet 0</td>
+<td align="left">Parlili 0</td>
+<td align="left">Pedtube 0</td>
+<td align="left">Peuostr 0</td>
+<td align="left">Pheconn 0</td>
+<td align="left">Phlrhae 0</td>
+<td align="left">Phybeto 0</td>
+<td align="left">Phyhemi 0</td>
+<td align="left">Poaalpi 0</td>
+<td align="left">Poachai 0</td>
+<td align="left">Poanemo 0</td>
+<td align="left">Poaprat 0</td>
+<td align="left">Pollonc 0</td>
+<td align="left">Potaure 0</td>
+<td align="left">Potgran 0</td>
+<td align="left">Prihirs 0</td>
+<td align="left">Psealbi 0</td>
+<td align="left">Pulapii 0</td>
+<td align="left">Ranmont 0</td>
+<td align="left">Rhialec 0</td>
+<td align="left">Rhorose 0</td>
+<td align="left">Rhoferr 0</td>
+<td align="left">Rospend 0</td>
+<td align="left">Rumalpi 0</td>
+<td align="left">Rumscut 0</td>
+<td align="left">Saxaspe 0</td>
+<td align="left">Saxstel 0</td>
+<td align="left">Scacolu 0</td>
+<td align="left">Sedanac 0</td>
+<td align="left">Semarac 0</td>
+<td align="left">Semgran 0</td>
+<td align="left">Semmont 0</td>
+<td align="left">Sendoro 0</td>
+<td align="left">Senovat 0</td>
+<td align="left">Sesliba 0</td>
+<td align="left">Silnuta 0</td>
+<td align="left">Silrupe 0</td>
+<td align="left">Silvulg 0</td>
+<td align="left">Solalpi 0</td>
+<td align="left">Solminu 0</td>
+<td align="left">Soraucu 0</td>
+<td align="left">Taroffi 0</td>
+<td align="left">Thafoet 0</td>
+<td align="left">Thaminu 0</td>
+<td align="left">Thealpi 0</td>
+<td align="left">Thyserp 0</td>
+<td align="left">Trialpi 0</td>
+<td align="left">Tribadi 0</td>
+<td align="left">Triniva 0</td>
+<td align="left">Tripall 0</td>
+<td align="left">Triprat 0</td>
+<td align="left">Trirepe 0</td>
+<td align="left">Triflav 0</td>
+<td align="left">Troeuro 0</td>
+<td align="left">Vacgaul 0</td>
+<td align="left">Vacmyrt 0</td>
+<td align="left">Vacviti 0</td>
+<td align="left">Verlobe 0</td>
+<td align="left">Vercham 0</td>
+<td align="left">Verserp 0</td>
 </tr>
 </tbody>
 </table>
@@ -701,7 +1441,7 @@ identifier and the selected number of ranked species. Here we show all
 ten; set <code>n_species_labels</code> to 4 or 5 for a more compact
 figure.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">n_species_labels</span> <span class="op">&lt;-</span> <span class="fl">10L</span></span>
+<code class="sourceCode R"><span><span class="va">n_species_labels</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span></span>
 <span><span class="va">db_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/denspe.html">denspe</a></span><span class="op">(</span></span>
 <span>  nspe <span class="op">=</span> <span class="va">n_species_labels</span>,</span>
@@ -721,15 +1461,7 @@ figure.</p>
 <span><span class="va">dend_labels</span> <span class="op">&lt;-</span> <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="va">dend_labels</span>, <span class="st">"labels_cex"</span>, <span class="va">label_cex</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Reserve enough space on the right for the species labels.</span></span>
-<span><span class="va">right_margin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/strwidth.html" class="external-link">strwidth</a></span><span class="op">(</span></span>
-<span>  <span class="va">clst_labels</span><span class="op">$</span><span class="va">labels</span>,</span>
-<span>  units <span class="op">=</span> <span class="st">"inches"</span>,</span>
-<span>  cex <span class="op">=</span> <span class="va">label_cex</span></span>
-<span><span class="op">)</span><span class="op">)</span> <span class="op">/</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"csi"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fl">2</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="va">right_margin</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>  <span class="va">dend_labels</span>,</span>
 <span>  horiz <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -760,125 +1492,42 @@ the same distance matrix as the cluster analysis. Here, automatic
 silhouette selection excludes partitions with fewer than two surveys in
 any group.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">k_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq.int</a></span><span class="op">(</span><span class="fl">2L</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">10L</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">veg</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1L</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">min_group_size</span> <span class="op">&lt;-</span> <span class="fl">2L</span></span>
+<code class="sourceCode R"><span><span class="va">k_values</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span></span>
 <span></span>
-<span><span class="va">silhouette_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
-<span>  <span class="va">rbind</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">k_values</span>, <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">membership</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">cutree</a></span><span class="op">(</span><span class="va">clst</span>, k <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
-<span>    <span class="va">sil</span> <span class="op">&lt;-</span> <span class="fu">cluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/silhouette.html" class="external-link">silhouette</a></span><span class="op">(</span><span class="va">membership</span>, <span class="va">d</span><span class="op">)</span></span>
-<span>    <span class="va">sizes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">membership</span><span class="op">)</span></span>
+<span><span class="va">silhouette_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">k_values</span>, <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">gruppi</span> <span class="op">&lt;-</span> <span class="fu">cutree</span><span class="op">(</span><span class="va">clst</span>, k <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
 <span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>      k <span class="op">=</span> <span class="va">k</span>,</span>
-<span>      mean_silhouette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">sil</span><span class="op">[</span>, <span class="st">"sil_width"</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>      smallest_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">sizes</span><span class="op">)</span>,</span>
-<span>      admissible <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">sizes</span> <span class="op">&gt;=</span> <span class="va">min_group_size</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<span>  <span class="va">sil</span> <span class="op">&lt;-</span> <span class="fu">cluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/silhouette.html" class="external-link">silhouette</a></span><span class="op">(</span></span>
+<span>    <span class="va">gruppi</span>,</span>
+<span>    <span class="va">d</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">admissible_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">silhouette_results</span>, <span class="va">admissible</span><span class="op">)</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">admissible_results</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"No partition meets min_group_size: review k_values or the constraint."</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">sil</span><span class="op">[</span>, <span class="st">"sil_width"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># In the event of a tie, select the smallest k among those examined.</span></span>
-<span><span class="va">best_k</span> <span class="op">&lt;-</span> <span class="va">admissible_results</span><span class="op">$</span><span class="va">k</span><span class="op">[</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">admissible_results</span><span class="op">$</span><span class="va">mean_silhouette</span><span class="op">)</span></span>
-<span><span class="op">]</span></span>
+<span><span class="va">best_k</span> <span class="op">&lt;-</span> <span class="va">k_values</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">silhouette_results</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">best_k</span></span>
+<span><span class="co">#&gt; [1] 7</span></span>
 <span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">silhouette_results</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="right">k</th>
-<th align="right">mean_silhouette</th>
-<th align="right">smallest_group</th>
-<th align="left">admissible</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">0.160</td>
-<td align="right">7</td>
-<td align="left">TRUE</td>
-</tr>
-<tr class="even">
-<td align="right">3</td>
-<td align="right">0.171</td>
-<td align="right">2</td>
-<td align="left">TRUE</td>
-</tr>
-<tr class="odd">
-<td align="right">4</td>
-<td align="right">0.191</td>
-<td align="right">2</td>
-<td align="left">TRUE</td>
-</tr>
-<tr class="even">
-<td align="right">5</td>
-<td align="right">0.196</td>
-<td align="right">2</td>
-<td align="left">TRUE</td>
-</tr>
-<tr class="odd">
-<td align="right">6</td>
-<td align="right">0.207</td>
-<td align="right">2</td>
-<td align="left">TRUE</td>
-</tr>
-<tr class="even">
-<td align="right">7</td>
-<td align="right">0.224</td>
-<td align="right">1</td>
-<td align="left">FALSE</td>
-</tr>
-<tr class="odd">
-<td align="right">8</td>
-<td align="right">0.215</td>
-<td align="right">1</td>
-<td align="left">FALSE</td>
-</tr>
-<tr class="even">
-<td align="right">9</td>
-<td align="right">0.196</td>
-<td align="right">1</td>
-<td align="left">FALSE</td>
-</tr>
-<tr class="odd">
-<td align="right">10</td>
-<td align="right">0.179</td>
-<td align="right">1</td>
-<td align="left">FALSE</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">best_k</span></span>
-<span><span class="co">#&gt; [1] 6</span></span>
-<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>  <span class="va">mean_silhouette</span> <span class="op">~</span> <span class="va">k</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">silhouette_results</span>,</span>
+<span>  <span class="va">k_values</span>,</span>
+<span>  <span class="va">silhouette_results</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"b"</span>,</span>
-<span>  xlab <span class="op">=</span> <span class="st">"Number of groups"</span>,</span>
-<span>  ylab <span class="op">=</span> <span class="st">"Mean silhouette width"</span></span>
+<span>  pch <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Numero di gruppi (k)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Average silhouette width"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span></span>
-<span>  <span class="va">mean_silhouette</span> <span class="op">~</span> <span class="va">k</span>,</span>
-<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">silhouette_results</span>, <span class="op">!</span><span class="va">admissible</span><span class="op">)</span>,</span>
-<span>  pch <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  col <span class="op">=</span> <span class="st">"red"</span>,</span>
-<span>  cex <span class="op">=</span> <span class="fl">1.4</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">best_k</span>, lty <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></code></pre></div>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span></span>
+<span>  v <span class="op">=</span> <span class="va">best_k</span>,</span>
+<span>  lty <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="TUTORIAL_2_-_Cluster_metodo_fitopastorale_files/figure-html/silhouette-1.png" class="r-plt" alt="" width="672"></p>
-<p>If <code><a href="../reference/maxFusionLevel.html">maxFusionLevel()</a></code> is available, we can also inspect
-its suggested number of groups. This optional chunk is not evaluated
-during rendering.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fusion</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxFusionLevel.html">maxFusionLevel</a></span><span class="op">(</span><span class="va">clst</span><span class="op">)</span></span>
+<p>Another method is the so called <code><a href="../reference/maxFusionLevel.html">maxFusionLevel()</a></code> (see
+Borcard et al., 2018):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fusion</span> <span class="op">&lt;-</span> <span class="fu">iPastoralist</span><span class="fu">::</span><span class="fu"><a href="../reference/maxFusionLevel.html">maxFusionLevel</a></span><span class="op">(</span><span class="va">clst</span><span class="op">)</span></span>
 <span><span class="va">fusion</span></span>
 <span><span class="va">fusion</span><span class="op">$</span><span class="va">n.clust</span></span></code></pre></div>
 <p>Suppose we decide to examine four groups after reading the labelled
@@ -886,36 +1535,12 @@ dendrogram. We can set a custom cut, use <code>best_k</code>, or select
 the number suggested by <code><a href="../reference/maxFusionLevel.html">maxFusionLevel()</a></code>. A custom cut is
 an illustrative choice, not a claim that four groups are optimal for
 this dataset.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">selection_method</span> <span class="op">&lt;-</span> <span class="st">"custom"</span> <span class="co"># "custom", "silhouette", or "fusion"</span></span>
-<span><span class="va">k_custom</span> <span class="op">&lt;-</span> <span class="fl">4L</span></span>
-<span></span>
-<span><span class="va">n.cluster</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/switch.html" class="external-link">switch</a></span><span class="op">(</span></span>
-<span>  <span class="va">selection_method</span>,</span>
-<span>  custom <span class="op">=</span> <span class="va">k_custom</span>,</span>
-<span>  silhouette <span class="op">=</span> <span class="va">best_k</span>,</span>
-<span>  fusion <span class="op">=</span> <span class="op">{</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"maxFusionLevel"</span>, mode <span class="op">=</span> <span class="st">"function"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Load maxFusionLevel() to use the fusion criterion."</span><span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
-<span>    <span class="fu"><a href="../reference/maxFusionLevel.html">maxFusionLevel</a></span><span class="op">(</span><span class="va">clst</span><span class="op">)</span><span class="op">$</span><span class="va">n.clust</span></span>
-<span>  <span class="op">}</span>,</span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Unrecognised selection_method."</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">n.cluster</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1L</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">is.numeric</a></span><span class="op">(</span><span class="va">n.cluster</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.finite</a></span><span class="op">(</span><span class="va">n.cluster</span><span class="op">)</span>,</span>
-<span>  <span class="va">n.cluster</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">n.cluster</span><span class="op">)</span>,</span>
-<span>  <span class="va">n.cluster</span> <span class="op">&gt;=</span> <span class="fl">2L</span>,</span>
-<span>  <span class="va">n.cluster</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">veg</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">n.cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">n.cluster</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n.cluster</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></code></pre></div>
 <p>Highlight the selected groups on the same dendrogram with species
 labels. We can now inspect which dominant species characterise each
 group and whether the cut separates meaningful vegetation units.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Match branch colours to the group numbers returned by cutree().</span></span>
 <span><span class="va">membership</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">cutree</a></span><span class="op">(</span><span class="va">clst</span>, k <span class="op">=</span> <span class="va">n.cluster</span><span class="op">)</span></span>
 <span><span class="va">palette</span> <span class="op">&lt;-</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/pal_hue.html" class="external-link">hue_pal</a></span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="va">n.cluster</span><span class="op">)</span></span>
@@ -928,7 +1553,7 @@ group and whether the cut separates meaningful vegetation units.</p>
 <span>  col <span class="op">=</span> <span class="va">branch_colours</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="va">right_margin</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>  <span class="va">dend_selected</span>,</span>
 <span>  horiz <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -952,7 +1577,7 @@ group and whether the cut separates meaningful vegetation units.</p>
 <code>cutree()</code>. Align group membership with the rows of
 <code>veg</code> before calculating summaries or running the
 ordination.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">groups.hclust</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">cutree</a></span><span class="op">(</span><span class="va">clst</span>, k <span class="op">=</span> <span class="va">n.cluster</span><span class="op">)</span></span>
 <span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  stand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">groups.hclust</span><span class="op">)</span>,</span>
@@ -972,12 +1597,6 @@ ordination.</p>
 <span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">groups</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="va">groups</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">groups</span><span class="op">$</span><span class="va">group</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"G"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">n.cluster</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">veg</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">groups</span><span class="op">$</span><span class="va">stand</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">groups</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/nlevels.html" class="external-link">nlevels</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels</a></span><span class="op">(</span><span class="va">groups</span><span class="op">$</span><span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="va">n.cluster</span></span>
-<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">groups</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -1084,7 +1703,7 @@ ordination.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">groups</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; G1 G2 G3 G4 </span></span>
@@ -1099,7 +1718,7 @@ is absent.</p>
 <p>The simplified table lists species in decreasing order of mean SRA
 within each group, providing a concise description of the vegetation
 units identified from the dendrogram.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_aggregate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  group <span class="op">=</span> <span class="va">groups</span><span class="op">$</span><span class="va">group</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">veg</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
@@ -1232,7 +1851,7 @@ units identified from the dendrogram.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">aggregate_groups</span><span class="op">$</span><span class="va">df.long</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
@@ -1245,20 +1864,20 @@ units identified from the dendrogram.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> G1    Chahirs      4.38</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> G1    Antalpi      4.07</span></span>
 <span><span class="va">aggregate_groups</span><span class="op">$</span><span class="va">df.wide</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 92</span></span></span>
-<span><span class="co">#&gt;   group Achmacr Achmill Acialpi Acolama Adealli Agrcapi Alcpent Alcvulg Alnviri</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 153</span></span></span>
+<span><span class="co">#&gt;   group Achmacr Achmill Achmosc Acialpi Acolama Adealli Agrcapi Ajupyra Alcalpi</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> G1      0        1.18   0.322   0        0      6.31   0.083<span style="text-decoration: underline;">3</span>    4.06    0   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> G2      0        0      0       0        0      0.746  0         4.48    0   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> G3      0        0      0       0        0      0.758  0         0       4.72</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> G4      0.901    0      0       0.901    9.33   7.35   0         1.42   34.1 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 82 more variables: Antalpi &lt;dbl&gt;, Arnmont &lt;dbl&gt;, Aveflex &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Bislaev &lt;dbl&gt;, Calvill &lt;dbl&gt;, Camsche &lt;dbl&gt;, Caramar &lt;dbl&gt;, Cardefl &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Carclav &lt;dbl&gt;, Carechi &lt;dbl&gt;, Carsemp &lt;dbl&gt;, Carcarv &lt;dbl&gt;, Cerarve &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Cervulg &lt;dbl&gt;, Chahirs &lt;dbl&gt;, Cusepit &lt;dbl&gt;, Dapmeze &lt;dbl&gt;, Descesp &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Eupcypa &lt;dbl&gt;, Fesovin &lt;dbl&gt;, Fesmela &lt;dbl&gt;, Fesnigr &lt;dbl&gt;, Fesscab &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Galtetr &lt;dbl&gt;, Galpusi &lt;dbl&gt;, Genpurp &lt;dbl&gt;, Gersylv &lt;dbl&gt;, Geumont &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Geuriva &lt;dbl&gt;, Gymdryo &lt;dbl&gt;, Hiemuro &lt;dbl&gt;, Junnana &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> G1      0        1.18       0   0.322   0        0      6.31        0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> G2      0        0          0   0       0        0      0.746       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> G3      0        0          0   0       0        0      0.758       0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> G4      0.901    0          0   0       0.901    9.33   7.35        0       0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 143 more variables: Alcpent &lt;dbl&gt;, Alcvulg &lt;dbl&gt;, Alnviri &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Angsylv &lt;dbl&gt;, Antdioi &lt;dbl&gt;, Antvuln &lt;dbl&gt;, Antalpi &lt;dbl&gt;, Araalpi &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Aracili &lt;dbl&gt;, Arnmont &lt;dbl&gt;, Astmino &lt;dbl&gt;, Aveflex &lt;dbl&gt;, Bislaev &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Botluna &lt;dbl&gt;, Calvill &lt;dbl&gt;, Camsche &lt;dbl&gt;, Capburs &lt;dbl&gt;, Caramar &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Carrese &lt;dbl&gt;, Cardefl &lt;dbl&gt;, Carclav &lt;dbl&gt;, Carechi &lt;dbl&gt;, Carorni &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Carpall &lt;dbl&gt;, Carsemp &lt;dbl&gt;, Carcarv &lt;dbl&gt;, Cennerv &lt;dbl&gt;, Cerarve &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Cervulg &lt;dbl&gt;, Chahirs &lt;dbl&gt;, Chebonu &lt;dbl&gt;, Coeviri &lt;dbl&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="exploring-the-groups-with-tb-pca-and-ordiselect">7. Exploring the groups with tb-PCA and ordiselect<a class="anchor" aria-label="anchor" href="#exploring-the-groups-with-tb-pca-and-ordiselect"></a>
@@ -1285,7 +1904,7 @@ frequency.</li>
 <code><a href="../reference/tb_pca_plot.html">tb_pca_plot()</a></code>, <code>ordiselect()</code> receives the
 transformed matrix used for the PCA. The abundance threshold is a
 proportion of species, not a cumulative percentage of total SRA.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tb_pca_plot.html">tb_pca_plot</a></span><span class="op">(</span></span>
 <span>  veg <span class="op">=</span> <span class="va">veg</span>,</span>
@@ -1306,7 +1925,7 @@ proportion of species, not a cumulative percentage of total SRA.</p>
 <span></span>
 <span><span class="va">pca</span><span class="op">$</span><span class="va">plot_sites</span></span></code></pre></div>
 <p><img src="TUTORIAL_2_-_Cluster_metodo_fitopastorale_files/figure-html/tb-pca-1.png" class="r-plt" alt="" width="768"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pca</span><span class="op">$</span><span class="va">plot_species</span></span></code></pre></div>
 <p><img src="TUTORIAL_2_-_Cluster_metodo_fitopastorale_files/figure-html/tb-pca-2.png" class="r-plt" alt="" width="768"></p>
 <p>The survey plot shows how groups are distributed in the ordination
@@ -1317,7 +1936,7 @@ not a test of indicator value.</p>
 <p>Convex hulls describe the distribution of surveys and are not
 confidence intervals. Interpret overlap or separation alongside the
 variance explained by the axes and the group composition tables.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pca</span><span class="op">$</span><span class="va">variance</span></span>
 <span><span class="co">#&gt;       PC1       PC2       PC3       PC4       PC5       PC6       PC7       PC8 </span></span>
 <span><span class="co">#&gt; 22.476597 13.005802  9.591037  8.420782  6.142118  5.022319  4.796562  4.327911 </span></span>
@@ -1359,7 +1978,7 @@ values, accounting for unequal group sizes. Setting
 <code>duleg = TRUE</code> limits the analysis to individual groups.
 Adapt the permutation design if surveys are repeated or arranged in
 blocks.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">indval</span> <span class="op">&lt;-</span> <span class="fu">indicspecies</span><span class="fu">::</span><span class="fu"><a href="https://emf-creaf.github.io/indicspecies/reference/multipatt.html" class="external-link">multipatt</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">veg</span>,</span>
@@ -1376,7 +1995,7 @@ derived from the same species matrix, this analysis characterises the
 classification and does not provide an independent validation.</p>
 <p>If desired, display species selected by IndVal in a separate tb-PCA
 figure, keeping the same surveys, groups, transformation, and axes.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pca_indval</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tb_pca_plot.html">tb_pca_plot</a></span><span class="op">(</span></span>
 <span>  veg <span class="op">=</span> <span class="va">veg</span>,</span>
 <span>  groups <span class="op">=</span> <span class="va">groups</span>,</span>
@@ -1397,7 +2016,7 @@ figure, keeping the same surveys, groups, transformation, and axes.</p>
 </h2>
 <p>Run the following chunk interactively to save the species table,
 classification, group composition, and ordination results.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">output_dir</span> <span class="op">&lt;-</span> <span class="st">"risultati_pastoralista"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">output_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>

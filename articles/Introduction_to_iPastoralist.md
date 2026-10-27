@@ -3,8 +3,8 @@
 ## iPastoralist
 
 **An R package for vegetation data processing, characterization, and
-classification, with applications in grassland and pasture ecology,
-phytopastoral analysis, and phytosociology.**
+classification, with applications in grassland and pasture ecology,**
+**point-quadrat** **and phytosociological methods.**
 
 *iPastoralist* provides tools for managing and analysing botanical
 composition data collected using point-quadrat (point-intercept) and
@@ -33,7 +33,7 @@ complementary analytical components:
 3.  **Vegetation classification and interpretation:** supporting
     numerical vegetation classification, the identification of
     diagnostic and characteristic species, and the interpretation of
-    vegetation groups according to phytopastoral and phytosociological
+    vegetation groups according to point-quadrat and phytosociological
     approaches.
 
 These components can be used independently or combined into an
@@ -184,8 +184,8 @@ function calculates the **Pastoral Value (PV)** of vegetation based on
 the relative abundance of plant species and their specific forage
 quality.
 
-PV is a synthetic index commonly used in phytopastoral studies to assess
-the forage potential of grassland and pasture vegetation.
+PV is a synthetic index to assess the forage quality and productivity of
+grasslands.
 
 It integrates:
 
@@ -259,7 +259,7 @@ or presence-absence data.
 
 The classification workflow aims to identify relatively homogeneous
 vegetation groups based on their floristic composition and to support
-their interpretation according to **phytopastoral** and
+their interpretation according to **point-quadrat** and
 **phytosociological** approaches.
 
 #### 3.1. Numerical vegetation classification
@@ -269,7 +269,7 @@ groups based on floristic similarity.
 
 The main objectives include:
 
-- **Classification of vegetation surveys:** grouping relevés according
+- **Classification of vegetation surveys:** grouping surveys according
   to their floristic composition through numerical classification
   methods.
 - **Evaluation of alternative classifications:** comparing alternative
@@ -340,77 +340,11 @@ These tables facilitate:
 - Identification of dominant species based on abundance or cover;
 - Description of the characteristic floristic composition of each
   vegetation group;
-- Comparison of vegetation units for phytopastoral and phytosociological
+- Comparison of vegetation units for point-quadrat and phytosociological
   interpretation.
 
 Synoptic tables provide a structured summary of the main floristic
 differences and similarities among vegetation groups.
-
-#### 3.4. Phytopastoral interpretation
-
-The **phytopastoral approach** focuses on the identification and
-characterization of grassland and pasture vegetation types based on
-their botanical composition, ecological characteristics, and pastoral
-significance.
-
-Vegetation groups obtained through numerical classification can be
-interpreted by considering:
-
-- Floristic composition and dominant species;
-- Species abundance and relative contribution to vegetation composition;
-- Pastoral Value and forage characteristics;
-- Biodiversity and ecological indicator values;
-- Ecological and management-related characteristics of pasture
-  vegetation.
-
-This approach supports the identification and description of
-**phytopastoral vegetation types**, which can provide useful information
-for pasture assessment, vegetation monitoring, and management planning.
-
-The characterization of phytopastoral types combines numerical results
-with the ecological and pastoral interpretation of vegetation
-composition.
-
-#### 3.5. Phytosociological interpretation
-
-The **phytosociological approach** focuses on the identification and
-description of plant communities based on their floristic composition
-and the occurrence of diagnostic species.
-
-Numerically derived vegetation groups can be characterized through:
-
-- Diagnostic species and their fidelity to vegetation groups;
-- Constant, dominant, and companion species;
-- Synoptic tables summarizing the composition of vegetation units;
-- Comparisons of floristic similarities and differences among vegetation
-  groups;
-- Ecological characteristics associated with vegetation units.
-
-These outputs support comparisons with previously described vegetation
-communities and their possible attribution to **phytosociological
-syntaxa**, including associations, alliances, orders, and classes.
-
-The final syntaxonomic attribution requires expert interpretation,
-taking into account the ecological and biogeographical context,
-floristic composition, diagnostic species, and relevant
-phytosociological literature.
-
-#### 3.6. Integrated vegetation classification workflow
-
-Overall, *iPastoralist* supports an integrated analytical workflow that
-can be summarized as follows:
-
-**Vegetation data preparation → Numerical classification → Floristic
-characterization → Synoptic vegetation tables → Ecological and
-phytopastoral or phytosociological interpretation**
-
-The individual steps can be adapted to the objectives of each study and
-to the characteristics of the available vegetation data.
-
-Numerical methods provide a reproducible basis for identifying
-vegetation groups, while their final interpretation depends on the
-ecological characteristics of the communities, the study objectives, and
-existing scientific knowledge.
 
 ## Installation
 
