@@ -172,4 +172,3 @@ GPL-3
   approach](https://marcopittarello.github.io/iPastoralist/articles/TUTORIAL_2_-_Cluster_metodo_fitopastorale.md):
 - [Vegetation classification: a phytosociological
   approach](https://marcopittarello.github.io/iPastoralist/articles/TUTORIAL_3_-_Cluster_metodo_fitosociologico.md):
-- [TUTORIAL_4_Quick_classification_and_interpretation](https://marcopittarello.github.io/iPastoralist/articles/TUTORIAL_4_Quick_classification_and_interpretation.md):
