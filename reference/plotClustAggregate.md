@@ -40,9 +40,10 @@ plotClustAggregate(
 
 - firt10:
 
-  Object created by
+  Optional object created by
   [first_ten_species](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species.md);
-  used to generate labels of top species.
+  used to generate labels of top species. If `NULL` (default), compute
+  it internally from `dbClust`.
 
 - dbClust:
 
@@ -151,13 +152,11 @@ location before running.
 ``` r
 if (FALSE) { # \dontrun{
 # prepare inputs (replace with real objects)
-firt10_obj <- iPastoralist::first_ten_species(my_survey_matrix)
 db_matrix <- my_survey_matrix
 
 # aggregated run: save as PDF (default)
 plotClustAggregate(
   nspePlot    = 5,
-  firt10      = firt10_obj,
   dbClust     = db_matrix,
   aggregate   = TRUE,
   n.clust     = 10,
@@ -168,7 +167,6 @@ plotClustAggregate(
 # aggregated run: save as PNG
 plotClustAggregate(
   nspePlot    = 5,
-  firt10      = firt10_obj,
   dbClust     = db_matrix,
   file.name   = "dendrogram.png",
   file.height = 30,
@@ -183,7 +181,6 @@ plotClustAggregate(
 # non-aggregated run: display only, no file saved
 plotClustAggregate(
   nspePlot  = 5,
-  firt10    = firt10_obj,
   dbClust   = db_matrix,
   aggregate = FALSE,
   save.file = FALSE
