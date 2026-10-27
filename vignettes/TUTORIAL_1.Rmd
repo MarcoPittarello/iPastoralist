@@ -1,9 +1,9 @@
 ---
-title: "Tutorial 1"
+title: "Converting Frequency of Occurrence and computation of Ecological Indexes"
 author: Marco Pittarello
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tutorial 1}
+  %\VignetteIndexEntry{Converting Frequency of Occurrence and computation of Ecological Indexes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

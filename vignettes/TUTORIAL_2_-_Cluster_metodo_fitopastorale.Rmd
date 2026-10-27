@@ -42,15 +42,6 @@ library(iPastoralist)
 library(vegan)
 library(dendextend)
 library(tidyverse)
-
-# If tb_pca_plot() is stored in a separate script, load it here with source().
-if (!exists("tb_pca_plot", mode = "function")) {
-  stop("Load tb_pca_plot() before rendering this vignette.")
-}
-stopifnot(
-  requireNamespace("cluster", quietly = TRUE),
-  requireNamespace("goeveg", quietly = TRUE)
-)
 ```
 
 Select species codes and survey columns, excluding ecological indicator
@@ -59,13 +50,7 @@ species codes, as required by `vegetation_abundance()`.
 
 ```{r dati}
 data_example <- as.data.frame(iPastoralist::data)
-survey_columns <- grep("^R[0-9]+$", names(data_example), value = TRUE)
-
-vegetation <- data_example[,
-  c("species.name.code", survey_columns),
-  drop = FALSE
-]
-
+vegetation <- data_example[, c(2, 7:ncol(data_example))]
 knitr::kable(head(vegetation[, seq_len(min(7L, ncol(vegetation)))]))
 ```
 
@@ -79,20 +64,12 @@ sra <- vegetation_abundance(
   database = vegetation,
   method = "SRA_fo"
 )
-
 # For subsequent analyses: rows = surveys; columns = species.
 veg <- t(as.matrix(sra))
-
-# Remove only species that are completely absent after calculating SRA.
-veg <- veg[, colSums(veg) > 0, drop = FALSE]
-sra <- as.data.frame(t(veg), check.names = FALSE)
-
-rowSums(veg)
-dim(veg)
 ```
 
 ```{r show-abundances, echo=FALSE}
-knitr::kable(head(sra[, seq_len(min(6L, ncol(sra)))]), digits = 1)
+knitr::kable(head(sra[, seq_len(min(12, ncol(sra)))]), digits = 1)
 ```
 
 If occasional species should be included, replace the abundance call
@@ -129,17 +106,8 @@ first10 <- first_ten_species(
   cluster.hclust = clst
 )
 
-# Retain the ten highest ranks and order surveys as in the dendrogram.
-first10 <- first10[order(first10$Survey.order), , drop = FALSE]
-rank_columns <- setdiff(names(first10), c("Survey", "Survey.order"))
-rank_columns <- head(rank_columns, 10L)
-first10_table <- first10[,
-  c("Survey", "Survey.order", rank_columns),
-  drop = FALSE
-]
-rownames(first10_table) <- NULL
+knitr::kable(first10[1:5, ])
 
-knitr::kable(first10_table)
 ```
 
 Each species entry reports its code followed by its SRA. The table
@@ -152,7 +120,7 @@ and the selected number of ranked species. Here we show all ten; set
 `n_species_labels` to 4 or 5 for a more compact figure.
 
 ```{r species-labels}
-n_species_labels <- 10L
+n_species_labels <- 10
 
 db_labels <- denspe(
   nspe = n_species_labels,
@@ -174,15 +142,7 @@ dend_labels <- dendextend::set(dend_labels, "labels_cex", label_cex)
 
 ```{r dendrogram-with-species, fig.width=15, fig.height=8, out.width="100%"}
 # Reserve enough space on the right for the species labels.
-right_margin <- max(strwidth(
-  clst_labels$labels,
-  units = "inches",
-  cex = label_cex
-)) /
-  par("csi") +
-  2
-
-par(mfrow = c(1, 1), mar = c(4, 2, 3, right_margin))
+par(mfrow = c(1, 1), mar = c(4, 2, 3, 30))
 plot(
   dend_labels,
   horiz = TRUE,
@@ -215,60 +175,42 @@ silhouette selection excludes partitions with fewer than two surveys
 in any group.
 
 ```{r silhouette}
-k_values <- seq.int(2L, min(10L, nrow(veg) - 1L))
-min_group_size <- 2L
+k_values <- 2:10
 
-silhouette_results <- do.call(
-  rbind,
-  lapply(k_values, function(k) {
-    membership <- stats::cutree(clst, k = k)
-    sil <- cluster::silhouette(membership, d)
-    sizes <- table(membership)
+silhouette_results <- sapply(k_values, function(k) {
+  gruppi <- cutree(clst, k = k)
 
-    data.frame(
-      k = k,
-      mean_silhouette = mean(sil[, "sil_width"]),
-      smallest_group = min(sizes),
-      admissible = all(sizes >= min_group_size)
-    )
-  })
-)
+  sil <- cluster::silhouette(
+    gruppi,
+    d
+  )
 
-admissible_results <- subset(silhouette_results, admissible)
-if (nrow(admissible_results) == 0L) {
-  stop("No partition meets min_group_size: review k_values or the constraint.")
-}
+  mean(sil[, "sil_width"])
+})
 
-# In the event of a tie, select the smallest k among those examined.
-best_k <- admissible_results$k[
-  which.max(admissible_results$mean_silhouette)
-]
-
-knitr::kable(silhouette_results, digits = 3)
+best_k <- k_values[which.max(silhouette_results)]
 best_k
 
+par(mfrow = c(1, 1), mar = c(4, 2, 3, 1))
 plot(
-  mean_silhouette ~ k,
-  data = silhouette_results,
+  k_values,
+  silhouette_results,
   type = "b",
-  xlab = "Number of groups",
-  ylab = "Mean silhouette width"
+  pch = 19,
+  xlab = "Numero di gruppi (k)",
+  ylab = "Average silhouette width"
 )
-points(
-  mean_silhouette ~ k,
-  data = subset(silhouette_results, !admissible),
-  pch = 4,
-  col = "red",
-  cex = 1.4
+
+abline(
+  v = best_k,
+  lty = 2
 )
-abline(v = best_k, lty = 2, col = "blue")
 ```
 
-If `maxFusionLevel()` is available, we can also inspect its suggested
-number of groups. This optional chunk is not evaluated during rendering.
+Another method is the so called  `maxFusionLevel()` (see Borcard et al., 2018):
 
 ```{r fusion-levels, eval=FALSE}
-fusion <- maxFusionLevel(clst)
+fusion <- iPastoralist::maxFusionLevel(clst)
 fusion
 fusion$n.clust
 ```
@@ -279,31 +221,7 @@ suggested by `maxFusionLevel()`. A custom cut is an illustrative choice,
 not a claim that four groups are optimal for this dataset.
 
 ```{r select-cut}
-selection_method <- "custom" # "custom", "silhouette", or "fusion"
-k_custom <- 4L
-
-n.cluster <- switch(
-  selection_method,
-  custom = k_custom,
-  silhouette = best_k,
-  fusion = {
-    if (!exists("maxFusionLevel", mode = "function")) {
-      stop("Load maxFusionLevel() to use the fusion criterion.")
-    }
-    maxFusionLevel(clst)$n.clust
-  },
-  stop("Unrecognised selection_method.")
-)
-
-stopifnot(
-  length(n.cluster) == 1L,
-  is.numeric(n.cluster),
-  is.finite(n.cluster),
-  n.cluster == as.integer(n.cluster),
-  n.cluster >= 2L,
-  n.cluster < nrow(veg)
-)
-n.cluster <- as.integer(n.cluster)
+n.cluster <- 4
 ```
 
 Highlight the selected groups on the same dendrogram with species
@@ -323,7 +241,7 @@ dend_selected <- dendextend::color_branches(
   col = branch_colours
 )
 
-par(mfrow = c(1, 1), mar = c(4, 2, 3, right_margin))
+par(mfrow = c(1, 1), mar = c(4, 2, 3, 30))
 plot(
   dend_selected,
   horiz = TRUE,
@@ -366,12 +284,6 @@ groups <- groups[
 ]
 rownames(groups) <- NULL
 groups$group <- factor(groups$group, levels = paste0("G", seq_len(n.cluster)))
-
-stopifnot(
-  identical(rownames(veg), as.character(groups$stand)),
-  !anyNA(groups$group),
-  nlevels(droplevels(groups$group)) == n.cluster
-)
 
 knitr::kable(groups)
 table(groups$group)

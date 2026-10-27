@@ -15,10 +15,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 # iPastoralist
 
-**An R package for vegetation data processing, characterization, and classification, with applications in grassland and pasture ecology, phytopastoral analysis, and phytosociology.**
+**An R package for vegetation data processing, characterization, and classification, with applications in grassland and pasture ecology,** **point-quadrat** **and phytosociological methods.**
 
 *iPastoralist* provides tools for managing and analysing botanical composition data collected using point-quadrat (point-intercept) and phytosociological survey methods.
 
@@ -30,11 +29,11 @@ The package supports the conversion and standardization of vegetation data, the 
 
 The main functionalities of *iPastoralist* are organized into three complementary analytical components:
 
-1. **Vegetation data preparation and conversion:** processing botanical survey data and converting species frequency or cover measurements into suitable quantitative formats.
+1.  **Vegetation data preparation and conversion:** processing botanical survey data and converting species frequency or cover measurements into suitable quantitative formats.
 
-2. **Vegetation characterization:** calculating biodiversity indices, Pastoral Value, ecological indicator values, and descriptors of floristic composition.
+2.  **Vegetation characterization:** calculating biodiversity indices, Pastoral Value, ecological indicator values, and descriptors of floristic composition.
 
-3. **Vegetation classification and interpretation:** supporting numerical vegetation classification, the identification of diagnostic and characteristic species, and the interpretation of vegetation groups according to phytopastoral and phytosociological approaches.
+3.  **Vegetation classification and interpretation:** supporting numerical vegetation classification, the identification of diagnostic and characteristic species, and the interpretation of vegetation groups according to point-quadrat and phytosociological approaches.
 
 These components can be used independently or combined into an integrated workflow for vegetation analysis.
 
@@ -79,8 +78,7 @@ For occasional species recorded within the vegetation plot but not intercepted a
 
 The processing and conversion procedure implemented in `vegetation_abundance()` is summarized in the following workflow.
 
-
-![Workflow for vegetation abundance conversion](Wrkflw_abundance_conversion.png){width=100%}
+![Workflow for vegetation abundance conversion](Wrkflw_abundance_conversion.png){width="100%"}
 
 For further information about the available conversion methods and their implementation, see `vegetation_abundance()`.
 
@@ -95,9 +93,9 @@ The `PhytoCover()` function converts visually estimated species cover values (%)
 **Conversion table**
 
 | Visually estimated cover (%) | Braun-Blanquet | Van der Maarel | Tasser and Tappeiner (%) |
-|:---:|:---:|:---:|:---:|
+|:----------------:|:----------------:|:----------------:|:----------------:|
 | 0 | 0 | 0 | 0 |
-| <1 | + | 2 | 0.3 |
+| \<1 | \+ | 2 | 0.3 |
 | 1–5 | 1 | 3 | 2.8 |
 | 6–15 | 2a | 5 | 10 |
 | 16–25 | 2b | 5 | 20.5 |
@@ -131,7 +129,7 @@ For further details, see `biodiversity()`.
 
 The `pastoral_value()` function calculates the **Pastoral Value (PV)** of vegetation based on the relative abundance of plant species and their specific forage quality.
 
-PV is a synthetic index commonly used in phytopastoral studies to assess the forage potential of grassland and pasture vegetation.
+PV is a synthetic index to assess the forage quality and productivity of grasslands.
 
 It integrates:
 
@@ -181,7 +179,7 @@ For further details, see `first_ten_species()`.
 
 These tools can be applied to datasets derived from point-quadrat or phytosociological surveys, using appropriate species abundance, cover, or presence-absence data.
 
-The classification workflow aims to identify relatively homogeneous vegetation groups based on their floristic composition and to support their interpretation according to **phytopastoral** and **phytosociological** approaches.
+The classification workflow aims to identify relatively homogeneous vegetation groups based on their floristic composition and to support their interpretation according to **point-quadrat** and **phytosociological** approaches.
 
 ### 3.1. Numerical vegetation classification
 
@@ -189,7 +187,7 @@ The package provides tools supporting the identification of vegetation groups ba
 
 The main objectives include:
 
-- **Classification of vegetation surveys:** grouping relevés according to their floristic composition through numerical classification methods.
+- **Classification of vegetation surveys:** grouping surveys according to their floristic composition through numerical classification methods.
 - **Evaluation of alternative classifications:** comparing alternative partitions of the vegetation dataset using statistical criteria.
 - **Selection of the number of vegetation groups:** supporting the identification of an appropriate classification level by considering numerical criteria and the interpretability of the resulting groups.
 
@@ -237,51 +235,9 @@ These tables facilitate:
 - Identification of diagnostic and constant species;
 - Identification of dominant species based on abundance or cover;
 - Description of the characteristic floristic composition of each vegetation group;
-- Comparison of vegetation units for phytopastoral and phytosociological interpretation.
+- Comparison of vegetation units for point-quadrat and phytosociological interpretation.
 
 Synoptic tables provide a structured summary of the main floristic differences and similarities among vegetation groups.
-
-### 3.4. Phytopastoral interpretation
-
-The **phytopastoral approach** focuses on the identification and characterization of grassland and pasture vegetation types based on their botanical composition, ecological characteristics, and pastoral significance.
-
-Vegetation groups obtained through numerical classification can be interpreted by considering:
-
-- Floristic composition and dominant species;
-- Species abundance and relative contribution to vegetation composition;
-- Pastoral Value and forage characteristics;
-- Biodiversity and ecological indicator values;
-- Ecological and management-related characteristics of pasture vegetation.
-
-This approach supports the identification and description of **phytopastoral vegetation types**, which can provide useful information for pasture assessment, vegetation monitoring, and management planning.
-
-The characterization of phytopastoral types combines numerical results with the ecological and pastoral interpretation of vegetation composition.
-
-### 3.5. Phytosociological interpretation
-
-The **phytosociological approach** focuses on the identification and description of plant communities based on their floristic composition and the occurrence of diagnostic species.
-
-Numerically derived vegetation groups can be characterized through:
-
-- Diagnostic species and their fidelity to vegetation groups;
-- Constant, dominant, and companion species;
-- Synoptic tables summarizing the composition of vegetation units;
-- Comparisons of floristic similarities and differences among vegetation groups;
-- Ecological characteristics associated with vegetation units.
-
-These outputs support comparisons with previously described vegetation communities and their possible attribution to **phytosociological syntaxa**, including associations, alliances, orders, and classes.
-
-The final syntaxonomic attribution requires expert interpretation, taking into account the ecological and biogeographical context, floristic composition, diagnostic species, and relevant phytosociological literature.
-
-### 3.6. Integrated vegetation classification workflow
-
-Overall, *iPastoralist* supports an integrated analytical workflow that can be summarized as follows:
-
-**Vegetation data preparation → Numerical classification → Floristic characterization → Synoptic vegetation tables → Ecological and phytopastoral or phytosociological interpretation**
-
-The individual steps can be adapted to the objectives of each study and to the characteristics of the available vegetation data.
-
-Numerical methods provide a reproducible basis for identifying vegetation groups, while their final interpretation depends on the ecological characteristics of the communities, the study objectives, and existing scientific knowledge.
 
 # Installation
 
@@ -289,19 +245,19 @@ Numerical methods provide a reproducible basis for identifying vegetation groups
 
 First, install `pak` if it is not already available:
 
-```r
+``` r
 install.packages("pak")
 ```
 
 Then install the latest version of *iPastoralist* from GitHub:
 
-```r
+``` r
 pak::pak("MarcoPittarello/iPastoralist")
 ```
 
 Once installed, load the package:
 
-```r
+``` r
 library(iPastoralist)
 ```
 
