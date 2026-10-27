@@ -73,21 +73,16 @@ be reduced independently when shorter labels or summaries are useful.
 
 ## Phytosociological surveys: TWINSPAN
 
-Use the percentage-cover matrix `veg` prepared in the phytosociological
-workflow. Keep cover values on their original percentage scale; no SRA
-conversion is required. The example reuses `n.cluster`, `cut_levels`,
-and `min_size` from that workflow.
-
 ```{r phytosociological-overview}
 phyto_groups <- plotClustAggregate_twspn(
   dbClust = veg,
   nspePlot = 10,
   aggregate = TRUE,
-  aggr.Nspe = 10,
+  aggr.Nspe = 3,
   modified = TRUE,
-  n_clusters = n.cluster,
-  cut_levels = cut_levels,
-  min_size = min_size,
+  n_clusters = 4,
+  cut_levels = c(1, 2, 2, 40),
+  min_size = 2,
   max_depth = 6,
   polish = "hill",
   species = FALSE,
@@ -100,17 +95,6 @@ phyto_groups <- plotClustAggregate_twspn(
 knitr::kable(phyto_groups)
 ```
 
-The wrapper calculates the ranked species automatically when `firt10`
-is omitted. Each survey label combines its group identifier, survey
-identifier, and up to ten species with their cover values. Surveys with
-fewer than ten present species have shorter labels.
-
-Each call **fits TWINSPAN again** from `dbClust`; it does not accept a
-previously fitted object or run OptimClass. To inspect a solution chosen
-earlier, use the same input matrix and fitting parameters. If stopping
-rules prevent the requested number of groups from being reached, the
-plot and summaries use the groups actually obtained.
-
 ```{r inspect-twinspan-result}
 # Actual number of groups and survey membership in dendrogram order.
 attr(phyto_groups, "n.clusters")
@@ -120,9 +104,6 @@ attr(phyto_groups, "survey.order")
 attr(phyto_groups, "mean.abundance")
 ```
 
-TWINSPAN branch heights represent reverse division order in this
-implementation, rather than dissimilarities. The `distance` and
-`clust.method` arguments do not control this wrapper's classification.
 
 ## Point-quadrat surveys: agglomerative clustering
 
@@ -140,19 +121,18 @@ the number of groups for the classification being displayed.
 ```{r point-quadrat-overview}
 pq_groups <- plotClustAggregate(
   dbClust = veg,
-  firt10 = first10,
   nspePlot = 10,
-  distance = "bray",
+  distance = "chord",
   clust.method = "average",
   aggregate = TRUE,
-  n.clust = n.cluster,
+  n.clust = 4,
   aggr.Nspe = 10,
   labels.cex = 0.5,
   clust.mar = c(1, 2, 2, 30),
   file.name = "point_quadrat_groups.pdf",
   file.height = 12,
   file.width = 24,
-  save.file = TRUE,
+  save.file = F,
   format = "pdf"
 )
 

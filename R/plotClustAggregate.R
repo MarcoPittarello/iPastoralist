@@ -9,7 +9,8 @@
 #' used, one prefixed with \code{"aggregate_"}) to the current working directory.
 #'
 #' @param nspePlot Integer; number of species to include in the survey labels (default 5).
-#' @param firt10 Object created by \link[iPastoralist]{first_ten_species}; used to generate labels of top species.
+#' @param firt10 Optional object created by \link[iPastoralist]{first_ten_species}; used to generate labels of top species.
+#'   If \code{NULL} (default), compute it internally from \code{dbClust}.
 #' @param dbClust Numeric matrix (surveys x species) used to compute dissimilarities.
 #' @param distance Character; distance method passed to \link[vegan]{vegdist} (default "chord").
 #' @param clust.method Character; agglomeration method passed to \link[stats]{hclust} (default "average").
@@ -49,13 +50,11 @@
 #' @examples
 #' \dontrun{
 #' # prepare inputs (replace with real objects)
-#' firt10_obj <- iPastoralist::first_ten_species(my_survey_matrix)
 #' db_matrix <- my_survey_matrix
 #'
 #' # aggregated run: save as PDF (default)
 #' plotClustAggregate(
 #'   nspePlot    = 5,
-#'   firt10      = firt10_obj,
 #'   dbClust     = db_matrix,
 #'   aggregate   = TRUE,
 #'   n.clust     = 10,
@@ -66,7 +65,6 @@
 #' # aggregated run: save as PNG
 #' plotClustAggregate(
 #'   nspePlot    = 5,
-#'   firt10      = firt10_obj,
 #'   dbClust     = db_matrix,
 #'   file.name   = "dendrogram.png",
 #'   file.height = 30,
@@ -81,7 +79,6 @@
 #' # non-aggregated run: display only, no file saved
 #' plotClustAggregate(
 #'   nspePlot  = 5,
-#'   firt10    = firt10_obj,
 #'   dbClust   = db_matrix,
 #'   aggregate = FALSE,
 #'   save.file = FALSE
@@ -110,9 +107,21 @@ plotClustAggregate <- function(
   save.file = TRUE,
   format = "pdf"
 ) {
-  if (is.null(firt10) || is.null(dbClust)) {
+  if (is.null(dbClust)) {
     stop(
-      "Please provide the database of the first ten species and the database used for cluster analysis."
+      "Please provide the database used for cluster analysis."
+    )
+  }
+
+  if (is.null(firt10)) {
+    cluster.hclust <- stats::hclust(
+      vegan::vegdist(dbClust, method = distance),
+      method = clust.method
+    )
+    firt10 <- iPastoralist::first_ten_species(
+      data_SRA_SC = t(dbClust),
+      join.dendrogram = TRUE,
+      cluster.hclust = cluster.hclust
     )
   }
 
