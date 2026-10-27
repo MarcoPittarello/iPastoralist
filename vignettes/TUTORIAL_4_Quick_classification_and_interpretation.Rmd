@@ -74,34 +74,34 @@ be reduced independently when shorter labels or summaries are useful.
 ## Phytosociological surveys: TWINSPAN
 
 ```{r phytosociological-overview}
-phyto_groups <- plotClustAggregate_twspn(
-  dbClust = veg,
-  nspePlot = 10,
-  aggregate = TRUE,
-  aggr.Nspe = 3,
-  modified = TRUE,
-  n_clusters = 4,
-  cut_levels = c(1, 2, 2, 40),
-  min_size = 2,
-  max_depth = 6,
-  polish = "hill",
-  species = FALSE,
-  labels.cex = 0.5,
-  clust.mar = c(1, 2, 2, 30),
-  save.file = FALSE,
-  display = TRUE
-)
+# phyto_groups <- plotClustAggregate_twspn(
+#   dbClust = veg,
+#   nspePlot = 10,
+#   aggregate = TRUE,
+#   aggr.Nspe = 3,
+#   modified = TRUE,
+#   n_clusters = 4,
+#   cut_levels = c(1, 2, 2, 40),
+#   min_size = 2,
+#   max_depth = 6,
+#   polish = "hill",
+#   species = FALSE,
+#   labels.cex = 0.5,
+#   clust.mar = c(1, 2, 2, 30),
+#   save.file = FALSE,
+#   display = TRUE
+# )
 
 knitr::kable(phyto_groups)
 ```
 
 ```{r inspect-twinspan-result}
 # Actual number of groups and survey membership in dendrogram order.
-attr(phyto_groups, "n.clusters")
-attr(phyto_groups, "survey.order")
+# attr(phyto_groups, "n.clusters")
+# attr(phyto_groups, "survey.order")
 
 # Mean species cover within each group, including absences as zeros.
-attr(phyto_groups, "mean.abundance")
+# attr(phyto_groups, "mean.abundance")
 ```
 
 
@@ -119,24 +119,24 @@ differ from a chord-distance classification explored earlier. Choose
 the number of groups for the classification being displayed.
 
 ```{r point-quadrat-overview}
-pq_groups <- plotClustAggregate(
-  dbClust = veg,
-  nspePlot = 10,
-  distance = "chord",
-  clust.method = "average",
-  aggregate = TRUE,
-  n.clust = 4,
-  aggr.Nspe = 10,
-  labels.cex = 0.5,
-  clust.mar = c(1, 2, 2, 30),
-  file.name = "point_quadrat_groups.pdf",
-  file.height = 12,
-  file.width = 24,
-  save.file = F,
-  format = "pdf"
-)
+# pq_groups <- plotClustAggregate(
+#   dbClust = veg,
+#   nspePlot = 10,
+#   distance = "chord",
+#   clust.method = "average",
+#   aggregate = TRUE,
+#   n.clust = 4,
+#   aggr.Nspe = 10,
+#   labels.cex = 0.5,
+#   clust.mar = c(1, 2, 2, 30),
+#   file.name = "point_quadrat_groups.pdf",
+#   file.height = 12,
+#   file.width = 24,
+#   save.file = F,
+#   format = "pdf"
+# )
 
-knitr::kable(pq_groups)
+# knitr::kable(pq_groups)
 ```
 
 Open `aggregate_point_quadrat_groups.pdf` in the working directory to
