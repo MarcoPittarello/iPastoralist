@@ -26,7 +26,8 @@ plotClustAggregate(
 \arguments{
 \item{nspePlot}{Integer; number of species to include in the survey labels (default 5).}
 
-\item{firt10}{Object created by \link[iPastoralist]{first_ten_species}; used to generate labels of top species.}
+\item{firt10}{Optional object created by \link[iPastoralist]{first_ten_species}; used to generate labels of top species.
+If \code{NULL} (default), compute it internally from \code{dbClust}.}
 
 \item{dbClust}{Numeric matrix (surveys x species) used to compute dissimilarities.}
 
@@ -88,13 +89,11 @@ or change the location before running.
 \examples{
 \dontrun{
 # prepare inputs (replace with real objects)
-firt10_obj <- iPastoralist::first_ten_species(my_survey_matrix)
 db_matrix <- my_survey_matrix
 
 # aggregated run: save as PDF (default)
 plotClustAggregate(
   nspePlot    = 5,
-  firt10      = firt10_obj,
   dbClust     = db_matrix,
   aggregate   = TRUE,
   n.clust     = 10,
@@ -105,7 +104,6 @@ plotClustAggregate(
 # aggregated run: save as PNG
 plotClustAggregate(
   nspePlot    = 5,
-  firt10      = firt10_obj,
   dbClust     = db_matrix,
   file.name   = "dendrogram.png",
   file.height = 30,
@@ -120,7 +118,6 @@ plotClustAggregate(
 # non-aggregated run: display only, no file saved
 plotClustAggregate(
   nspePlot  = 5,
-  firt10    = firt10_obj,
   dbClust   = db_matrix,
   aggregate = FALSE,
   save.file = FALSE
