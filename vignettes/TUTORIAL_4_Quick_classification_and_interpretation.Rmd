@@ -43,6 +43,15 @@ functions. The TWINSPAN wrapper also requires `ecan::twinspan()`.
 
 ```{r packages}
 library(iPastoralist)
+
+data_example <- as.data.frame(iPastoralist::data)
+vegetation <- data_example[, c(2, 7:ncol(data_example))]
+sra <- vegetation_abundance(
+  database = vegetation,
+  method = "SRA_fo"
+)
+# For subsequent analyses: rows = surveys; columns = species.
+veg <- t(as.matrix(sra))
 ```
 
 In both sections, `veg` is a numeric matrix with **surveys in rows and
