@@ -356,12 +356,16 @@ tb_pca_plot <- function(
       anyDuplicated(groups$stand) ||
       !setequal(rownames(veg), as.character(groups$stand))
   ) {
-    stop("Controllare la corrispondenza tra rilievi e groups.")
+    stop(
+      "Controllare la corrispondenza tra rilievi e groups. La prima colonna deve contenere gli ID dei rilievi, la seconda i gruppi."
+    )
   }
 
   if (!is.numeric(veg) || anyNA(veg) || any(veg < 0)) {
     stop("veg deve contenere valori numerici >= 0, senza NA.")
   }
+
+  colnames(groups) <- c("stand", "group")
 
   # Align groups with the vegetation matrix
   gr <- factor(as.character(
