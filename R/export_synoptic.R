@@ -178,26 +178,31 @@ export_synoptic <- function(
   x$group <- as.character(x$group)
   x$species <- as.character(x$species)
 
-  # Identify frequency columns
-  freq_cols <- grep(
-    "^GG[0-9]+$",
-    names(x),
-    value = TRUE
-  )
+  # Colonne prodotte da synoptic_table(): "G" + etichetta originale
+  freq_cols <- names(x)[startsWith(names(x), "G")]
 
   if (length(freq_cols) == 0) {
-    stop("Nessuna colonna di frequenza trovata (GG1, GG2...).")
+    stop("Nessuna colonna di frequenza trovata (G<nome gruppo>).")
   }
 
-  groups <- sub("^G", "", freq_cols)
+  # Rimuove solo la G aggiunta da synoptic_table()
+  groups <- substring(freq_cols, 2L)
 
-  # Sort groups numerically
-  idx <- order(as.integer(sub("^G", "", groups)))
+  # Ordine numerico per 1, 2, 10 oppure G1, G2, G10;
+  # per altri nomi mantiene l'ordine delle colonne
+  idx <- seq_along(groups)
+
+  if (all(grepl("^[0-9]+$", groups))) {
+    idx <- order(as.numeric(groups))
+  } else if (all(grepl("^G[0-9]+$", groups))) {
+    idx <- order(as.numeric(substring(groups, 2L)))
+  }
+
   groups <- groups[idx]
   freq_cols <- freq_cols[idx]
 
   if (!all(unique(x$group) %in% groups)) {
-    stop("I gruppi in 'group' non corrispondono alle colonne GG.")
+    stop("I gruppi in 'group' non corrispondono alle colonne di frequenza.")
   }
 
   # Keep one row per species
@@ -433,7 +438,9 @@ export_synoptic <- function(
       is.null(names(group_sizes)) ||
         !all(groups %in% names(group_sizes))
     ) {
-      stop("group_sizes deve avere nomi G1, G2, ecc.")
+      stop(
+        "group_sizes deve avere nomi corrispondenti alle etichette originali dei gruppi."
+      )
     }
 
     n_row <- c(
