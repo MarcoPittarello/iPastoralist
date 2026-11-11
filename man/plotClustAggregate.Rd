@@ -53,7 +53,8 @@ for PNG it is used together with \code{file.res} to compute pixel dimensions.}
 
 \item{aggr.Nspe}{Integer; number of species to report per cluster in the returned summary (default 5).}
 
-\item{n.clust}{Integer; number of clusters used for grouping and for drawing rectangles on the aggregated dendrogram.}
+\item{n.clust}{Integer; number of clusters used for grouping and for drawing rectangles on the aggregated dendrogram.
+With \code{n.clust = 0}, use a single cluster and omit the blue rectangles.}
 
 \item{save.file}{Logical; if TRUE (default), the dendrogram(s) are exported to disk. Set to FALSE to skip file output.}
 
@@ -81,6 +82,8 @@ function calls iPastoralist::clustOrder and iPastoralist::clustGroupAggregate2
 to compute cluster-level average compositions, relabels rows with a cluster
 prefix, reclusters aggregated profiles and draws cluster rectangles on the
 aggregated dendrogram.
+With \code{n.clust = 0}, all surveys belong to a single cluster and no
+cluster rectangles are drawn.
 
 Side effects: when \code{save.file = TRUE}, a PDF or PNG file is written to the
 working directory depending on \code{format}. Use \link[base]{getwd} to inspect

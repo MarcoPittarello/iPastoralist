@@ -34,9 +34,11 @@
 #' @param save.file Logical; export the selected dendrogram to disk?
 #' @param format Output format, `"pdf"` (default) or `"png"`.
 #' @param modified Logical; use modified TWINSPAN? Default `TRUE`.
-#' @param n_clusters Optional positive integer; requested number of terminal
-#'   groups, passed to [ecan::twinspan()]. `NULL` leaves the stopping decision
-#'   to the other native parameters (or uses `n.clust`, when supplied).
+#' @param n_clusters Optional non-negative integer; requested number of terminal
+#'   groups. Positive values are passed to [ecan::twinspan()]. `NULL` leaves
+#'   the stopping decision to the other native parameters (or uses `n.clust`,
+#'   when supplied). With `0`, return a single group without group rectangles;
+#'   internally use `n_clusters = 1` and `max_depth = 0`.
 #' @param cut_levels Numeric finite non-negative pseudospecies cut levels.
 #' @param min_size Positive integer; minimum group size eligible for division.
 #' @param max_depth Non-negative integer; maximum division depth.
@@ -69,7 +71,8 @@
 #' zero-height joins within terminal groups are graphical placeholders.
 #'
 #' In the aggregated dendrogram, each survey remains a separate leaf. Labels
-#' are of the form `0001_Survey | Species abundance | ...`. Rectangles use
+#' are of the form `0001_Survey | Species abundance | ...`. Except when
+#' `n_clusters = 0` (or `n.clust = 0`), rectangles use
 #' [dendextend::rect.dendrogram()] with `k` equal to the actual group count, `horiz = TRUE`,
 #' `border = 5`, `lty = 1` and `lwd = 1`, matching the original function.
 #' There is no collapse of surveys into group leaves.
@@ -154,7 +157,7 @@ plotClustAggregate_twspn <- function(
   }
   for (argument in c("n.clust", "n_clusters")) {
     if (!is.null(get(argument))) {
-      .twspn_integer(get(argument), argument, minimum = 1)
+      .twspn_integer(get(argument), argument, minimum = 0)
     }
   }
   if (!is.null(n.clust) && !is.null(n_clusters) && n.clust != n_clusters) {
@@ -240,6 +243,11 @@ plotClustAggregate_twspn <- function(
   }
 
   x <- .twspn_matrix(dbClust, "dbClust")
+  single.cluster <- !is.null(n_clusters) && n_clusters == 0L
+  if (single.cluster) {
+    n_clusters <- 1L
+    max_depth <- 0L
+  }
   fit <- ecan::twinspan(
     x,
     modified = modified,
@@ -338,6 +346,7 @@ plotClustAggregate_twspn <- function(
   }
 
   draw <- function(tree, rectangles) {
+    rectangles <- rectangles && !single.cluster
     old <- graphics::par(mfrow = c(1, 1), mar = clust.mar)
     on.exit(graphics::par(old), add = TRUE)
     tree <- stats::dendrapply(tree, function(node) {

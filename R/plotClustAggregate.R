@@ -24,6 +24,7 @@
 #' @param aggregate Logical; if TRUE, aggregate surveys by cluster and produce an aggregated dendrogram and summary (default TRUE).
 #' @param aggr.Nspe Integer; number of species to report per cluster in the returned summary (default 5).
 #' @param n.clust Integer; number of clusters used for grouping and for drawing rectangles on the aggregated dendrogram.
+#'   With \code{n.clust = 0}, use a single cluster and omit the blue rectangles.
 #' @param save.file Logical; if TRUE (default), the dendrogram(s) are exported to disk. Set to FALSE to skip file output.
 #' @param format Character; output format, either \code{"pdf"} (default) or \code{"png"}.
 #' @param labels.cex Numeric. Character expansion factor for dendrogram labels (default 0.5).
@@ -36,6 +37,8 @@
 #' to compute cluster-level average compositions, relabels rows with a cluster
 #' prefix, reclusters aggregated profiles and draws cluster rectangles on the
 #' aggregated dendrogram.
+#' With \code{n.clust = 0}, all surveys belong to a single cluster and no
+#' cluster rectangles are drawn.
 #'
 #' Side effects: when \code{save.file = TRUE}, a PDF or PNG file is written to the
 #' working directory depending on \code{format}. Use \link[base]{getwd} to inspect
@@ -169,7 +172,7 @@ plotClustAggregate <- function(
   groups <- iPastoralist::clustOrder(
     cluster.hclust = clst,
     cluster.group = TRUE,
-    cluster.number = n.clust
+    cluster.number = if (n.clust == 0) 1L else n.clust
   )
 
   dt.g <- merge(groups, db.lab, by.x = "Survey", by.y = "row.names")
@@ -218,14 +221,16 @@ plotClustAggregate <- function(
     open_device(fname, format, file.height, file.width, file.res)
     graphics::par(mfrow = c(1, 1), mar = clust.mar)
     graphics::plot(clst.dxt.aggr, horiz = TRUE, cex = labels.cex)
-    dendextend::rect.dendrogram(
-      clst.dxt.aggr,
-      k = n.clust,
-      horiz = TRUE,
-      border = 5,
-      lty = 1,
-      lwd = 1
-    )
+    if (n.clust != 0) {
+      dendextend::rect.dendrogram(
+        clst.dxt.aggr,
+        k = n.clust,
+        horiz = TRUE,
+        border = 5,
+        lty = 1,
+        lwd = 1
+      )
+    }
     grDevices::dev.off()
   }
 

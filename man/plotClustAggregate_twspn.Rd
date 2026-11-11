@@ -79,9 +79,11 @@ rectangles and summaries, even if stopping rules yield fewer groups.}
 
 \item{modified}{Logical; use modified TWINSPAN? Default \code{TRUE}.}
 
-\item{n_clusters}{Optional positive integer; requested number of terminal
-groups, passed to \code{\link[ecan:twinspan]{ecan::twinspan()}}. \code{NULL} leaves the stopping decision
-to the other native parameters (or uses \code{n.clust}, when supplied).}
+\item{n_clusters}{Optional non-negative integer; requested number of terminal
+groups. Positive values are passed to \code{\link[ecan:twinspan]{ecan::twinspan()}}. \code{NULL} leaves
+the stopping decision to the other native parameters (or uses \code{n.clust},
+when supplied). With \code{0}, return a single group without group rectangles;
+internally use \code{n_clusters = 1} and \code{max_depth = 0}.}
 
 \item{cut_levels}{Numeric finite non-negative pseudospecies cut levels.}
 
@@ -145,7 +147,8 @@ Heights are reverse division order, not dissimilarities or eigenvalues;
 zero-height joins within terminal groups are graphical placeholders.
 
 In the aggregated dendrogram, each survey remains a separate leaf. Labels
-are of the form \verb{0001_Survey | Species abundance | ...}. Rectangles use
+are of the form \verb{0001_Survey | Species abundance | ...}. Except when
+\code{n_clusters = 0} (or \code{n.clust = 0}), rectangles use
 \code{\link[dendextend:rect.dendrogram]{dendextend::rect.dendrogram()}} with \code{k} equal to the actual group count, \code{horiz = TRUE},
 \code{border = 5}, \code{lty = 1} and \code{lwd = 1}, matching the original function.
 There is no collapse of surveys into group leaves.
