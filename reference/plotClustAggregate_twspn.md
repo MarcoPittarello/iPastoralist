@@ -122,11 +122,13 @@ plotClustAggregate_twspn(
 
 - n_clusters:
 
-  Optional positive integer; requested number of terminal groups, passed
-  to
+  Optional non-negative integer; requested number of terminal groups.
+  Positive values are passed to
   [`ecan::twinspan()`](https://matutosi.github.io/ecan/reference/twinspan.html).
   `NULL` leaves the stopping decision to the other native parameters (or
-  uses `n.clust`, when supplied).
+  uses `n.clust`, when supplied). With `0`, return a single group
+  without group rectangles; internally use `n_clusters = 1` and
+  `max_depth = 0`.
 
 - cut_levels:
 
@@ -207,8 +209,8 @@ not dissimilarities or eigenvalues; zero-height joins within terminal
 groups are graphical placeholders.
 
 In the aggregated dendrogram, each survey remains a separate leaf.
-Labels are of the form `0001_Survey | Species abundance | ...`.
-Rectangles use
+Labels are of the form `0001_Survey | Species abundance | ...`. Except
+when `n_clusters = 0` (or `n.clust = 0`), rectangles use
 [`dendextend::rect.dendrogram()`](https://talgalili.github.io/dendextend/reference/rect.dendrogram.html)
 with `k` equal to the actual group count, `horiz = TRUE`, `border = 5`,
 `lty = 1` and `lwd = 1`, matching the original function. There is no

@@ -104,7 +104,8 @@ plotClustAggregate(
 - n.clust:
 
   Integer; number of clusters used for grouping and for drawing
-  rectangles on the aggregated dendrogram.
+  rectangles on the aggregated dendrogram. With `n.clust = 0`, use a
+  single cluster and omit the blue rectangles.
 
 - save.file:
 
@@ -132,7 +133,9 @@ generates a hierarchical clustering with
 the function calls iPastoralist::clustOrder and
 iPastoralist::clustGroupAggregate2 to compute cluster-level average
 compositions, relabels rows with a cluster prefix, reclusters aggregated
-profiles and draws cluster rectangles on the aggregated dendrogram.
+profiles and draws cluster rectangles on the aggregated dendrogram. With
+`n.clust = 0`, all surveys belong to a single cluster and no cluster
+rectangles are drawn.
 
 Side effects: when `save.file = TRUE`, a PDF or PNG file is written to
 the working directory depending on `format`. Use
