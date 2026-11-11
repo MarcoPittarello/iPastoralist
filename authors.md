@@ -12,13 +12,13 @@ Source:
 
 Pittarello M (2026). *iPastoralist: Management, conversion, and analyses
 of vegetation data derived from phytosociological and point-quadrat
-method surveys*. R package version 2.3.0,
+method surveys*. R package version 2.3.1,
 <https://marcopittarello.github.io/iPastoralist>.
 
     @Manual{,
       title = {iPastoralist: Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys},
       author = {Marco Pittarello},
       year = {2026},
-      note = {R package version 2.3.0},
+      note = {R package version 2.3.1},
       url = {https://marcopittarello.github.io/iPastoralist},
     }

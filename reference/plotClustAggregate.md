@@ -27,7 +27,8 @@ plotClustAggregate(
   aggr.Nspe = 5,
   n.clust = NULL,
   save.file = TRUE,
-  format = "pdf"
+  format = "pdf",
+  show.rectangles = TRUE
 )
 ```
 
@@ -105,7 +106,8 @@ plotClustAggregate(
 
   Integer; number of clusters used for grouping and for drawing
   rectangles on the aggregated dendrogram. With `n.clust = 0`, use a
-  single cluster and omit the blue rectangles.
+  single cluster. Rectangle visibility is controlled by
+  `show.rectangles`.
 
 - save.file:
 
@@ -115,6 +117,13 @@ plotClustAggregate(
 - format:
 
   Character; output format, either `"pdf"` (default) or `"png"`.
+
+- show.rectangles:
+
+  Logical; draw the blue group rectangles on the aggregated dendrogram
+  (default TRUE). Set to FALSE to hide them, independently of `n.clust`.
+  This changes only rectangle visibility, not the clustering,
+  dendrogram, labels or cluster summaries.
 
 ## Value
 
@@ -133,9 +142,10 @@ generates a hierarchical clustering with
 the function calls iPastoralist::clustOrder and
 iPastoralist::clustGroupAggregate2 to compute cluster-level average
 compositions, relabels rows with a cluster prefix, reclusters aggregated
-profiles and draws cluster rectangles on the aggregated dendrogram. With
-`n.clust = 0`, all surveys belong to a single cluster and no cluster
-rectangles are drawn.
+profiles and optionally draws cluster rectangles on the aggregated
+dendrogram. With `n.clust = 0`, all surveys belong to a single cluster.
+Rectangles are drawn only when `show.rectangles = TRUE`, including when
+there is a single cluster. Set it to FALSE to omit them.
 
 Side effects: when `save.file = TRUE`, a PDF or PNG file is written to
 the working directory depending on `format`. Use
@@ -178,7 +188,8 @@ plotClustAggregate(
   aggregate   = TRUE,
   n.clust     = 10,
   save.file   = TRUE,
-  format      = "png"
+  format      = "png",
+  show.rectangles = FALSE
 )
 
 # non-aggregated run: display only, no file saved

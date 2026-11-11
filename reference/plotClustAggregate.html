@@ -17,7 +17,7 @@ used, one prefixed with &quot;aggregate_&quot;) to the current working directory
 
     <a class="navbar-brand me-2" href="../index.html">iPastoralist</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,8 @@ used, one prefixed with <code>"aggregate_"</code>) to the current working direct
 <span>  aggr.Nspe <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  n.clust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save.file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  format <span class="op">=</span> <span class="st">"pdf"</span></span>
+<span>  format <span class="op">=</span> <span class="st">"pdf"</span>,</span>
+<span>  show.rectangles <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -144,7 +145,7 @@ for PNG it is used together with <code>file.res</code> to compute pixel dimensio
 
 <dt id="arg-n-clust">n.clust<a class="anchor" aria-label="anchor" href="#arg-n-clust"></a></dt>
 <dd><p>Integer; number of clusters used for grouping and for drawing rectangles on the aggregated dendrogram.
-With <code>n.clust = 0</code>, use a single cluster and omit the blue rectangles.</p></dd>
+With <code>n.clust = 0</code>, use a single cluster. Rectangle visibility is controlled by <code>show.rectangles</code>.</p></dd>
 
 
 <dt id="arg-save-file">save.file<a class="anchor" aria-label="anchor" href="#arg-save-file"></a></dt>
@@ -153,6 +154,12 @@ With <code>n.clust = 0</code>, use a single cluster and omit the blue rectangles
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
 <dd><p>Character; output format, either <code>"pdf"</code> (default) or <code>"png"</code>.</p></dd>
+
+
+<dt id="arg-show-rectangles">show.rectangles<a class="anchor" aria-label="anchor" href="#arg-show-rectangles"></a></dt>
+<dd><p>Logical; draw the blue group rectangles on the aggregated dendrogram (default TRUE).
+Set to FALSE to hide them, independently of <code>n.clust</code>. This changes only rectangle visibility,
+not the clustering, dendrogram, labels or cluster summaries.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -169,10 +176,11 @@ a distance matrix with <a href="https://vegandevs.github.io/vegan/reference/vegd
 clustering with <a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a>. When <code>aggregate = TRUE</code> the
 function calls iPastoralist::clustOrder and iPastoralist::clustGroupAggregate2
 to compute cluster-level average compositions, relabels rows with a cluster
-prefix, reclusters aggregated profiles and draws cluster rectangles on the
+prefix, reclusters aggregated profiles and optionally draws cluster rectangles on the
 aggregated dendrogram.
-With <code>n.clust = 0</code>, all surveys belong to a single cluster and no
-cluster rectangles are drawn.</p>
+With <code>n.clust = 0</code>, all surveys belong to a single cluster.
+Rectangles are drawn only when <code>show.rectangles = TRUE</code>, including
+when there is a single cluster. Set it to FALSE to omit them.</p>
 <p>Side effects: when <code>save.file = TRUE</code>, a PDF or PNG file is written to the
 working directory depending on <code>format</code>. Use <a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a> to inspect
 or change the location before running.</p>
@@ -210,7 +218,8 @@ or change the location before running.</p>
 <span class="r-in"><span>  aggregate   <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  n.clust     <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>  save.file   <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  format      <span class="op">=</span> <span class="st">"png"</span></span></span>
+<span class="r-in"><span>  format      <span class="op">=</span> <span class="st">"png"</span>,</span></span>
+<span class="r-in"><span>  show.rectangles <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># non-aggregated run: display only, no file saved</span></span></span>

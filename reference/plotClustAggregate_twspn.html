@@ -3,12 +3,12 @@
 supplied native fitting parameters. Label surveys with their most abundant
 species. With aggregate = TRUE,
 retain every survey, prefix each label with its terminal TWINSPAN group,
-draw rectangles around groups, and return their dominant species based on
+optionally draw rectangles around groups, and return their dominant species based on
 mean abundance. This follows the layout of iPastoralist::plotClustAggregate."><meta property="og:description" content="Run ecan::twinspan() from scratch on dbClust at every call, using the
 supplied native fitting parameters. Label surveys with their most abundant
 species. With aggregate = TRUE,
 retain every survey, prefix each label with its terminal TWINSPAN group,
-draw rectangles around groups, and return their dominant species based on
+optionally draw rectangles around groups, and return their dominant species based on
 mean abundance. This follows the layout of iPastoralist::plotClustAggregate."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -17,7 +17,7 @@ mean abundance. This follows the layout of iPastoralist::plotClustAggregate."></
 
     <a class="navbar-brand me-2" href="../index.html">iPastoralist</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,7 @@ mean abundance. This follows the layout of iPastoralist::plotClustAggregate."></
 supplied native fitting parameters. Label surveys with their most abundant
 species. With <code>aggregate = TRUE</code>,
 retain every survey, prefix each label with its terminal TWINSPAN group,
-draw rectangles around groups, and return their dominant species based on
+optionally draw rectangles around groups, and return their dominant species based on
 mean abundance. This follows the layout of <code><a href="plotClustAggregate.html">iPastoralist::plotClustAggregate</a></code>.</p>
     </div>
 
@@ -65,10 +65,7 @@ mean abundance. This follows the layout of <code><a href="plotClustAggregate.htm
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotClustAggregate_twspn</span><span class="op">(</span></span>
 <span>  nspePlot <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>  firt10 <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  dbClust <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  distance <span class="op">=</span> <span class="st">"chord"</span>,</span>
-<span>  clust.method <span class="op">=</span> <span class="st">"average"</span>,</span>
+<span>  <span class="va">dbClust</span>,</span>
 <span>  clust.mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">18</span><span class="op">)</span>,</span>
 <span>  file.name <span class="op">=</span> <span class="st">"dendrogram.pdf"</span>,</span>
 <span>  file.height <span class="op">=</span> <span class="fl">30</span>,</span>
@@ -77,7 +74,6 @@ mean abundance. This follows the layout of <code><a href="plotClustAggregate.htm
 <span>  labels.cex <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  aggregate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  aggr.Nspe <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>  n.clust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save.file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  format <span class="op">=</span> <span class="st">"pdf"</span>,</span>
 <span>  modified <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -92,7 +88,8 @@ mean abundance. This follows the layout of <code><a href="plotClustAggregate.htm
 <span>  refine_iter <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  use_indicator <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  downweight <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  display <span class="op">=</span> <span class="op">!</span><span class="va">save.file</span></span>
+<span>  display <span class="op">=</span> <span class="op">!</span><span class="va">save.file</span>,</span>
+<span>  show.rectangles <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -104,23 +101,10 @@ mean abundance. This follows the layout of <code><a href="plotClustAggregate.htm
 <dd><p>Non-negative integer; number of species per survey label.</p></dd>
 
 
-<dt id="arg-firt-">firt10<a class="anchor" aria-label="anchor" href="#arg-firt-"></a></dt>
-<dd><p>Optional data.frame returned by <code><a href="first_ten_species_twspn.html">first_ten_species_twspn()</a></code>.
-If <code>NULL</code>, compute the ranked species from <code>dbClust</code>. Existing group and
-order columns are ignored: the new fit determines membership and order.
-The spelling retains the original argument name.</p></dd>
-
-
 <dt id="arg-dbclust">dbClust<a class="anchor" aria-label="anchor" href="#arg-dbclust"></a></dt>
 <dd><p>Required numeric surveys-by-species matrix or data.frame.
 Rows are surveys and columns are species, with unique non-empty names.
 This exact abundance matrix is used for fitting and group summaries.</p></dd>
-
-
-<dt id="arg-distance-clust-method">distance, clust.method<a class="anchor" aria-label="anchor" href="#arg-distance-clust-method"></a></dt>
-<dd><p>Retained in their original positions for call
-compatibility. They are not used by TWINSPAN; use the native fitting
-arguments below instead.</p></dd>
 
 
 <dt id="arg-clust-mar">clust.mar<a class="anchor" aria-label="anchor" href="#arg-clust-mar"></a></dt>
@@ -146,18 +130,12 @@ directory, as in the original function. The directory must exist.</p></dd>
 
 
 <dt id="arg-aggregate">aggregate<a class="anchor" aria-label="anchor" href="#arg-aggregate"></a></dt>
-<dd><p>Logical; prefix survey labels with their groups, draw
-group rectangles and return the group-species summary?</p></dd>
+<dd><p>Logical; prefix survey labels with their groups and return
+the group-species summary? Group rectangles are controlled by <code>show.rectangles</code>.</p></dd>
 
 
 <dt id="arg-aggr-nspe">aggr.Nspe<a class="anchor" aria-label="anchor" href="#arg-aggr-nspe"></a></dt>
 <dd><p>Positive integer; number of species in each group summary.</p></dd>
-
-
-<dt id="arg-n-clust">n.clust<a class="anchor" aria-label="anchor" href="#arg-n-clust"></a></dt>
-<dd><p>Optional compatibility alias for <code>n_clusters</code>. If both are
-supplied they must be equal. The actual fitted groups determine the
-rectangles and summaries, even if stopping rules yield fewer groups.</p></dd>
 
 
 <dt id="arg-save-file">save.file<a class="anchor" aria-label="anchor" href="#arg-save-file"></a></dt>
@@ -175,8 +153,8 @@ rectangles and summaries, even if stopping rules yield fewer groups.</p></dd>
 <dt id="arg-n-clusters">n_clusters<a class="anchor" aria-label="anchor" href="#arg-n-clusters"></a></dt>
 <dd><p>Optional non-negative integer; requested number of terminal
 groups. Positive values are passed to <code><a href="https://matutosi.github.io/ecan/reference/twinspan.html" class="external-link">ecan::twinspan()</a></code>. <code>NULL</code> leaves
-the stopping decision to the other native parameters (or uses <code>n.clust</code>,
-when supplied). With <code>0</code>, return a single group without group rectangles;
+the stopping decision to the other native parameters.
+With <code>0</code>, return a single group;
 internally use <code>n_clusters = 1</code> and <code>max_depth = 0</code>.</p></dd>
 
 
@@ -227,6 +205,13 @@ used by <code>polish = "ecan"</code>.</p></dd>
 <dd><p>Logical; also draw the selected dendrogram on the current
 device? Defaults to <code>!save.file</code>. Set both to <code>FALSE</code> for computation only.</p></dd>
 
+
+<dt id="arg-show-rectangles">show.rectangles<a class="anchor" aria-label="anchor" href="#arg-show-rectangles"></a></dt>
+<dd><p>Logical; draw the blue group rectangles when
+<code>aggregate = TRUE</code>? Default <code>TRUE</code>. Set to <code>FALSE</code> to hide them, regardless
+of the requested or actual number of groups. This changes only rectangle
+visibility, not the fitted tree, group membership, labels or summaries.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -243,8 +228,9 @@ dendrogram, with attributes <code>survey.order</code> and <code>files</code>.</p
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The original plotting arguments are retained. Native TWINSPAN parameters
-and <code>display</code> are appended after <code>format</code>. No precomputed fitted object
+    <p>Native TWINSPAN parameters, <code>display</code> and <code>show.rectangles</code> follow <code>format</code>.
+Species used in survey labels are computed internally from <code>dbClust</code>.
+No precomputed fitted object
 is accepted. A single new fit is used for the plain or grouped survey tree,
 membership, rectangles and mean abundance summaries.</p>
 <p>Groups come from the newly fitted object's <code>classification$group</code>. The tree is converted
@@ -256,10 +242,12 @@ of further divisions, the actual fitted groups are used throughout.
 Heights are reverse division order, not dissimilarities or eigenvalues;
 zero-height joins within terminal groups are graphical placeholders.</p>
 <p>In the aggregated dendrogram, each survey remains a separate leaf. Labels
-are of the form <code>0001_Survey | Species abundance | ...</code>. Except when
-<code>n_clusters = 0</code> (or <code>n.clust = 0</code>), rectangles use
+are of the form <code>0001_Survey | Species abundance | ...</code>. When
+<code>show.rectangles = TRUE</code>, rectangles use
 <code><a href="https://talgalili.github.io/dendextend/reference/rect.dendrogram.html" class="external-link">dendextend::rect.dendrogram()</a></code> with <code>k</code> equal to the actual group count, <code>horiz = TRUE</code>,
 <code>border = 5</code>, <code>lty = 1</code> and <code>lwd = 1</code>, matching the original function.
+A single group is outlined using <code><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">graphics::rect()</a></code> with the same border
+settings. With <code>show.rectangles = FALSE</code>, no group rectangles are drawn.
 There is no collapse of surveys into group leaves.</p>
 <p>The returned group names follow the original convention: arithmetic mean
 abundances across all group surveys (including zeros), ranked before
@@ -282,7 +270,8 @@ describe their units correctly.</p>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">plotClustAggregate_twspn</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  nspePlot <span class="op">=</span> <span class="fl">2</span>, dbClust <span class="op">=</span> <span class="va">veg</span>, modified <span class="op">=</span> <span class="cn">TRUE</span>, n_clusters <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>  cut_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span>, min_size <span class="op">=</span> <span class="fl">2</span>, max_depth <span class="op">=</span> <span class="fl">6</span>,</span></span>
-<span class="r-in"><span>  polish <span class="op">=</span> <span class="st">"hill"</span>, species <span class="op">=</span> <span class="cn">FALSE</span>, save.file <span class="op">=</span> <span class="cn">FALSE</span>, display <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  polish <span class="op">=</span> <span class="st">"hill"</span>, species <span class="op">=</span> <span class="cn">FALSE</span>, save.file <span class="op">=</span> <span class="cn">FALSE</span>, display <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  show.rectangles <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   group                                                           name</span>

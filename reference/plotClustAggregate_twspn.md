@@ -5,8 +5,9 @@ Run
 from scratch on `dbClust` at every call, using the supplied native
 fitting parameters. Label surveys with their most abundant species. With
 `aggregate = TRUE`, retain every survey, prefix each label with its
-terminal TWINSPAN group, draw rectangles around groups, and return their
-dominant species based on mean abundance. This follows the layout of
+terminal TWINSPAN group, optionally draw rectangles around groups, and
+return their dominant species based on mean abundance. This follows the
+layout of
 [`iPastoralist::plotClustAggregate`](https://marcopittarello.github.io/iPastoralist/reference/plotClustAggregate.md).
 
 ## Usage
@@ -14,10 +15,7 @@ dominant species based on mean abundance. This follows the layout of
 ``` r
 plotClustAggregate_twspn(
   nspePlot = 5,
-  firt10 = NULL,
-  dbClust = NULL,
-  distance = "chord",
-  clust.method = "average",
+  dbClust,
   clust.mar = c(1, 2, 2, 18),
   file.name = "dendrogram.pdf",
   file.height = 30,
@@ -26,7 +24,6 @@ plotClustAggregate_twspn(
   labels.cex = 0.5,
   aggregate = TRUE,
   aggr.Nspe = 5,
-  n.clust = NULL,
   save.file = TRUE,
   format = "pdf",
   modified = TRUE,
@@ -41,7 +38,8 @@ plotClustAggregate_twspn(
   refine_iter = 5,
   use_indicator = FALSE,
   downweight = TRUE,
-  display = !save.file
+  display = !save.file,
+  show.rectangles = TRUE
 )
 ```
 
@@ -51,24 +49,11 @@ plotClustAggregate_twspn(
 
   Non-negative integer; number of species per survey label.
 
-- firt10:
-
-  Optional data.frame returned by
-  [`first_ten_species_twspn()`](https://marcopittarello.github.io/iPastoralist/reference/first_ten_species_twspn.md).
-  If `NULL`, compute the ranked species from `dbClust`. Existing group
-  and order columns are ignored: the new fit determines membership and
-  order. The spelling retains the original argument name.
-
 - dbClust:
 
   Required numeric surveys-by-species matrix or data.frame. Rows are
   surveys and columns are species, with unique non-empty names. This
   exact abundance matrix is used for fitting and group summaries.
-
-- distance, clust.method:
-
-  Retained in their original positions for call compatibility. They are
-  not used by TWINSPAN; use the native fitting arguments below instead.
 
 - clust.mar:
 
@@ -95,18 +80,13 @@ plotClustAggregate_twspn(
 
 - aggregate:
 
-  Logical; prefix survey labels with their groups, draw group rectangles
-  and return the group-species summary?
+  Logical; prefix survey labels with their groups and return the
+  group-species summary? Group rectangles are controlled by
+  `show.rectangles`.
 
 - aggr.Nspe:
 
   Positive integer; number of species in each group summary.
-
-- n.clust:
-
-  Optional compatibility alias for `n_clusters`. If both are supplied
-  they must be equal. The actual fitted groups determine the rectangles
-  and summaries, even if stopping rules yield fewer groups.
 
 - save.file:
 
@@ -125,9 +105,8 @@ plotClustAggregate_twspn(
   Optional non-negative integer; requested number of terminal groups.
   Positive values are passed to
   [`ecan::twinspan()`](https://matutosi.github.io/ecan/reference/twinspan.html).
-  `NULL` leaves the stopping decision to the other native parameters (or
-  uses `n.clust`, when supplied). With `0`, return a single group
-  without group rectangles; internally use `n_clusters = 1` and
+  `NULL` leaves the stopping decision to the other native parameters.
+  With `0`, return a single group; internally use `n_clusters = 1` and
   `max_depth = 0`.
 
 - cut_levels:
@@ -178,6 +157,14 @@ plotClustAggregate_twspn(
   Logical; also draw the selected dendrogram on the current device?
   Defaults to `!save.file`. Set both to `FALSE` for computation only.
 
+- show.rectangles:
+
+  Logical; draw the blue group rectangles when `aggregate = TRUE`?
+  Default `TRUE`. Set to `FALSE` to hide them, regardless of the
+  requested or actual number of groups. This changes only rectangle
+  visibility, not the fitted tree, group membership, labels or
+  summaries.
+
 ## Value
 
 With `aggregate = TRUE`, a data.frame with `group` and `name`, as in the
@@ -193,10 +180,11 @@ dendrogram, with attributes `survey.order` and `files`.
 
 ## Details
 
-The original plotting arguments are retained. Native TWINSPAN parameters
-and `display` are appended after `format`. No precomputed fitted object
-is accepted. A single new fit is used for the plain or grouped survey
-tree, membership, rectangles and mean abundance summaries.
+Native TWINSPAN parameters, `display` and `show.rectangles` follow
+`format`. Species used in survey labels are computed internally from
+`dbClust`. No precomputed fitted object is accepted. A single new fit is
+used for the plain or grouped survey tree, membership, rectangles and
+mean abundance summaries.
 
 Groups come from the newly fitted object's `classification$group`. The
 tree is converted using ecan's own `as.hclust.twinspan` method,
@@ -209,12 +197,15 @@ not dissimilarities or eigenvalues; zero-height joins within terminal
 groups are graphical placeholders.
 
 In the aggregated dendrogram, each survey remains a separate leaf.
-Labels are of the form `0001_Survey | Species abundance | ...`. Except
-when `n_clusters = 0` (or `n.clust = 0`), rectangles use
+Labels are of the form `0001_Survey | Species abundance | ...`. When
+`show.rectangles = TRUE`, rectangles use
 [`dendextend::rect.dendrogram()`](https://talgalili.github.io/dendextend/reference/rect.dendrogram.html)
 with `k` equal to the actual group count, `horiz = TRUE`, `border = 5`,
-`lty = 1` and `lwd = 1`, matching the original function. There is no
-collapse of surveys into group leaves.
+`lty = 1` and `lwd = 1`, matching the original function. A single group
+is outlined using
+[`graphics::rect()`](https://rdrr.io/r/graphics/rect.html) with the same
+border settings. With `show.rectangles = FALSE`, no group rectangles are
+drawn. There is no collapse of surveys into group leaves.
 
 The returned group names follow the original convention: arithmetic mean
 abundances across all group surveys (including zeros), ranked before
@@ -239,7 +230,8 @@ colnames(veg) <- c("Species A", "Species B", "Species C", "Species D")
 result <- plotClustAggregate_twspn(
   nspePlot = 2, dbClust = veg, modified = TRUE, n_clusters = 2,
   cut_levels = c(0, 2, 5, 10, 20), min_size = 2, max_depth = 6,
-  polish = "hill", species = FALSE, save.file = FALSE, display = FALSE
+  polish = "hill", species = FALSE, save.file = FALSE, display = FALSE,
+  show.rectangles = FALSE
 )
 result
 #>   group                                                           name
