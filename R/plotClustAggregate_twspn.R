@@ -4,20 +4,13 @@
 #' supplied native fitting parameters. Label surveys with their most abundant
 #' species. With `aggregate = TRUE`,
 #' retain every survey, prefix each label with its terminal TWINSPAN group,
-#' draw rectangles around groups, and return their dominant species based on
+#' optionally draw rectangles around groups, and return their dominant species based on
 #' mean abundance. This follows the layout of `iPastoralist::plotClustAggregate`.
 #'
 #' @param nspePlot Non-negative integer; number of species per survey label.
-#' @param firt10 Optional data.frame returned by [first_ten_species_twspn()].
-#'   If `NULL`, compute the ranked species from `dbClust`. Existing group and
-#'   order columns are ignored: the new fit determines membership and order.
-#'   The spelling retains the original argument name.
 #' @param dbClust Required numeric surveys-by-species matrix or data.frame.
 #'   Rows are surveys and columns are species, with unique non-empty names.
 #'   This exact abundance matrix is used for fitting and group summaries.
-#' @param distance,clust.method Retained in their original positions for call
-#'   compatibility. They are not used by TWINSPAN; use the native fitting
-#'   arguments below instead.
 #' @param clust.mar Four non-negative plot margins passed to [graphics::par()].
 #' @param file.name Output filename, default `"dendrogram.pdf"`. With
 #'   `aggregate = TRUE`, save only `aggregate_` plus the basename in the same
@@ -25,19 +18,16 @@
 #' @param file.height,file.width Positive numeric output dimensions in inches.
 #' @param file.res Positive numeric resolution in pixels per inch for PNG.
 #' @param labels.cex Positive numeric survey-label size multiplier.
-#' @param aggregate Logical; prefix survey labels with their groups, draw
-#'   group rectangles and return the group-species summary?
+#' @param aggregate Logical; prefix survey labels with their groups and return
+#'   the group-species summary? Group rectangles are controlled by `show.rectangles`.
 #' @param aggr.Nspe Positive integer; number of species in each group summary.
-#' @param n.clust Optional compatibility alias for `n_clusters`. If both are
-#'   supplied they must be equal. The actual fitted groups determine the
-#'   rectangles and summaries, even if stopping rules yield fewer groups.
 #' @param save.file Logical; export the selected dendrogram to disk?
 #' @param format Output format, `"pdf"` (default) or `"png"`.
 #' @param modified Logical; use modified TWINSPAN? Default `TRUE`.
 #' @param n_clusters Optional non-negative integer; requested number of terminal
 #'   groups. Positive values are passed to [ecan::twinspan()]. `NULL` leaves
-#'   the stopping decision to the other native parameters (or uses `n.clust`,
-#'   when supplied). With `0`, return a single group without group rectangles;
+#'   the stopping decision to the other native parameters.
+#'   With `0`, return a single group;
 #'   internally use `n_clusters = 1` and `max_depth = 0`.
 #' @param cut_levels Numeric finite non-negative pseudospecies cut levels.
 #' @param min_size Positive integer; minimum group size eligible for division.
@@ -54,10 +44,15 @@
 #' @param downweight Logical; downweight rare pseudospecies in the ordination?
 #' @param display Logical; also draw the selected dendrogram on the current
 #'   device? Defaults to `!save.file`. Set both to `FALSE` for computation only.
+#' @param show.rectangles Logical; draw the blue group rectangles when
+#'   `aggregate = TRUE`? Default `TRUE`. Set to `FALSE` to hide them, regardless
+#'   of the requested or actual number of groups. This changes only rectangle
+#'   visibility, not the fitted tree, group membership, labels or summaries.
 #'
 #' @details
-#' The original plotting arguments are retained. Native TWINSPAN parameters
-#' and `display` are appended after `format`. No precomputed fitted object
+#' Native TWINSPAN parameters, `display` and `show.rectangles` follow `format`.
+#' Species used in survey labels are computed internally from `dbClust`.
+#' No precomputed fitted object
 #' is accepted. A single new fit is used for the plain or grouped survey tree,
 #' membership, rectangles and mean abundance summaries.
 #'
@@ -71,10 +66,12 @@
 #' zero-height joins within terminal groups are graphical placeholders.
 #'
 #' In the aggregated dendrogram, each survey remains a separate leaf. Labels
-#' are of the form `0001_Survey | Species abundance | ...`. Except when
-#' `n_clusters = 0` (or `n.clust = 0`), rectangles use
+#' are of the form `0001_Survey | Species abundance | ...`. When
+#' `show.rectangles = TRUE`, rectangles use
 #' [dendextend::rect.dendrogram()] with `k` equal to the actual group count, `horiz = TRUE`,
 #' `border = 5`, `lty = 1` and `lwd = 1`, matching the original function.
+#' A single group is outlined using [graphics::rect()] with the same border
+#' settings. With `show.rectangles = FALSE`, no group rectangles are drawn.
 #' There is no collapse of surveys into group leaves.
 #'
 #' The returned group names follow the original convention: arithmetic mean
@@ -103,7 +100,8 @@
 #' result <- plotClustAggregate_twspn(
 #'   nspePlot = 2, dbClust = veg, modified = TRUE, n_clusters = 2,
 #'   cut_levels = c(0, 2, 5, 10, 20), min_size = 2, max_depth = 6,
-#'   polish = "hill", species = FALSE, save.file = FALSE, display = FALSE
+#'   polish = "hill", species = FALSE, save.file = FALSE, display = FALSE,
+#'   show.rectangles = FALSE
 #' )
 #' result
 #' attr(result, "mean.abundance")
@@ -112,10 +110,7 @@
 #' @export
 plotClustAggregate_twspn <- function(
   nspePlot = 5,
-  firt10 = NULL,
-  dbClust = NULL,
-  distance = "chord",
-  clust.method = "average",
+  dbClust,
   clust.mar = c(1, 2, 2, 18),
   file.name = "dendrogram.pdf",
   file.height = 30,
@@ -124,7 +119,6 @@ plotClustAggregate_twspn <- function(
   labels.cex = 0.5,
   aggregate = TRUE,
   aggr.Nspe = 5,
-  n.clust = NULL,
   save.file = TRUE,
   format = "pdf",
   modified = TRUE,
@@ -139,9 +133,10 @@ plotClustAggregate_twspn <- function(
   refine_iter = 5,
   use_indicator = FALSE,
   downweight = TRUE,
-  display = !save.file
+  display = !save.file,
+  show.rectangles = TRUE
 ) {
-  if (is.null(dbClust)) {
+  if (missing(dbClust) || is.null(dbClust)) {
     stop(
       "Please provide dbClust, the surveys-by-species abundance matrix.",
       call. = FALSE
@@ -150,25 +145,14 @@ plotClustAggregate_twspn <- function(
   .twspn_flag(aggregate, "aggregate")
   .twspn_flag(save.file, "save.file")
   .twspn_flag(display, "display")
+  .twspn_flag(show.rectangles, "show.rectangles")
   .twspn_integer(nspePlot, "nspePlot", minimum = 0)
   .twspn_integer(aggr.Nspe, "aggr.Nspe", minimum = 1)
   for (argument in c("modified", "species", "use_indicator", "downweight")) {
     .twspn_flag(get(argument), argument)
   }
-  for (argument in c("n.clust", "n_clusters")) {
-    if (!is.null(get(argument))) {
-      .twspn_integer(get(argument), argument, minimum = 0)
-    }
-  }
-  if (!is.null(n.clust) && !is.null(n_clusters) && n.clust != n_clusters) {
-    stop(
-      "n.clust and n_clusters must specify the same target; supply only ",
-      "n_clusters or give equal values.",
-      call. = FALSE
-    )
-  }
-  if (is.null(n_clusters)) {
-    n_clusters <- n.clust
+  if (!is.null(n_clusters)) {
+    .twspn_integer(n_clusters, "n_clusters", minimum = 0)
   }
   .twspn_integer(min_size, "min_size", minimum = 1)
   .twspn_integer(max_depth, "max_depth", minimum = 0)
@@ -280,13 +264,11 @@ plotClustAggregate_twspn <- function(
   info <- .twspn_info(fit)
   groups <- clustOrder_twspn(fit)
   actual.groups <- length(unique(groups$cluster))
-  if (is.null(firt10)) {
-    firt10 <- first_ten_species_twspn(
-      x,
-      join.dendrogram = FALSE,
-      n = max(10, nspePlot)
-    )
-  }
+  firt10 <- first_ten_species_twspn(
+    x,
+    join.dendrogram = FALSE,
+    n = max(10, nspePlot)
+  )
   labelled <- denspe_twspn(
     nspe = nspePlot,
     SpeAbund = firt10,
@@ -346,7 +328,7 @@ plotClustAggregate_twspn <- function(
   }
 
   draw <- function(tree, rectangles) {
-    rectangles <- rectangles && !single.cluster
+    rectangles <- rectangles && show.rectangles
     old <- graphics::par(mfrow = c(1, 1), mar = clust.mar)
     on.exit(graphics::par(old), add = TRUE)
     tree <- stats::dendrapply(tree, function(node) {

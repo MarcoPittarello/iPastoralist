@@ -6,10 +6,7 @@
 \usage{
 plotClustAggregate_twspn(
   nspePlot = 5,
-  firt10 = NULL,
-  dbClust = NULL,
-  distance = "chord",
-  clust.method = "average",
+  dbClust,
   clust.mar = c(1, 2, 2, 18),
   file.name = "dendrogram.pdf",
   file.height = 30,
@@ -18,7 +15,6 @@ plotClustAggregate_twspn(
   labels.cex = 0.5,
   aggregate = TRUE,
   aggr.Nspe = 5,
-  n.clust = NULL,
   save.file = TRUE,
   format = "pdf",
   modified = TRUE,
@@ -33,24 +29,16 @@ plotClustAggregate_twspn(
   refine_iter = 5,
   use_indicator = FALSE,
   downweight = TRUE,
-  display = !save.file
+  display = !save.file,
+  show.rectangles = TRUE
 )
 }
 \arguments{
 \item{nspePlot}{Non-negative integer; number of species per survey label.}
 
-\item{firt10}{Optional data.frame returned by \code{\link[=first_ten_species_twspn]{first_ten_species_twspn()}}.
-If \code{NULL}, compute the ranked species from \code{dbClust}. Existing group and
-order columns are ignored: the new fit determines membership and order.
-The spelling retains the original argument name.}
-
 \item{dbClust}{Required numeric surveys-by-species matrix or data.frame.
 Rows are surveys and columns are species, with unique non-empty names.
 This exact abundance matrix is used for fitting and group summaries.}
-
-\item{distance, clust.method}{Retained in their original positions for call
-compatibility. They are not used by TWINSPAN; use the native fitting
-arguments below instead.}
 
 \item{clust.mar}{Four non-negative plot margins passed to \code{\link[graphics:par]{graphics::par()}}.}
 
@@ -64,14 +52,10 @@ directory, as in the original function. The directory must exist.}
 
 \item{labels.cex}{Positive numeric survey-label size multiplier.}
 
-\item{aggregate}{Logical; prefix survey labels with their groups, draw
-group rectangles and return the group-species summary?}
+\item{aggregate}{Logical; prefix survey labels with their groups and return
+the group-species summary? Group rectangles are controlled by \code{show.rectangles}.}
 
 \item{aggr.Nspe}{Positive integer; number of species in each group summary.}
-
-\item{n.clust}{Optional compatibility alias for \code{n_clusters}. If both are
-supplied they must be equal. The actual fitted groups determine the
-rectangles and summaries, even if stopping rules yield fewer groups.}
 
 \item{save.file}{Logical; export the selected dendrogram to disk?}
 
@@ -81,8 +65,8 @@ rectangles and summaries, even if stopping rules yield fewer groups.}
 
 \item{n_clusters}{Optional non-negative integer; requested number of terminal
 groups. Positive values are passed to \code{\link[ecan:twinspan]{ecan::twinspan()}}. \code{NULL} leaves
-the stopping decision to the other native parameters (or uses \code{n.clust},
-when supplied). With \code{0}, return a single group without group rectangles;
+the stopping decision to the other native parameters.
+With \code{0}, return a single group;
 internally use \code{n_clusters = 1} and \code{max_depth = 0}.}
 
 \item{cut_levels}{Numeric finite non-negative pseudospecies cut levels.}
@@ -110,6 +94,11 @@ used by \code{polish = "ecan"}.}
 
 \item{display}{Logical; also draw the selected dendrogram on the current
 device? Defaults to \code{!save.file}. Set both to \code{FALSE} for computation only.}
+
+\item{show.rectangles}{Logical; draw the blue group rectangles when
+\code{aggregate = TRUE}? Default \code{TRUE}. Set to \code{FALSE} to hide them, regardless
+of the requested or actual number of groups. This changes only rectangle
+visibility, not the fitted tree, group membership, labels or summaries.}
 }
 \value{
 With \code{aggregate = TRUE}, a data.frame with \code{group} and \code{name}, as
@@ -128,12 +117,13 @@ Run \code{\link[ecan:twinspan]{ecan::twinspan()}} from scratch on \code{dbClust}
 supplied native fitting parameters. Label surveys with their most abundant
 species. With \code{aggregate = TRUE},
 retain every survey, prefix each label with its terminal TWINSPAN group,
-draw rectangles around groups, and return their dominant species based on
+optionally draw rectangles around groups, and return their dominant species based on
 mean abundance. This follows the layout of \code{iPastoralist::plotClustAggregate}.
 }
 \details{
-The original plotting arguments are retained. Native TWINSPAN parameters
-and \code{display} are appended after \code{format}. No precomputed fitted object
+Native TWINSPAN parameters, \code{display} and \code{show.rectangles} follow \code{format}.
+Species used in survey labels are computed internally from \code{dbClust}.
+No precomputed fitted object
 is accepted. A single new fit is used for the plain or grouped survey tree,
 membership, rectangles and mean abundance summaries.
 
@@ -147,10 +137,12 @@ Heights are reverse division order, not dissimilarities or eigenvalues;
 zero-height joins within terminal groups are graphical placeholders.
 
 In the aggregated dendrogram, each survey remains a separate leaf. Labels
-are of the form \verb{0001_Survey | Species abundance | ...}. Except when
-\code{n_clusters = 0} (or \code{n.clust = 0}), rectangles use
+are of the form \verb{0001_Survey | Species abundance | ...}. When
+\code{show.rectangles = TRUE}, rectangles use
 \code{\link[dendextend:rect.dendrogram]{dendextend::rect.dendrogram()}} with \code{k} equal to the actual group count, \code{horiz = TRUE},
 \code{border = 5}, \code{lty = 1} and \code{lwd = 1}, matching the original function.
+A single group is outlined using \code{\link[graphics:rect]{graphics::rect()}} with the same border
+settings. With \code{show.rectangles = FALSE}, no group rectangles are drawn.
 There is no collapse of surveys into group leaves.
 
 The returned group names follow the original convention: arithmetic mean
@@ -168,7 +160,8 @@ colnames(veg) <- c("Species A", "Species B", "Species C", "Species D")
 result <- plotClustAggregate_twspn(
   nspePlot = 2, dbClust = veg, modified = TRUE, n_clusters = 2,
   cut_levels = c(0, 2, 5, 10, 20), min_size = 2, max_depth = 6,
-  polish = "hill", species = FALSE, save.file = FALSE, display = FALSE
+  polish = "hill", species = FALSE, save.file = FALSE, display = FALSE,
+  show.rectangles = FALSE
 )
 result
 attr(result, "mean.abundance")

@@ -20,7 +20,8 @@ plotClustAggregate(
   aggr.Nspe = 5,
   n.clust = NULL,
   save.file = TRUE,
-  format = "pdf"
+  format = "pdf",
+  show.rectangles = TRUE
 )
 }
 \arguments{
@@ -54,11 +55,15 @@ for PNG it is used together with \code{file.res} to compute pixel dimensions.}
 \item{aggr.Nspe}{Integer; number of species to report per cluster in the returned summary (default 5).}
 
 \item{n.clust}{Integer; number of clusters used for grouping and for drawing rectangles on the aggregated dendrogram.
-With \code{n.clust = 0}, use a single cluster and omit the blue rectangles.}
+With \code{n.clust = 0}, use a single cluster. Rectangle visibility is controlled by \code{show.rectangles}.}
 
 \item{save.file}{Logical; if TRUE (default), the dendrogram(s) are exported to disk. Set to FALSE to skip file output.}
 
 \item{format}{Character; output format, either \code{"pdf"} (default) or \code{"png"}.}
+
+\item{show.rectangles}{Logical; draw the blue group rectangles on the aggregated dendrogram (default TRUE).
+Set to FALSE to hide them, independently of \code{n.clust}. This changes only rectangle visibility,
+not the clustering, dendrogram, labels or cluster summaries.}
 }
 \value{
 If \code{aggregate = TRUE}, a tibble/data.frame with one row per cluster
@@ -80,10 +85,11 @@ a distance matrix with \link[vegan]{vegdist}, and generates a hierarchical
 clustering with \link[stats]{hclust}. When \code{aggregate = TRUE} the
 function calls iPastoralist::clustOrder and iPastoralist::clustGroupAggregate2
 to compute cluster-level average compositions, relabels rows with a cluster
-prefix, reclusters aggregated profiles and draws cluster rectangles on the
+prefix, reclusters aggregated profiles and optionally draws cluster rectangles on the
 aggregated dendrogram.
-With \code{n.clust = 0}, all surveys belong to a single cluster and no
-cluster rectangles are drawn.
+With \code{n.clust = 0}, all surveys belong to a single cluster.
+Rectangles are drawn only when \code{show.rectangles = TRUE}, including
+when there is a single cluster. Set it to FALSE to omit them.
 
 Side effects: when \code{save.file = TRUE}, a PDF or PNG file is written to the
 working directory depending on \code{format}. Use \link[base]{getwd} to inspect
@@ -115,7 +121,8 @@ plotClustAggregate(
   aggregate   = TRUE,
   n.clust     = 10,
   save.file   = TRUE,
-  format      = "png"
+  format      = "png",
+  show.rectangles = FALSE
 )
 
 # non-aggregated run: display only, no file saved

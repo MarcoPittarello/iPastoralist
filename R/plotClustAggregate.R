@@ -24,10 +24,13 @@
 #' @param aggregate Logical; if TRUE, aggregate surveys by cluster and produce an aggregated dendrogram and summary (default TRUE).
 #' @param aggr.Nspe Integer; number of species to report per cluster in the returned summary (default 5).
 #' @param n.clust Integer; number of clusters used for grouping and for drawing rectangles on the aggregated dendrogram.
-#'   With \code{n.clust = 0}, use a single cluster and omit the blue rectangles.
+#'   With \code{n.clust = 0}, use a single cluster. Rectangle visibility is controlled by \code{show.rectangles}.
 #' @param save.file Logical; if TRUE (default), the dendrogram(s) are exported to disk. Set to FALSE to skip file output.
 #' @param format Character; output format, either \code{"pdf"} (default) or \code{"png"}.
 #' @param labels.cex Numeric. Character expansion factor for dendrogram labels (default 0.5).
+#' @param show.rectangles Logical; draw the blue group rectangles on the aggregated dendrogram (default TRUE).
+#'   Set to FALSE to hide them, independently of \code{n.clust}. This changes only rectangle visibility,
+#'   not the clustering, dendrogram, labels or cluster summaries.
 #'
 #' @details
 #' The function uses iPastoralist::denspe to create labelled survey rows, computes
@@ -35,10 +38,11 @@
 #' clustering with \link[stats]{hclust}. When \code{aggregate = TRUE} the
 #' function calls iPastoralist::clustOrder and iPastoralist::clustGroupAggregate2
 #' to compute cluster-level average compositions, relabels rows with a cluster
-#' prefix, reclusters aggregated profiles and draws cluster rectangles on the
+#' prefix, reclusters aggregated profiles and optionally draws cluster rectangles on the
 #' aggregated dendrogram.
-#' With \code{n.clust = 0}, all surveys belong to a single cluster and no
-#' cluster rectangles are drawn.
+#' With \code{n.clust = 0}, all surveys belong to a single cluster.
+#' Rectangles are drawn only when \code{show.rectangles = TRUE}, including
+#' when there is a single cluster. Set it to FALSE to omit them.
 #'
 #' Side effects: when \code{save.file = TRUE}, a PDF or PNG file is written to the
 #' working directory depending on \code{format}. Use \link[base]{getwd} to inspect
@@ -76,7 +80,8 @@
 #'   aggregate   = TRUE,
 #'   n.clust     = 10,
 #'   save.file   = TRUE,
-#'   format      = "png"
+#'   format      = "png",
+#'   show.rectangles = FALSE
 #' )
 #'
 #' # non-aggregated run: display only, no file saved
@@ -108,12 +113,21 @@ plotClustAggregate <- function(
   aggr.Nspe = 5,
   n.clust = NULL,
   save.file = TRUE,
-  format = "pdf"
+  format = "pdf",
+  show.rectangles = TRUE
 ) {
   if (is.null(dbClust)) {
     stop(
       "Please provide the database used for cluster analysis."
     )
+  }
+
+  if (
+    !is.logical(show.rectangles) ||
+      length(show.rectangles) != 1L ||
+      is.na(show.rectangles)
+  ) {
+    stop("show.rectangles must be TRUE or FALSE.", call. = FALSE)
   }
 
   if (is.null(firt10)) {
@@ -221,7 +235,7 @@ plotClustAggregate <- function(
     open_device(fname, format, file.height, file.width, file.res)
     graphics::par(mfrow = c(1, 1), mar = clust.mar)
     graphics::plot(clst.dxt.aggr, horiz = TRUE, cex = labels.cex)
-    if (n.clust != 0) {
+    if (show.rectangles && n.clust > 1L) {
       dendextend::rect.dendrogram(
         clst.dxt.aggr,
         k = n.clust,
@@ -229,6 +243,22 @@ plotClustAggregate <- function(
         border = 5,
         lty = 1,
         lwd = 1
+      )
+    } else if (show.rectangles) {
+      # dendextend::rect.dendrogram() requires at least two clusters.
+      extent <- max(abs(graphics::strwidth(
+        labels(clst.dxt.aggr),
+        cex = labels.cex
+      )))
+      graphics::rect(
+        xleft = attr(clst.dxt.aggr, "height"),
+        ybottom = 0.66,
+        xright = -extent * 1.05,
+        ytop = length(labels(clst.dxt.aggr)) + 0.33,
+        border = 5,
+        lty = 1,
+        lwd = 1,
+        xpd = TRUE
       )
     }
     grDevices::dev.off()
