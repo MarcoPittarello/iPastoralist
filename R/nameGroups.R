@@ -100,18 +100,14 @@ nameGroups <- function(df.long, cep, threshold = 50) {
         # Sort species by decreasing abundance within the group
         d <- cur_data() |> arrange(desc(abundance))
         # Compute relative (%) and cumulative relative abundance
-        d <- d |>
-          mutate(
-            rel = abundance / sum(abundance) * 100,
-            cum = cumsum(rel)
-          )
+        d <- mutate(d, cum = cumsum(abundance))
         # Keep species whose *preceding* cumulative sum is below the threshold.
         # Using lag() ensures the first species is always retained.
         keep <- which(lag(d$cum, default = 0) < threshold)
         d <- d[keep, ]
         # Build the label: "Full name (XX%)"
         paste(
-          paste0(d$full_name, " (", round(d$rel, 0), "%)"),
+          paste0(d$full_name, " (", round(d$abundance, 0), "%)"),
           collapse = ", "
         )
       }
