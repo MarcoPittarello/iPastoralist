@@ -124,13 +124,13 @@ nameGroups(df.long, cep, threshold = 50)
 #> ℹ Please use `pick()` instead.
 #> ℹ The deprecated feature was likely used in the iPastoralist package.
 #>   Please report the issue to the authors.
-#>   group                   name
-#> 1     1 Trifolium repens (67%)
-#> 2     2   Bromus erectus (59%)
+#>   group                                                             name
+#> 1     1 Trifolium repens (30%), Lolium perenne (10%), Festuca rubra (5%)
+#> 2     2                           Bromus erectus (40%), Poa alpina (20%)
 
 ## Use a more restrictive threshold to retain only the single top species
 nameGroups(df.long, cep, threshold = 30)
 #>   group                   name
-#> 1     1 Trifolium repens (67%)
-#> 2     2   Bromus erectus (59%)
+#> 1     1 Trifolium repens (30%)
+#> 2     2   Bromus erectus (40%)
 ```
