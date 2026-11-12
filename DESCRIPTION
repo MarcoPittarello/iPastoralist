@@ -1,6 +1,6 @@
 Package: iPastoralist
 Title: Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys
-Version: 2.3.1
+Version: 2.3.2
 Authors@R: 
     person(given = "Marco",
            family = "Pittarello",
