@@ -1,11 +1,3 @@
 # iPastoralist 2.3.3
 
-# iPastoralist 2.3.2
-
-# iPastoralist 2.3.1
-
-# iPastoralist 2.3.0
-
-* Added new functions for data analysis.
-* Improved documentation and examples.
-* Fixed minor bugs.
+* Initial CRAN submission.
