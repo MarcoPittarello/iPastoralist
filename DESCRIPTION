@@ -1,6 +1,6 @@
 Package: iPastoralist
 Title: Management, conversion, and analyses of vegetation data derived from phytosociological and point-quadrat method surveys
-Version: 2.3.2
+Version: 2.3.3
 Authors@R: 
     person(given = "Marco",
            family = "Pittarello",
@@ -22,7 +22,9 @@ Imports:
     dplyr,
     tibble,
     openxlsx,
-    rlang
+    rlang,
+    cluster,
+    fpc
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
