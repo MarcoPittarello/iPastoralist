@@ -1,6 +1,6 @@
 ---
 title: "Data input format"
-author: Marco Pittarello
+author: "Marco Pittarello"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Data input format}
@@ -8,62 +8,247 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = TRUE,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
 )
-```
-
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(eval = FALSE, include = FALSE)
 library(iPastoralist)
 ```
 
-The database of input has to be structured like this:
+## Purpose and input structure
 
-* **Rows**: species
-* **Columns**: surveys
-* **Values** are Frequency of occurrence (FO)
-* **Occasional species** are coded as 999
-* Leave other cells empty (i.e NA) 
-* database class MUST BE a **dataframe**
+This vignette creates a complete example directly in R. No spreadsheet,
+image, saved workspace, or other external data file is required.
 
+The example represents point-quadrat vegetation surveys with **25 measurement
+points per transect**. Its column layout, species names, codes, and selected
+indicator values follow the example used to illustrate the package's input
+format. The survey observations are a small illustrative example, not a full
+transcription of the original surveys. The indicator values illustrate data
+handling and should not be treated as an authoritative ecological reference.
 
-Species | Survey_1 | Survey_2 | Survey_3 | ...
----------- | -------- | -------- | -------- |
-species_1 |12 | 1| |
-species_2 | | 3| |
-species_3 | | | 4|
-species_4 | 9| 18|999 |
-... | | | |
+The combined table contains two kinds of information:
 
-Here is an real example image from an excel file:
+- **Species metadata:** names, unique species codes, Landolt indicator values,
+  and the Index of Specific Quality (`ISQ`).
+- **Vegetation observations:** survey columns named `R1`, `R2`, and so on.
+  Rows represent species; entries are frequency of occurrence (FO).
 
-![""](Diapositiva1.jpg){width=100%}
+The following conventions apply to **survey columns**:
 
-* Columns in GREEN are the Landolt indicator values of each plant species
-* Column in BLUE contains the Index of Specific Quality (ISQ) for each species.
-* Column named Rxx are the vegetation survey codes 
+- An integer from 1 to 25 is the number of measurement points at which the
+  species was recorded.
+- `999` identifies an occasional species recorded in the survey area but
+  outside the transect measurement points. It is a code, not a frequency.
+- `NA` represents an absent species in this example, matching an empty cell
+  in the input table. It does not represent an unknown observation here.
+- A zero may also be used for absence.
 
-In this database, the total number of measurements along the transect line is **25**.
+FO is checked per species: the sum across species in a survey need not equal
+25, because multiple species can occur at the same measurement point.
 
+## Create the example in R
 
-We can import the dataframe in R environment:
+`data.frame()` creates the required base-R data frame. Character columns are
+kept as text and survey columns contain numeric values.
+
+```{r example-data}
+example_data <- data.frame(
+  species.name = c(
+    "Achillea macrophylla",
+    "Achillea millefolium aggr.",
+    "Achillea moschata",
+    "Acinos alpinus",
+    "Aconitum lamarckii",
+    "Adenostyles alliariae",
+    "Agrostis capillaris",
+    "Alchemilla vulgaris aggr.",
+    "Anthoxanthum alpinum",
+    "Arnica montana"
+  ),
+  species.name.code = c(
+    "Achmacr",
+    "Achmill",
+    "Achmosc",
+    "Acialpi",
+    "Acolama",
+    "Adealli",
+    "Agrcapi",
+    "Alcvulg",
+    "Antalpi",
+    "Arnmont"
+  ),
+  E_Landolt = c(3, 999, 3, 2, 4, 3.5, 2.5, 999, 3, 3.5),
+  R_Landolt = c(3, 3, 2, 3, 5, 3, 2, 999, 3, 2),
+  N_Landolt = c(4, 999, 2, 2, 4, 4, 2, 999, 2, 2),
+  ISQ = c(1, 1, 0, 0, 0, 0, 2, 1.5, 1, 0),
+  R1 = c(NA, NA, NA, NA, 999, NA, 5, 999, 6, 999),
+  R2 = c(NA, 3, NA, NA, NA, 999, 2, 999, 999, NA),
+  R3 = c(1, NA, 999, NA, NA, NA, 1, 4, 999, NA),
+  R4 = c(NA, NA, NA, 2, NA, NA, 1, 6, 999, NA),
+  R5 = c(NA, NA, NA, NA, NA, NA, 999, 4, 5, NA),
+  R6 = c(NA, NA, NA, NA, NA, NA, 12, 4, 3, 999),
+  stringsAsFactors = FALSE
+)
+
+n_measurements <- 25L
+survey_columns <- grep("^R[0-9]+$", names(example_data), value = TRUE)
 ```
-data <- read_excel("~/yourdata.xlsx")
-View(data)
-```
-```{r echo=FALSE, warning=FALSE}
-load(file = "data.RData")
-kable(head(data[,1:15]),align = 'c')%>%
-  kable_styling(font_size = 12) 
-  
+
+The pattern `^R[0-9]+$` selects survey names such as `R1` or `R24`, while
+excluding the indicator column `R_Landolt`.
+
+```{r metadata-table, echo=FALSE}
+knitr::kable(
+  example_data[, c(
+    "species.name.code",
+    "E_Landolt",
+    "R_Landolt",
+    "N_Landolt",
+    "ISQ"
+  )],
+  caption = "Species metadata (species codes identify the rows)."
+)
 ```
 
-
-Important note: make sure that the database class is **data.frame**. If not convert it as shown:
-
+```{r survey-table, echo=FALSE}
+knitr::kable(
+  example_data[, c("species.name.code", survey_columns)],
+  caption = "Survey observations: FO, occasional species (999), and absences (NA)."
+)
 ```
-data<-as.data.frame(data)
+
+## Check the observations
+
+These checks verify the data-frame class, unique species identifiers, numeric
+survey columns, admissible FO values, and the presence of at least one
+transect observation in each survey.
+
+```{r validate-input}
+stopifnot(
+  is.data.frame(example_data),
+  !anyNA(example_data$species.name),
+  all(nzchar(example_data$species.name)),
+  !anyDuplicated(example_data$species.name),
+  !anyNA(example_data$species.name.code),
+  !anyDuplicated(example_data$species.name.code),
+  length(survey_columns) > 0L,
+  all(vapply(example_data[survey_columns], is.numeric, logical(1)))
+)
+
+fo <- as.matrix(example_data[survey_columns])
+observed_fo <- fo[!is.na(fo) & fo != 999]
+
+stopifnot(
+  all(is.finite(observed_fo)),
+  all(observed_fo >= 0 & observed_fo <= n_measurements),
+  all(observed_fo == floor(observed_fo)),
+  all(colSums(!is.na(fo) & fo != 999 & fo > 0) > 0)
+)
 ```
+
+## Separate the inputs used by the package
+
+The combined table is convenient for data management, but its metadata must
+not be interpreted as vegetation observations. For `vegetation_abundance()`,
+the **first column must contain species names**, followed only by the numeric
+survey columns. Species remain in rows; no transposition is needed.
+
+```{r separate-inputs}
+vegetation_data <- example_data[,
+  c("species.name", survey_columns),
+  drop = FALSE
+]
+
+indicator_columns <- c("E_Landolt", "R_Landolt", "N_Landolt")
+ecological_data <- example_data[, indicator_columns, drop = FALSE]
+isq_data <- example_data[, "ISQ", drop = FALSE]
+
+# Preserve the same species order in all inputs.
+rownames(vegetation_data) <- example_data$species.name
+rownames(ecological_data) <- example_data$species.name
+rownames(isq_data) <- example_data$species.name
+
+stopifnot(
+  is.data.frame(vegetation_data),
+  identical(rownames(vegetation_data), rownames(ecological_data)),
+  identical(rownames(vegetation_data), rownames(isq_data))
+)
+```
+
+For `ecological_indexes()`, use `vegetation_data` as `database.vegetation`
+and `ecological_data` as `database.indexes`. For `pastoral_value()`, use
+`isq_data` as the ISQ input and a previously calculated SRA table as the
+abundance input. The indicator and ISQ inputs do not include a species-name
+column: these functions associate species by **row position**, so keep their
+rows aligned even when row names are present.
+
+**The meaning of `999` depends on the input:**
+
+| Input | Meaning of `999` |
+|:--|:--|
+| Survey observations | Occasional species, not an FO of 999 |
+| Ecological indicators | Missing indicator value, using the package convention |
+| ISQ input | Missing ISQ value, using the package convention |
+
+An ISQ of **zero is a valid value**, not a missing value. Do not replace `999`
+throughout the combined table without first separating these inputs.
+
+## A first calculation
+
+With 25 measurement points, the coefficient for converting FO to percentage
+cover is `100 / 25 = 4`. The `SC_fo_occ` method also assigns a percentage
+cover of 0.3 to each occasional species.
+
+```{r cover-calculation}
+cover_data <- iPastoralist::vegetation_abundance(
+  database = vegetation_data,
+  method = "SC_fo_occ",
+  species.cover.coefficient = 100 / n_measurements
+)
+
+knitr::kable(
+  cover_data,
+  digits = 1,
+  caption = "Percentage cover, including occasional species."
+)
+```
+
+The output has species in its row names and surveys in its columns. For
+example, the FO of 5 for *Agrostis capillaris* in `R1` becomes 20%, while
+the occasional record of *Arnica montana* in `R1` becomes 0.3%.
+
+```{r check-cover, include=FALSE}
+stopifnot(
+  is.data.frame(cover_data),
+  cover_data["Agrostis capillaris", "R1"] == 20,
+  cover_data["Arnica montana", "R1"] == 0.3,
+  cover_data["Achillea macrophylla", "R1"] == 0
+)
+```
+
+Alternatively, calculate species relative abundance using only transect
+observations. With `SRA_fo`, occasional records do not contribute to the
+abundance totals.
+
+```{r relative-abundance}
+sra_data <- iPastoralist::vegetation_abundance(
+  database = vegetation_data,
+  method = "SRA_fo"
+)
+
+round(colSums(sra_data), 6)
+```
+
+Each survey sums to 100% in this SRA table. Percentage cover and relative
+abundance are different quantities: percentage cover need not sum to 100%.
+
+```{r check-sra, include=FALSE}
+stopifnot(all(abs(colSums(sra_data) - 100) < 1e-8))
+```
+
