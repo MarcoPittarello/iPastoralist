@@ -19,7 +19,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">iPastoralist</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,80 +71,528 @@ Pittarello</h4>
 
     
     
-<p>The database of input has to be structured like this:</p>
+<div class="section level2">
+<h2 id="purpose-and-input-structure">Purpose and input structure<a class="anchor" aria-label="anchor" href="#purpose-and-input-structure"></a>
+</h2>
+<p>This vignette creates a complete example directly in R. No
+spreadsheet, image, saved workspace, or other external data file is
+required.</p>
+<p>The example represents point-quadrat vegetation surveys with
+<strong>25 measurement points per transect</strong>. Its column layout,
+species names, codes, and selected indicator values follow the example
+used to illustrate the package’s input format. The survey observations
+are a small illustrative example, not a full transcription of the
+original surveys. The indicator values illustrate data handling and
+should not be treated as an authoritative ecological reference.</p>
+<p>The combined table contains two kinds of information:</p>
 <ul>
 <li>
-<strong>Rows</strong>: species</li>
+<strong>Species metadata:</strong> names, unique species codes,
+Landolt indicator values, and the Index of Specific Quality
+(<code>ISQ</code>).</li>
 <li>
-<strong>Columns</strong>: surveys</li>
-<li>
-<strong>Values</strong> are Frequency of occurrence (FO)</li>
-<li>
-<strong>Occasional species</strong> are coded as 999</li>
-<li>Leave other cells empty (i.e NA)</li>
-<li>database class MUST BE a <strong>dataframe</strong>
-</li>
+<strong>Vegetation observations:</strong> survey columns named
+<code>R1</code>, <code>R2</code>, and so on. Rows represent species;
+entries are frequency of occurrence (FO).</li>
 </ul>
+<p>The following conventions apply to <strong>survey
+columns</strong>:</p>
+<ul>
+<li>An integer from 1 to 25 is the number of measurement points at which
+the species was recorded.</li>
+<li>
+<code>999</code> identifies an occasional species recorded in the
+survey area but outside the transect measurement points. It is a code,
+not a frequency.</li>
+<li>
+<code>NA</code> represents an absent species in this example,
+matching an empty cell in the input table. It does not represent an
+unknown observation here.</li>
+<li>A zero may also be used for absence.</li>
+</ul>
+<p>FO is checked per species: the sum across species in a survey need
+not equal 25, because multiple species can occur at the same measurement
+point.</p>
+</div>
+<div class="section level2">
+<h2 id="create-the-example-in-r">Create the example in R<a class="anchor" aria-label="anchor" href="#create-the-example-in-r"></a>
+</h2>
+<p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> creates the required base-R data frame.
+Character columns are kept as text and survey columns contain numeric
+values.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">example_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  species.name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Achillea macrophylla"</span>,</span>
+<span>    <span class="st">"Achillea millefolium aggr."</span>,</span>
+<span>    <span class="st">"Achillea moschata"</span>,</span>
+<span>    <span class="st">"Acinos alpinus"</span>,</span>
+<span>    <span class="st">"Aconitum lamarckii"</span>,</span>
+<span>    <span class="st">"Adenostyles alliariae"</span>,</span>
+<span>    <span class="st">"Agrostis capillaris"</span>,</span>
+<span>    <span class="st">"Alchemilla vulgaris aggr."</span>,</span>
+<span>    <span class="st">"Anthoxanthum alpinum"</span>,</span>
+<span>    <span class="st">"Arnica montana"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  species.name.code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Achmacr"</span>,</span>
+<span>    <span class="st">"Achmill"</span>,</span>
+<span>    <span class="st">"Achmosc"</span>,</span>
+<span>    <span class="st">"Acialpi"</span>,</span>
+<span>    <span class="st">"Acolama"</span>,</span>
+<span>    <span class="st">"Adealli"</span>,</span>
+<span>    <span class="st">"Agrcapi"</span>,</span>
+<span>    <span class="st">"Alcvulg"</span>,</span>
+<span>    <span class="st">"Antalpi"</span>,</span>
+<span>    <span class="st">"Arnmont"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  E_Landolt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">999</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">3.5</span>, <span class="fl">2.5</span>, <span class="fl">999</span>, <span class="fl">3</span>, <span class="fl">3.5</span><span class="op">)</span>,</span>
+<span>  R_Landolt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">999</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  N_Landolt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">999</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">999</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  ISQ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1.5</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  R1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">999</span>, <span class="cn">NA</span>, <span class="fl">5</span>, <span class="fl">999</span>, <span class="fl">6</span>, <span class="fl">999</span><span class="op">)</span>,</span>
+<span>  R2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">999</span>, <span class="fl">2</span>, <span class="fl">999</span>, <span class="fl">999</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>  R3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">999</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">999</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>  R4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span>, <span class="fl">6</span>, <span class="fl">999</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>  R5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">999</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>  R6 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">12</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">999</span><span class="op">)</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">n_measurements</span> <span class="op">&lt;-</span> <span class="fl">25L</span></span>
+<span><span class="va">survey_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"^R[0-9]+$"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>The pattern <code>^R[0-9]+$</code> selects survey names such as
+<code>R1</code> or <code>R24</code>, while excluding the indicator
+column <code>R_Landolt</code>.</p>
 <table class="table">
+<caption>Species metadata (species codes identify the rows).</caption>
 <thead><tr class="header">
-<th>Species</th>
-<th>Survey_1</th>
-<th>Survey_2</th>
-<th>Survey_3</th>
+<th align="left">species.name.code</th>
+<th align="right">E_Landolt</th>
+<th align="right">R_Landolt</th>
+<th align="right">N_Landolt</th>
+<th align="right">ISQ</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>species_1</td>
-<td>12</td>
-<td>1</td>
-<td></td>
+<td align="left">Achmacr</td>
+<td align="right">3.0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">1.0</td>
 </tr>
 <tr class="even">
-<td>species_2</td>
-<td></td>
-<td>3</td>
-<td></td>
+<td align="left">Achmill</td>
+<td align="right">999.0</td>
+<td align="right">3</td>
+<td align="right">999</td>
+<td align="right">1.0</td>
 </tr>
 <tr class="odd">
-<td>species_3</td>
-<td></td>
-<td></td>
-<td>4</td>
+<td align="left">Achmosc</td>
+<td align="right">3.0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0.0</td>
 </tr>
 <tr class="even">
-<td>species_4</td>
-<td>9</td>
-<td>18</td>
-<td>999</td>
+<td align="left">Acialpi</td>
+<td align="right">2.0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">0.0</td>
 </tr>
 <tr class="odd">
-<td>…</td>
-<td></td>
-<td></td>
-<td></td>
+<td align="left">Acolama</td>
+<td align="right">4.0</td>
+<td align="right">5</td>
+<td align="right">4</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">Adealli</td>
+<td align="right">3.5</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Agrcapi</td>
+<td align="right">2.5</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="even">
+<td align="left">Alcvulg</td>
+<td align="right">999.0</td>
+<td align="right">999</td>
+<td align="right">999</td>
+<td align="right">1.5</td>
+</tr>
+<tr class="odd">
+<td align="left">Antalpi</td>
+<td align="right">3.0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+</tr>
+<tr class="even">
+<td align="left">Arnmont</td>
+<td align="right">3.5</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0.0</td>
 </tr>
 </tbody>
 </table>
-<p>Here is an real example image from an excel file:</p>
-<div class="float">
-<img src="Diapositiva1.jpg" style="width:100.0%" alt="“”"><div class="figcaption">“”</div>
+<table class="table">
+<caption>Survey observations: FO, occasional species (999), and absences
+(NA).</caption>
+<thead><tr class="header">
+<th align="left">species.name.code</th>
+<th align="right">R1</th>
+<th align="right">R2</th>
+<th align="right">R3</th>
+<th align="right">R4</th>
+<th align="right">R5</th>
+<th align="right">R6</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Achmacr</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Achmill</td>
+<td align="right">NA</td>
+<td align="right">3</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Achmosc</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">999</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Acialpi</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Acolama</td>
+<td align="right">999</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Adealli</td>
+<td align="right">NA</td>
+<td align="right">999</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Agrcapi</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">999</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">Alcvulg</td>
+<td align="right">999</td>
+<td align="right">999</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">Antalpi</td>
+<td align="right">6</td>
+<td align="right">999</td>
+<td align="right">999</td>
+<td align="right">999</td>
+<td align="right">5</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">Arnmont</td>
+<td align="right">999</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">999</td>
+</tr>
+</tbody>
+</table>
 </div>
-<ul>
-<li>Columns in GREEN are the Landolt indicator values of each plant
-species</li>
-<li>Column in BLUE contains the Index of Specific Quality (ISQ) for each
-species.</li>
-<li>Column named Rxx are the vegetation survey codes</li>
-</ul>
-<p>In this database, the total number of measurements along the transect
-line is <strong>25</strong>.</p>
-<p>We can import the dataframe in R environment:</p>
-<pre><code><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"~/yourdata.xlsx"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html" class="external-link">View</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre>
-<p>Important note: make sure that the database class is
-<strong>data.frame</strong>. If not convert it as shown:</p>
-<pre><code><span><span class="va">data</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre>
-  </main>
+<div class="section level2">
+<h2 id="check-the-observations">Check the observations<a class="anchor" aria-label="anchor" href="#check-the-observations"></a>
+</h2>
+<p>These checks verify the data-frame class, unique species identifiers,
+numeric survey columns, admissible FO values, and the presence of at
+least one transect observation in each survey.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">is.data.frame</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>,</span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">$</span><span class="va">species.name</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nzchar</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">$</span><span class="va">species.name</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">anyDuplicated</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">$</span><span class="va">species.name</span><span class="op">)</span>,</span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">$</span><span class="va">species.name.code</span><span class="op">)</span>,</span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">anyDuplicated</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">$</span><span class="va">species.name.code</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">survey_columns</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0L</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">[</span><span class="va">survey_columns</span><span class="op">]</span>, <span class="va">is.numeric</span>, <span class="fu"><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">[</span><span class="va">survey_columns</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">observed_fo</span> <span class="op">&lt;-</span> <span class="va">fo</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">fo</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">fo</span> <span class="op">!=</span> <span class="fl">999</span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.finite</a></span><span class="op">(</span><span class="va">observed_fo</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">observed_fo</span> <span class="op">&gt;=</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">observed_fo</span> <span class="op">&lt;=</span> <span class="va">n_measurements</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">observed_fo</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">observed_fo</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">fo</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">fo</span> <span class="op">!=</span> <span class="fl">999</span> <span class="op">&amp;</span> <span class="va">fo</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="separate-the-inputs-used-by-the-package">Separate the inputs used by the package<a class="anchor" aria-label="anchor" href="#separate-the-inputs-used-by-the-package"></a>
+</h2>
+<p>The combined table is convenient for data management, but its
+metadata must not be interpreted as vegetation observations. For
+<code><a href="../reference/vegetation_abundance.html">vegetation_abundance()</a></code>, the <strong>first column must
+contain species names</strong>, followed only by the numeric survey
+columns. Species remain in rows; no transposition is needed.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vegetation_data</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">[</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species.name"</span>, <span class="va">survey_columns</span><span class="op">)</span>,</span>
+<span>  drop <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">indicator_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E_Landolt"</span>, <span class="st">"R_Landolt"</span>, <span class="st">"N_Landolt"</span><span class="op">)</span></span>
+<span><span class="va">ecological_data</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">[</span>, <span class="va">indicator_columns</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span><span class="va">isq_data</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">[</span>, <span class="st">"ISQ"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Preserve the same species order in all inputs.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vegetation_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">$</span><span class="va">species.name</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">ecological_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">$</span><span class="va">species.name</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">isq_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">$</span><span class="va">species.name</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">is.data.frame</a></span><span class="op">(</span><span class="va">vegetation_data</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vegetation_data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">ecological_data</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">vegetation_data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">isq_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>For <code><a href="../reference/ecological_indexes.html">ecological_indexes()</a></code>, use
+<code>vegetation_data</code> as <code>database.vegetation</code> and
+<code>ecological_data</code> as <code>database.indexes</code>. For
+<code><a href="../reference/pastoral_value.html">pastoral_value()</a></code>, use <code>isq_data</code> as the ISQ
+input and a previously calculated SRA table as the abundance input. The
+indicator and ISQ inputs do not include a species-name column: these
+functions associate species by <strong>row position</strong>, so keep
+their rows aligned even when row names are present.</p>
+<p><strong>The meaning of <code>999</code> depends on the
+input:</strong></p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Input</th>
+<th align="left">Meaning of <code>999</code>
+</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Survey observations</td>
+<td align="left">Occasional species, not an FO of 999</td>
+</tr>
+<tr class="even">
+<td align="left">Ecological indicators</td>
+<td align="left">Missing indicator value, using the package
+convention</td>
+</tr>
+<tr class="odd">
+<td align="left">ISQ input</td>
+<td align="left">Missing ISQ value, using the package convention</td>
+</tr>
+</tbody>
+</table>
+<p>An ISQ of <strong>zero is a valid value</strong>, not a missing
+value. Do not replace <code>999</code> throughout the combined table
+without first separating these inputs.</p>
+</div>
+<div class="section level2">
+<h2 id="a-first-calculation">A first calculation<a class="anchor" aria-label="anchor" href="#a-first-calculation"></a>
+</h2>
+<p>With 25 measurement points, the coefficient for converting FO to
+percentage cover is <code>100 / 25 = 4</code>. The
+<code>SC_fo_occ</code> method also assigns a percentage cover of 0.3 to
+each occasional species.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cover_data</span> <span class="op">&lt;-</span> <span class="fu">iPastoralist</span><span class="fu">::</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span></span>
+<span>  database <span class="op">=</span> <span class="va">vegetation_data</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"SC_fo_occ"</span>,</span>
+<span>  species.cover.coefficient <span class="op">=</span> <span class="fl">100</span> <span class="op">/</span> <span class="va">n_measurements</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span></span>
+<span>  <span class="va">cover_data</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  caption <span class="op">=</span> <span class="st">"Percentage cover, including occasional species."</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>Percentage cover, including occasional species.</caption>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="right">R1</th>
+<th align="right">R2</th>
+<th align="right">R3</th>
+<th align="right">R4</th>
+<th align="right">R5</th>
+<th align="right">R6</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Achillea macrophylla</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">4.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">Achillea millefolium aggr.</td>
+<td align="right">0.0</td>
+<td align="right">12.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Achillea moschata</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.3</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">Acinos alpinus</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">8.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Aconitum lamarckii</td>
+<td align="right">0.3</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">Adenostyles alliariae</td>
+<td align="right">0.0</td>
+<td align="right">0.3</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Agrostis capillaris</td>
+<td align="right">20.0</td>
+<td align="right">8.0</td>
+<td align="right">4.0</td>
+<td align="right">4.0</td>
+<td align="right">0.3</td>
+<td align="right">48.0</td>
+</tr>
+<tr class="even">
+<td align="left">Alchemilla vulgaris aggr.</td>
+<td align="right">0.3</td>
+<td align="right">0.3</td>
+<td align="right">16.0</td>
+<td align="right">24.0</td>
+<td align="right">16.0</td>
+<td align="right">16.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Anthoxanthum alpinum</td>
+<td align="right">24.0</td>
+<td align="right">0.3</td>
+<td align="right">0.3</td>
+<td align="right">0.3</td>
+<td align="right">20.0</td>
+<td align="right">12.0</td>
+</tr>
+<tr class="even">
+<td align="left">Arnica montana</td>
+<td align="right">0.3</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.3</td>
+</tr>
+</tbody>
+</table>
+<p>The output has species in its row names and surveys in its columns.
+For example, the FO of 5 for <em>Agrostis capillaris</em> in
+<code>R1</code> becomes 20%, while the occasional record of <em>Arnica
+montana</em> in <code>R1</code> becomes 0.3%.</p>
+<p>Alternatively, calculate species relative abundance using only
+transect observations. With <code>SRA_fo</code>, occasional records do
+not contribute to the abundance totals.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sra_data</span> <span class="op">&lt;-</span> <span class="fu">iPastoralist</span><span class="fu">::</span><span class="fu"><a href="../reference/vegetation_abundance.html">vegetation_abundance</a></span><span class="op">(</span></span>
+<span>  database <span class="op">=</span> <span class="va">vegetation_data</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"SRA_fo"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">sra_data</span><span class="op">)</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  R1  R2  R3  R4  R5  R6 </span></span>
+<span><span class="co">#&gt; 100 100 100 100 100 100</span></span></code></pre></div>
+<p>Each survey sums to 100% in this SRA table. Percentage cover and
+relative abundance are different quantities: percentage cover need not
+sum to 100%.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

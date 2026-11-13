@@ -4,6 +4,8 @@
 
 - [`PhytoCover()`](https://marcopittarello.github.io/iPastoralist/reference/PhytoCover.md)
   : Transform visually estimated species cover to cover-abundance values
+- [`bestCutLevel()`](https://marcopittarello.github.io/iPastoralist/reference/bestCutLevel.md)
+  : Select a Cut Level for Agglomerative Hierarchical Clustering
 - [`biodiversity()`](https://marcopittarello.github.io/iPastoralist/reference/biodiversity.md)
   : Biodiversity indexes
 - [`clustGroupAggregate()`](https://marcopittarello.github.io/iPastoralist/reference/clustGroupAggregate.md)
