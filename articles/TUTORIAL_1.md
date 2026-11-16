@@ -8,8 +8,7 @@ library(iPastoralist)
 #>   method     from      
 #>   rev.hclust dendextend
 #> iPastoralist 2.3.3
-#> Management and analysis of vegetation data.
-#> Use browseVignettes("iPastoralist") to explore the tutorials.
+#> see https://marcopittarello.github.io/iPastoralist/ for documentation and examples
 ```
 
 ## Example 1 - use of ‘vegetation_abundance’ function
