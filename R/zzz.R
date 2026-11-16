@@ -7,7 +7,6 @@
     pkgname,
     " ",
     version,
-    "\nManagement and analysis of vegetation data.",
-    "\nUse browseVignettes(\"iPastoralist\") to explore the tutorials."
+    "\nsee https://marcopittarello.github.io/iPastoralist/ for documentation and examples"
   )
 }
