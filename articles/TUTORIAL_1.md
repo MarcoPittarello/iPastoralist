@@ -4,9 +4,6 @@
 
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(iPastoralist)
-#> Registered S3 method overwritten by 'vegan':
-#>   method     from      
-#>   rev.hclust dendextend
 #> iPastoralist 2.3.3
 #> see https://marcopittarello.github.io/iPastoralist/ for documentation and examples
 ```
