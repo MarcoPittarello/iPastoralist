@@ -47,7 +47,7 @@
 #' Side effects: when \code{save.file = TRUE}, a PDF or PNG file is written to the
 #' working directory depending on \code{format}. Use \link[base]{getwd} to inspect
 #' or change the location before running.
-#' @import tidyverse vegan dendextend
+#' @import tidyverse
 #' @return
 #' If \code{aggregate = TRUE}, a tibble/data.frame with one row per cluster
 #' and a \code{name} column containing the top species (with rounded percentage)

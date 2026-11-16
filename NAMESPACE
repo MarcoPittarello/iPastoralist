@@ -23,10 +23,8 @@ export(synoptic_table)
 export(tb_pca_plot)
 export(twinspan_optimclass_ecan)
 export(vegetation_abundance)
-import(dendextend)
 import(reshape2)
 import(tidyverse)
-import(vegan)
 importFrom(dplyr,
   arrange,
   cur_data,
